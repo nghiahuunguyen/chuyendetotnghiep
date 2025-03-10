@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách nhân viên</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>MEGATECH</h2>
+        
+        <div class="profile">
+            <h4>Hưng Nguyễn</h4>
+            <p>Chức vụ: Quản lý</p>
+        </div>
+
+        <ul>
+            <li><i class="fas fa-home"></i> Trang chủ</li>
+            <li><i class="fas fa-chart-line"></i> Trang bán hàng</li>
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <span><i class="fas fa-users"></i> Nhân viên</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <li><i class="fas fa-list"></i> Danh sách nhân viên</li>
+                    <li><i class="fas fa-plus"></i> Thêm nhân viên</li>
+                    <li><i class="fas fa-trash"></i> Thùng rác</li>
+                </ul>
+            </li>
+            <li><i class="fas fa-user-shield"></i> Chức vụ & Quyền</li>
+            <li><i class="fas fa-file-invoice"></i> Đơn hàng</li>
+            <li><i class="fas fa-user"></i> Khách hàng</li>
+            <li><i class="fas fa-box"></i> Sản phẩm</li>
+        </ul>
+
+        <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+    </div>
+
+    <!-- Main Content -->
+
+    <div class="container">
+        <div class="form-section">
+            <h2>Thông tin khách hàng</h2>
+            <div class="avatar-section">
+                <div class="avatar">
+                    Empty
+                    <label class="avatar-upload" for="avatar-input">+</label>
+                    <input type="file" id="avatar-input" accept="image/*" hidden>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Họ và tên</label>
+                <input type="text" value="">
+            </div>
+            <div class="form-group">
+                <label>Ngày sinh</label>
+                <input type="date" value="2025-01-01">
+            </div>
+            <div class="form-group">
+                <label>Giới tính</label>
+                <div class="gender-group">
+                    <div class="gender-option">
+                        <input type="radio" name="gender" id="male">
+                        <label for="male">Nam</label>
+                    </div>
+                    <div class="gender-option">
+                        <input type="radio" name="gender" id="female" checked>
+                        <label for="female">Nữ</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" value="">
+            </div>
+            <div class="form-group">
+                <label>Số điện thoại</label>
+                <input type="tel" value="">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Thông tin địa chỉ mặc định</h2>
+            <div class="form-group">
+                <label>Họ và tên người nhận</label>
+                <input type="text">
+            </div>
+            <div class="form-group">
+                <label>Số điện thoại người nhận</label>
+                <input type="tel">
+            </div>
+            <div class="form-group">
+                <label>Địa chỉ</label>
+                <input type="text">
+            </div>
+            <div class="form-group">
+                <label>Tỉnh/Thành phố</label>
+                <select>
+                    <option>Chọn Tỉnh/Thành phố</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quận/Huyện</label>
+                <select>
+                    <option>Chọn Quận/Huyện</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Phường/Xã</label>
+                <select>
+                    <option>Chọn Phường/Xã</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

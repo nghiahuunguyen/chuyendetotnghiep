@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\chuyende\\chuyende\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\areas\\admin\\views\\sanphams\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\sanphams\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\areas\\admin\\views\\sanphams\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\sanphams\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\areas\\admin\\views\\loaisanphams\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\loaisanphams\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\public\\css\\admin\\detailssp.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\admin\\detailssp.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Delete.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Delete.cshtml",
+              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Delete.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-10T02:56:56.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_LayoutAdmin.cshtml",
+              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAwwAoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-10T02:55:29.739Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Details.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Details.cshtml",
+              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Details.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Details.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAB4AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-10T02:52:59.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
+              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAADQAAACMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-10T02:18:57.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Detailssp.css",
+              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Public\\css\\Admin\\Detailssp.css",
+              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Admin\\Detailssp.css",
+              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Public\\css\\Admin\\Detailssp.css",
+              "RelativeToolTip": "chuyende\\Public\\css\\Admin\\Detailssp.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAgwA8AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-03-10T02:11:10.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
+              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADcAAACXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-10T02:10:24.258Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+CREATE DATABASE QuanLyBanDienTu;
+USE QuanLyBanDienTu;
+
+-- Bảng Hãng
+CREATE TABLE Hang (
+    MaHang VARCHAR(20) PRIMARY KEY,
+    TenHang NVARCHAR(255),
+    Logo VARCHAR(255),
+    SoDienThoai VARCHAR(20),
+    Email VARCHAR(255),
+    DiaChi NVARCHAR(500),
+    TuKhoa NVARCHAR(255)
+);
+
+-- Bảng Loại Sản Phẩm
+CREATE TABLE LoaiSanPham (
+    MaLoaiSP VARCHAR(20) PRIMARY KEY,
+    TenLoaiSP NVARCHAR(255),
+    MoTa NVARCHAR(1000),
+    TuKhoa NVARCHAR(255)
+);
+
+-- Bảng Sản Phẩm
+CREATE TABLE SanPham (
+    MaSP VARCHAR(20) PRIMARY KEY,
+    MaLoaiSP VARCHAR(20),
+    MaHang VARCHAR(20),
+    TenSP NVARCHAR(255),
+    HinhAnh VARCHAR(255),
+    SoLuong INT DEFAULT 0,
+    MoTa NVARCHAR(1000),
+    TuKhoa NVARCHAR(255),
+    GiaNhap DECIMAL(15,2),
+    GiaDau DECIMAL(15,2),
+    SoGiam INT,
+    Chip NVARCHAR(250),
+    Pin NVARCHAR(250),
+    CongSac NVARCHAR(250),
+    HeDieuHanh NVARCHAR(250),
+    DungLuong NVARCHAR(250),
+    Ram NVARCHAR(250),
+    ManHinh NVARCHAR(250),
+    TheSim NVARCHAR(250),
+    CamTruoc NVARCHAR(250),
+    CamSau NVARCHAR(250),
+    Mau NVARCHAR(250),
+    KetNoi NVARCHAR(250),
+    FOREIGN KEY (MaLoaiSP) REFERENCES LoaiSanPham(MaLoaiSP),
+    FOREIGN KEY (MaHang) REFERENCES Hang(MaHang)
+);
+
+-- Bảng Chức Vụ
+CREATE TABLE ChucVu (
+    MaCV VARCHAR(20) PRIMARY KEY,
+    TenCV NVARCHAR(255)
+);
+
+-- Bảng Khách Hàng
+CREATE TABLE KhachHang (
+    MaKH VARCHAR(20) PRIMARY KEY,
+    TenKH NVARCHAR(255),
+    NgaySinh DATE,
+    SoDienThoai VARCHAR(20),
+    Email VARCHAR(255),
+    DiaChi NVARCHAR(500),
+    MatKhau NVARCHAR(255)
+);
+
+-- Bảng Nhân Viên
+CREATE TABLE NhanVien (
+    MaNV VARCHAR(20) PRIMARY KEY,
+    TenNV NVARCHAR(255),
+    SoDienThoai VARCHAR(10),
+    Email VARCHAR(255),
+    NgaySinh DATE,
+    GioiTinh BIT,
+    CCCD VARCHAR(12),
+    DiaChi NVARCHAR(500),
+    TenDN NVARCHAR(255),
+    MatKhau NVARCHAR(255),
+    MaCV VARCHAR(20),
+    FOREIGN KEY (MaCV) REFERENCES ChucVu(MaCV)
+);
+
+-- Bảng Hóa Đơn
+CREATE TABLE HoaDon (
+    MaHD VARCHAR(20) PRIMARY KEY,
+    MaKH VARCHAR(20),
+    PhuongThucThanhToan NVARCHAR(100),
+    TrangThai TINYINT DEFAULT 0,
+    NguoiTao VARCHAR(20),
+    NgayTao DATETIME,
+    FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH),
+    FOREIGN KEY (NguoiTao) REFERENCES NhanVien(MaNV)
+);
+
+-- Bảng Chi Tiết Hóa Đơn
+CREATE TABLE ChiTietHoaDon (
+    MaCTHD VARCHAR(20) PRIMARY KEY,
+    MaHD VARCHAR(20),
+    MaSP VARCHAR(20),
+    SoLuong INT,
+    FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD),
+    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
+);

@@ -1,0 +1,45 @@
+﻿@model chuyende.Models.Hang
+
+@{
+    ViewBag.Title = "Xem chi tiết hãng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Xem chi tiết hãng</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên hãng</th>
+                <th>Logo</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Từ khóa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenHang)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(Model.Logo))
+                    {
+                        <img src="@Url.Content("~/img/hang/" +Model.Logo)" alt="Logo" style="max-width: 100px; max-height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>No logo</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(model => model.SoDienThoai)</td>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+                <td>@Html.DisplayFor(model => model.TuKhoa)</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="save-btn btn btn-warning" onclick="window.location.href='@Url.Action("Edit", "Hangs", new { id = Model.MaHang })'">Chỉnh sửa</button>
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "Hangs")'">Hủy</button>
+
+    </div>
+</div>

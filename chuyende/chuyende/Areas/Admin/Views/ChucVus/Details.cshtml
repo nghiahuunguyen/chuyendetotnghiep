@@ -1,0 +1,28 @@
+﻿@model chuyende.Models.ChucVu
+
+@{
+    ViewBag.Title = "Xem chi tiết chức vụ";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Xem chi tiết chức vụ</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên chức vụ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenCV)</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="save-btn btn btn-warning" onclick="window.location.href='@Url.Action("Edit", "ChucVus", new { id = Model.MaCV })'">Chỉnh sửa</button>
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "ChucVus")'">Hủy</button>
+
+    </div>
+</div>

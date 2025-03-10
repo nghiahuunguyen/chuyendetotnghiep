@@ -1,0 +1,62 @@
+﻿@model chuyende.Models.SanPham
+
+@{
+    ViewBag.Title = "Xem chi tiết điện thoại";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="product-container">
+    <div class="product-images">
+        <img class="product-main-image" style="max-width: 400px; max-height: 400px;" src="@Url.Content("~/img/sanpham/" + Model.HinhAnh)" />
+    </div>
+    <div class="product-info">
+        <h1 class="product-title">@Html.DisplayFor(model => model.TenSP)</h1>
+
+        <div class="product-price">
+            @if (Model.GiaDau.HasValue && Model.SoGiam.HasValue)
+            {
+                var giaBan = Model.GiaDau.Value - (Model.GiaDau.Value * Model.SoGiam.Value / 100);
+                @String.Format("{0:N0} VND", giaBan)
+            }
+            <span style="text-decoration: line-through; color: #888; margin-left: 10px;">
+                @(Model.GiaDau.HasValue ? Model.GiaDau.Value.ToString("#,##0") + " VNĐ" : "0 VNĐ")
+            </span>
+            <span style="color: #d32f2f; margin-left: 10px;">-@Html.DisplayFor(model => model.SoGiam)%</span>
+        </div>
+        <div class="d-flex align-items-center gap-3 my-3">
+            <h5 class="fw-bold mb-0">Màu sắc: <span class="badge bg-secondary">@Html.DisplayFor(model => model.Mau)</span></h5>
+            <h5 class="fw-bold mb-0">Số lượng: <span class="badge bg-success">@Html.DisplayFor(model => model.SoLuong)</span></h5>
+        </div>
+
+        <div class="product-promo">
+            <h3>Khuyến mãi</h3>
+            <ul>
+                <li style="list-style: none;">@Html.Raw(Model.MoTa.Replace("\n", "<br />"))</li>
+
+            </ul>
+        </div>
+
+        <div class="product-specs">
+            <h3>Thông số kỹ thuật</h3>
+            <ul>
+                <li>Màn hình:@Html.DisplayFor(model => model.ManHinh) </li>
+                <li>Chip: @Html.DisplayFor(model => model.Chip)</li>
+                <li>Hệ điều hành: @Html.DisplayFor(model => model.HeDieuHanh)</li>
+                <li>RAM: @Html.DisplayFor(model => model.Ram)</li>
+                <li>Bộ nhớ trong: @Html.DisplayFor(model => model.DungLuong)</li>
+                <li>Camera sau: @Html.DisplayFor(model => model.CamSau)</li>
+                <li>Camera trước: @Html.DisplayFor(model => model.CamTruoc)</li>
+                <li>Pin: @Html.DisplayFor(model => model.Pin)</li>
+                <li>Cổng sạc: @Html.DisplayFor(model => model.CongSac)</li>
+                <li>Sim: @Html.DisplayFor(model => model.TheSim)</li>
+                <li>Kết nối: @Html.DisplayFor(model => model.KetNoi)</li>
+            </ul>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="save-btn btn btn-warning" onclick="window.location.href='@Url.Action("Edit", "SanPhams", new { id = Model.MaSP })'">Chỉnh sửa</button>
+            <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "SanPhams")'">Hủy</button>
+
+        </div>
+
+    </div>
+</div>

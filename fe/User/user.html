@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thế Giới Di Động</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    
+    <header class="top-header">
+        <div class="container">
+            <!-- Logo -->
+            <a href="/" class="logo">
+                <img src="images/logo.png" alt="ELECTRONICS STORE" class="logo-img">
+                <h3 class="logo-text">ELECTRONICS STORE</h3>
+            </a>
+            
+            <!-- Search bar -->
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Bạn tìm gì...">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <!-- User tools -->
+            <div class="user-tools">
+                <a href="/dang-nhap" class="tool-item">
+                    <i class="fas fa-user"></i>
+                    <span>Đăng nhập</span>
+                </a>
+                <a href="/gio-hang" class="tool-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Giỏ hàng</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main navigation menu -->
+    <nav class="main-nav">
+        <div class="container">
+            <a href="/dien-thoai" class="nav-item">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Điện thoại</span>
+            </a>
+            <a href="/laptop" class="nav-item">
+                <i class="fas fa-laptop"></i>
+                <span>Laptop</span>
+            </a>
+            <a href="/phu-kien" class="nav-item">
+                <i class="fas fa-headphones"></i>
+                <span>Phụ kiện</span>
+            </a>
+            <a href="/smartwatch" class="nav-item">
+                <i class="far fa-clock"></i>    
+                <span>Smartwatch</span>
+            </a>
+            <a href="/dong-ho" class="nav-item">
+                <i class="far fa-clock"></i>
+                <span>Đồng hồ</span>
+            </a>
+            <a href="/tablet" class="nav-item">
+                <i class="fas fa-tablet-alt"></i>
+                <span>Tablet</span>
+            </a>
+            <a href="/pc-may-in" class="nav-item">
+                <i class="fas fa-desktop"></i>
+                <span>PC, Máy in</span>
+            </a>
+            <a href="/dich-vu" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Dịch vụ tiện ích</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="main-banner">
+        <div class="container">
+            <div class="tet-promotion-banner">
+                <a href="/khuyen-mai-tet" class="banner-link">
+                    <img src="images/Banner 1.png" alt="Khai Xuân Đậm Nét, Sắm Trà Chậm - Lấy xài liền, tiền trả sau" class="banner-img">
+                </a>
+            </div>
+        </div>
+    </section>  
+
+
+    <section class="products-section">
+        <div class="container">
+            <!-- Section header -->
+            <div class="section-header">
+                <h2 class="section-title">Dành cho bạn</h2>
+                
+                <!-- Category tabs -->
+                <div class="category-tabs">               
+                    <div class="category-links">
+                        <a href="/dien-thoai" class="category-link">Điện Thoại</a>
+                        <a href="/apple" class="category-link">Apple</a>
+                        <a href="/laptop" class="category-link">Laptop</a>
+                        <a href="/phu-kien" class="category-link">Phụ Kiện</a>
+                        <a href="/dong-ho" class="category-link">Đồng hồ</a>
+                    </div>
+                </div>
+                
+                <!-- Slider controls -->
+                <div class="slider-controls">
+                    <div class="pagination">
+                        <span class="current">Sản phẩm tiêu biểu</span>
+                    </div>
+                    <div class="dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products grid first row -->
+            <div class="products-row">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <a href="/hp-probook-x360" class="product-link">
+                        <div class="product-img-container">
+                            <img src="images/Product.jpg" alt="HP Probook x360" class="product-img">
+                        </div>
+                        <h3 class="product-name">HP Probook x360 G5 i5 1235U (7Y3E13UT#ABA)</h3>
+                        <div class="product-price">
+                            <span class="current-price">20.490.000₫</span>
+                            <div class="price-info">
+                                <span class="old-price">25.990.000₫</span>
+                                <span class="discount">-21%</span>
+                            </div>
+                        </div>
+                        <div class="product-action">
+                            <span class="action-button">Còn 10/10 suất</span>
+                        </div>
+                    </a>
+                    <a href="/xem-ngay" class="view-more">Xem ngay</a>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <a href="/hp-240-g8" class="product-link">
+                        <div class="product-img-container">
+                            <img src="images/Product.jpg" alt="HP 240 G8" class="product-img">
+                        </div>
+                        <h3 class="product-name">HP 240 G8 i5 1235U (6L1Y1PA)</h3>
+                        <div class="product-price">
+                            <span class="current-price">10.490.000₫</span>
+                            <div class="price-info">
+                                <span class="old-price">13.990.000₫</span>
+                                <span class="discount">-25%</span>
+                            </div>
+                        </div>
+                        <div class="product-action">
+                            <span class="action-button">Còn 10/10 suất</span>
+                        </div>
+                    </a>
+                    <a href="/xem-ngay" class="view-more">Xem ngay</a>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <a href="/xiaomi-redmi-watch-4" class="product-link">
+                        <div class="product-img-container">
+                            <img src="images/Product.jpg" alt="Xiaomi Redmi Watch 4" class="product-img">
+                        </div>
+                        <h3 class="product-name">Xiaomi Redmi Watch 4 42.5mm dây silicone</h3>
+                        <div class="product-price">
+                            <span class="current-price">2.290.000₫</span>
+                        </div>
+                        <div class="product-action">
+                            <span class="action-button">Còn 9/5 suất</span>
+                        </div>
+                    </a>
+                    <a href="/xem-ngay" class="view-more">Xem ngay</a>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <a href="/tai-nghe-chup-tai-zadez" class="product-link">
+                        <div class="product-img-container">
+                            <img src="images/Product.jpg" alt="Tai nghe Chụp Tai Zadez" class="product-img">
+                        </div>
+                        <h3 class="product-name">Tai nghe Chụp Tai Zadez GP-811M</h3>
+                        <div class="product-price">
+                            <span class="current-price">300.000₫</span>
+                            <div class="price-info">
+                                <span class="old-price">500.000₫</span>
+                                <span class="discount">-40%</span>
+                            </div>
+                        </div>
+                        <div class="product-action">
+                            <span class="action-button">Còn 10/10 suất</span>
+                        </div>
+                    </a>
+                    <a href="/xem-ngay" class="view-more">Xem ngay</a>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <a href="/hp-elitebook-630" class="product-link">
+                        <div class="product-img-container">
+                            <img src="images/Product.jpg" alt="HP Elitebook 630" class="product-img">
+                        </div>
+                        <h3 class="product-name">HP Elitebook 630 G10 i7 1355U (7Y3E13UT)</h3>
+                        <div class="product-price">
+                            <span class="current-price">25.190.000₫</span>
+                            <div class="price-info">
+                                <span class="old-price">30.490.000₫</span>
+                                <span class="discount">-17%</span>
+                            </div>
+                        </div>
+                        <div class="product-action">
+                            <span class="action-button">Còn 10/10 suất</span>
+                        </div>
+                    </a>
+                    <a href="/xem-ngay" class="view-more">Xem ngay</a>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <a href="/xiaomi-mi-band-8" class="product-link">
+                        <div class="product-img-container">
+                            <img src="images/Product.jpg" alt="Xiaomi Mi Band 8" class="product-img">
+                        </div>
+                        <h3 class="product-name">Xiaomi Mi Band 8 dây TPU</h3>
+                        <div class="product-price">
+                            <span class="current-price">890.000₫</span>
+                            <div class="price-info">
+                                <span class="old-price">1.290.000₫</span>
+                                <span class="discount">-31%</span>
+                            </div>
+                        </div>
+                        <div class="product-action">
+                            <span class="action-button">Còn 2/5 suất</span>
+                        </div>
+                    </a>
+                    <a href="/xem-ngay" class="view-more">Xem ngay</a>
+                </div>
+            </div>
+            
+            <!-- See more link -->
+            <div class="see-more-container">
+                <a href="/xem-them" class="see-more-link">
+                    Xem thêm các phẩm <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="slider-banner">
+        <div class="container my-4">
+            <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicators -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                
+                <!-- Slides -->
+                <div class="carousel-inner rounded">
+                    <div class="carousel-item active">
+                        <img src="images/Banner 1.png" class="d-block w-100" alt="Khuyến mãi Xuân 2025">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Khuyến mãi Xuân 2025</h5>
+                            <p>Sắm ngay các sản phẩm chất lượng với giá tốt nhất</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/Banner 1.png" class="d-block w-100" alt="Laptop giảm giá">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Laptop giảm giá</h5>
+                            <p>Giảm đến 25% cho laptop với nhiều ưu đãi</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/Banner 1.png" class="d-block w-100" alt="Phụ kiện hàng hiệu">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Phụ kiện hàng hiệu</h5>
+                            <p>Mua 1 tặng 1 cho tất cả phụ kiện</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanner" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselBanner" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer section -->
+<footer class="main-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-title">Hỗ trợ khách hàng</h3>
+                <ul class="footer-links">
+                    <li><a href="/hotline">Gọi mua hàng: 1800 1060 (7:30 - 22:00)</a></li>
+                    <li><a href="/bao-hanh">Bảo hành: 1800 1064 (8:00 - 21:00)</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Thông tin công ty</h3>
+                <ul class="footer-links">
+                    <li><a href="/about">Giới thiệu công ty</a></li>
+                    <li><a href="/careers">Tuyển dụng</a></li>
+                    <li><a href="/terms">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Phương thức thanh toán</h3>
+                <div class="payment-methods">
+                    <img src="images/Bank.png" alt="Phương thức thanh toán">
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Kết nối với chúng tôi</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/thegioididongcom/" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/user/TGDDVideoReviews" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/thegioididongcom/" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="app-download">
+                    <h4>Tải ứng dụng</h4>
+                    <div class="app-links">
+                        <a href="#" class="app-link"><img src="images/appstore.avif" alt="App Store"></a>
+                        <a href="#" class="app-link"><img src="images/chplay.png" alt="Google Play"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© Công ty trách nhiệm một mình 2025.</p>
+            <p class="address">Địa chỉ: ABC, XYZ, Nha Trang, Khánh Hòa. Điện thoại: 0123456789.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

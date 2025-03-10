@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="~/Public/css/Admin/layoutadmin.css">
+    <link rel="stylesheet" href="~/Public/css/Admin/admin.css">
+    <link rel="stylesheet" href="~/Public/css/Admin/Detailssp.css">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" href="~/img/logo/logo.png">
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>ELECTRONICS STORE</h3>
+
+        <div class="profile">
+            <h4>Nguyễn Nghĩa</h4>
+            <p>Chức vụ: Quản lý</p>
+        </div>
+
+        <ul>
+            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "HomeAdmin" ? "active" : "")">
+                <a href="@Url.Action("Index", "HomeAdmin", new { area = "Admin" })">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            
+            <li><i class="fas fa-chart-line"></i> Trang bán hàng</li>
+            <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
+                <div class="menu-item">
+                    <span><i class="fas fa-users"></i> Nhân sự</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "NhanViens" ? "active" : "")">
+                        <a href="@Url.Action("Index", "NhanViens")">
+                            <i class="fas fa-user-shield"></i> Nhân Viên
+                        </a>
+                    </li>
+                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "ChucVus" ? "active" : "")">
+                        <a href="@Url.Action("Index", "ChucVus")">
+                            <i class="fas fa-user-shield"></i> Chức vụ
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
+            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "Hangs" ? "active" : "")">
+                <a href="@Url.Action("Index", "Hangs")">
+                    <i class="fas fa-truck"></i> Hãng
+                </a>
+            </li>
+
+            <li class="has-submenu @(new[] { "LoaiSanPhams", "SanPhams" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
+                <div class="menu-item">
+                    <span><i class="fas fa-box"></i> Sản phẩm</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "LoaiSanPhams" ? "active" : "")">
+                        <a href="@Url.Action("Index", "LoaiSanPhams")">
+                            <i class="fas fa-tags"></i> Loại sản phẩm
+                        </a>
+                    </li>
+
+                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "SanPhams" ? "active" : "")">
+                        <a href="@Url.Action("Index", "SanPhams")">
+                            <i class="fas fa-box"></i> Sản phẩm
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "KhachHangs" ? "active" : "")">
+                <a href="@Url.Action("Index", "KhachHangs")">
+                    <i class="fas fa-user"></i> Khách hàng
+                </a>
+            </li>
+
+            <li><i class="fas fa-file-invoice"></i> Đơn hàng</li>
+        </ul>
+
+        <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+   
+
+</body>
+</html>

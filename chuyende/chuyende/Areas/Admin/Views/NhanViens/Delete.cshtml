@@ -1,0 +1,46 @@
+﻿@model chuyende.Models.NhanVien
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Bạn có chắc chắn muốn xóa mục này không?</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Họ tên nhân viên</th>
+                <th>Chức vụ</th>
+                <th>Giới tính</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenNV)</td>
+                <td>@Html.DisplayFor(model => model.ChucVu.TenCV)</td>
+                <td>
+                    @if (Model.GioiTinh.HasValue)
+                    {
+                        <span>@(Model.GioiTinh.Value ? "Nam" : "Nữ")</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(model => model.DiaChi)</td>
+                <td>@Html.DisplayFor(model => model.SoDienThoai)</td
+            </tr>
+        </tbody>
+    </table>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions">
+            <button type="submit" class="delete">Xác nhận</button>
+            <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "NhanViens")'">Hủy</button>
+
+        </div>
+    }
+
+</div>

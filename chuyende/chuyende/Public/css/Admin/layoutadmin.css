@@ -1,0 +1,267 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    background: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    min-height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+    .sidebar h3 {
+        color: #007bff;
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .profile h4 {
+        margin: 5px 0;
+    }
+
+    .profile p {
+        font-size: 14px;
+        color: gray;
+    }
+
+.sidebar ul {
+    list-style: none;
+    flex-grow: 1;
+}
+
+/* Menu Item Styles */
+.menu-item {
+    padding: 10px;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+    .menu-item i:first-child {
+        margin-right: 10px;
+    }
+
+/* Submenu Styles */
+.submenu {
+    position: absolute;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Chiều rộng bằng menu chính */
+    left: 0; /* Căn trái để submenu nằm thẳng hàng */
+    border-radius: 5px;
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.has-submenu {
+    position: relative;
+}
+
+    .has-submenu:hover .submenu {
+        display: block;
+    }
+
+.submenu li {
+    padding: 8px;
+    margin: 5px 0;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+    .submenu li i {
+        margin-right: 10px;
+    }
+
+/* Hover Effects */
+.menu-item:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.submenu li:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.has-submenu:hover .submenu {
+    max-height: 200px;
+}
+
+.has-submenu:hover .arrow {
+    transform: rotate(90deg);
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+/* Align submenu with main menu */
+.has-submenu {
+    display: flex;
+    flex-direction: column;
+}
+
+    .has-submenu .submenu {
+        position: relative;
+        left: 0;
+        margin-left: 0;
+        padding-left: 20px;
+    }
+
+.menu-item,
+.submenu li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+    .logout i {
+        margin-right: 10px;
+    }
+
+    .logout:hover {
+        background: red;
+        color: white;
+    }
+
+.sidebar > ul > li:not(.has-submenu) {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #333;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+    .sidebar > ul > li:not(.has-submenu):hover {
+        background: #007bff;
+        color: #fff;
+    }
+
+    .sidebar > ul > li:not(.has-submenu) i {
+        margin-right: 10px;
+    }
+.submenu li.active {
+    background-color: #007bff; /* Màu xanh Bootstrap */
+    font-weight: bold; /* Chữ in đậm */
+    border-radius: 5px; /* Bo góc nhẹ */
+}
+
+    .submenu li.active a {
+        color: white !important; /* Chữ màu trắng để dễ nhìn */
+        text-decoration: none; /* Bỏ gạch chân */
+        display: flex;
+        align-items: center;
+        padding: 8px 12px; /* Canh chỉnh khoảng cách */
+        border-radius: 5px;
+    }
+/* Định dạng mục đang chọn (bôi xanh) */
+.sidebar ul li.active {
+    background-color: #007bff !important; /* Màu xanh */
+    color: white !important;
+    border-radius: 5px;
+}
+
+    /* Định dạng chữ của mục đang chọn */
+    .sidebar ul li.active a {
+        color: white !important;
+        text-decoration: none;
+    }
+
+/* Định dạng submenu */
+.sidebar ul .submenu {
+    display: none; /* Mặc định ẩn */
+    padding-left: 20px;
+}
+
+/* Hiển thị submenu khi mục cha có class 'active' */
+.sidebar ul li.has-submenu.active .submenu {
+    display: block; /* Hiển thị submenu */
+}
+
+/* Giữ submenu mở khi có mục con active */
+.sidebar ul li.has-submenu .submenu li.active {
+    background-color: #0056b3 !important; /* Màu xanh đậm hơn */
+    color: white;
+    border-radius: 5px;
+}
+
+/* Giữ icon không thay đổi kích thước */
+.sidebar ul li.active i {
+    font-size: inherit !important;
+}
+
+/* Khi hover vào menu */
+
+.sidebar ul li a:hover {
+    background-color: transparent !important; /* Không có màu nền khi hover */
+    color: white !important; /* Giữ màu chữ đen */
+    box-shadow: none !important; /* Xóa hiệu ứng bóng nếu có */
+    outline: none !important; /* Xóa viền nếu có */
+}
+
+/* Bôi xanh mục cha khi có mục con active */
+.sidebar ul li.has-submenu.active {
+    background-color: #007bff !important; /* Màu xanh */
+    color: white !important;
+    border-radius: 5px;
+}
+
+    /* Định dạng chữ của mục cha khi active */
+    .sidebar ul li.has-submenu.active .menu-item span {
+        color: white !important;
+    }
+
+/* Bôi xanh submenu khi active */
+.sidebar ul li.has-submenu .submenu li.active {
+    background-color: #0056b3 !important; /* Màu xanh đậm hơn */
+    color: white;
+    border-radius: 5px;
+}
+
+/* Đảm bảo icon không bị thay đổi kích thước */
+.sidebar ul li.active i {
+    font-size: inherit !important;
+}

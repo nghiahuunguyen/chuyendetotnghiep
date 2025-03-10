@@ -1,0 +1,278 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    background: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    min-height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.sidebar h2 {
+    color: #007bff;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile h4 {
+    margin: 5px 0;
+}
+
+.profile p {
+    font-size: 14px;
+    color: gray;
+}
+
+.sidebar ul {
+    list-style: none;
+    flex-grow: 1;
+}
+
+/* Menu Item Styles */
+.menu-item {
+    padding: 10px;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.menu-item i:first-child {
+    margin-right: 10px;
+}
+
+/* Submenu Styles */
+.submenu {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Chiều rộng bằng menu chính */
+    left: 0; /* Căn trái để submenu nằm thẳng hàng */
+    top: 100%; /* Hiển thị ngay bên dưới menu */
+    border-radius: 5px;
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.has-submenu {
+    position: relative;
+}
+
+.has-submenu:hover .submenu {
+    display: block;
+}
+
+.submenu li {
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.submenu li i {
+    margin-right: 10px;
+}
+
+/* Hover Effects */
+.menu-item:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.submenu li:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.has-submenu:hover .arrow {
+    transform: rotate(90deg);
+}
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.logout:hover {
+    background: red;
+    color: white;
+}
+
+.sidebar > ul > li:not(.has-submenu) {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #333;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.sidebar > ul > li:not(.has-submenu):hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.sidebar > ul > li:not(.has-submenu) i {
+    margin-right: 10px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.table-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 14px;
+}
+
+.search-select {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.search-btn {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.add-btn {
+    background: #007bff;
+    color: #fff;
+}
+
+.trash-btn {
+    background: red;
+    color: #fff;
+}
+
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background: #f8f9fa;
+    font-weight: bold;
+}
+
+.action-icons {
+    display: flex;
+    gap: 5px;
+}
+
+.action-icons i {
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.edit {
+    background: #007bff;
+}
+
+.view {
+    background: #ffc107;
+}
+
+.delete {
+    background: red;
+}

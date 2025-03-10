@@ -1,0 +1,32 @@
+﻿@model chuyende.Models.ChucVu
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Bạn có chắc chắn muốn xóa mục này không?</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên chức vụ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenCV)</td>
+            </tr>
+        </tbody>
+    </table>
+    @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+        <div class="form-actions">
+            <button type="submit" class="delete">Xác nhận</button>
+            <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "ChucVus")'">Hủy</button>
+
+        </div>
+    }
+    
+</div>

@@ -1,0 +1,386 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    background: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    min-height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.sidebar h2 {
+    color: #007bff;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile h4 {
+    margin: 5px 0;
+}
+
+.profile p {
+    font-size: 14px;
+    color: gray;
+}
+
+.sidebar ul {
+    list-style: none;
+    flex-grow: 1;
+}
+
+/* Menu Item Styles */
+.menu-item {
+    padding: 10px;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.menu-item i:first-child {
+    margin-right: 10px;
+}
+
+/* Submenu Styles */
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    margin-left: 30px;
+}
+
+.submenu li {
+    padding: 8px;
+    margin: 5px 0;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.submenu li i {
+    margin-right: 10px;
+}
+
+/* Hover Effects */
+.menu-item:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.submenu li:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.has-submenu:hover .submenu {
+    max-height: 200px;
+}
+
+.has-submenu:hover .arrow {
+    transform: rotate(90deg);
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.logout i {
+    margin-right: 10px;
+}
+
+.logout:hover {
+    background: red;
+    color: white;
+}
+
+.sidebar > ul > li:not(.has-submenu) {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #333;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.sidebar > ul > li:not(.has-submenu):hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.sidebar > ul > li:not(.has-submenu) i {
+    margin-right: 10px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.table-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 14px;
+}
+
+.search-select {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.search-btn {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.add-btn {
+    background: #007bff;
+    color: #fff;
+}
+
+.trash-btn {
+    background: red;
+    color: #fff;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background: #f8f9fa;
+    font-weight: bold;
+}
+
+.action-icons {
+    display: flex;
+    gap: 5px;
+}
+
+.action-icons i {
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.edit {
+    background: #007bff;
+}
+
+.view {
+    background: #ffc107;
+}
+
+.delete {
+    background: red;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    width: 100%;
+    overflow-x: hidden; 
+}
+
+/* Customer Form Styles */
+.container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 10px;
+}
+
+.form-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 18px;
+    text-transform: none;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.avatar-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: #666;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.avatar-upload {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #007bff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+}
+
+.gender-group {
+    display: flex;
+    gap: 20px;
+}
+
+.gender-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.gender-option input {
+    width: auto;
+}
+
+.gender-option label {
+    margin: 0;
+    cursor: pointer;
+}

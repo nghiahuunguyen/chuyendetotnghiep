@@ -1,0 +1,38 @@
+﻿@model chuyende.Models.KhachHang
+
+@{
+    ViewBag.Title = "Xem chi tiết khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Xem chi tiết khách hàng</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Email</th>
+                <th>Ngày sinh</th>
+                <th>Mật khẩu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenKH)</td>
+                <td>@Html.DisplayFor(model => model.SoDienThoai)</td>
+                <td>@Html.DisplayFor(model => model.DiaChi)</td>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+                <td>@String.Format("{0:dd/MM/yyyy}", Model.NgaySinh)</td>
+                <td>@Html.DisplayFor(model => model.MaKH)</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="save-btn btn btn-warning" onclick="window.location.href='@Url.Action("Edit", "KhachHangs", new { id = Model.MaKH })'">Chỉnh sửa</button>
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "KhachHangs")'">Hủy</button>
+
+    </div>
+</div>

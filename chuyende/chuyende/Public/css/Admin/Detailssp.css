@@ -1,0 +1,66 @@
+﻿/* Prodiuct*/
+.product-container {
+    display: flex;
+    background-color: white;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-images {
+    width: 40%;
+    padding-right: 20px;
+}
+
+.product-main-image {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.product-thumbnails {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .product-thumbnails img {
+        width: 22%;
+        cursor: pointer;
+    }
+
+.product-info {
+    width: 60%;
+}
+
+.product-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rating-stars {
+    color: #ffc107;
+    margin-right: 10px;
+}
+
+.product-price {
+    font-size: 24px;
+    color: #d32f2f;
+    margin-bottom: 10px;
+}
+
+.product-promo {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+}
+

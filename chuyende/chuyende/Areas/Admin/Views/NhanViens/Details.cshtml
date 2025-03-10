@@ -1,0 +1,51 @@
+﻿@model chuyende.Models.NhanVien
+
+@{
+    ViewBag.Title = "Xem chi tiết nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Xem chi tiết nhân viên</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Họ tên nhân viên</th>
+                <th>Chức vụ</th>
+                <th>Giới tính</th>
+                <th>Địa chỉ</th>
+                <th>CCCD</th>
+                <th>Số điện thoại</th>
+                <th>Ngày sinh</th>
+                <th>Email</th>
+                <th>Tên đăng nhập</th>
+                <th>Mật khẩu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenNV)</td>
+                <td>@Html.DisplayFor(model => model.ChucVu.TenCV)</td>
+                <td>
+                    @if (Model.GioiTinh.HasValue)
+                    {
+                        <span>@(Model.GioiTinh.Value ? "Nam" : "Nữ")</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(model => model.DiaChi)</td>
+                <td>@Html.DisplayFor(model => model.CCCD)</td>
+                <td>@Html.DisplayFor(model => model.SoDienThoai)</td>
+                <td>@String.Format("{0:dd/MM/yyyy}", Model.NgaySinh)</td>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+                <td>@Html.DisplayFor(model => model.TenDN)</td>
+                <td>@Html.DisplayFor(model => model.MatKhau)</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="save-btn btn btn-warning" onclick="window.location.href='@Url.Action("Edit", "NhanViens", new { id = Model.MaNV })'">Chỉnh sửa</button>
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "NhanViens")'">Hủy</button>
+
+    </div>
+</div>

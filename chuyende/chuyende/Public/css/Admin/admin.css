@@ -1,0 +1,248 @@
+﻿/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.table-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-input {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 14px;
+}
+
+.search-select {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.search-btn {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+    .actions button {
+        padding: 8px 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+.add-btn {
+    background: #007bff;
+    color: #fff;
+}
+
+.trash-btn {
+    background: red;
+    color: #fff;
+}
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    table th {
+        background: #f8f9fa;
+        font-weight: bold;
+    }
+
+.action-icons {
+    gap: 5px;
+}
+    .action-icons i {
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+    }
+
+.edit {
+    background: #007bff;
+}
+
+.view {
+    background: #ffc107;
+}
+
+.delete {
+    background: red;
+}
+
+.actions {
+    display: flex; /* Sử dụng flex để dễ dàng căn chỉnh */
+    justify-content: flex-end; /* Đặt các phần tử con (nút) vào bên phải */
+}
+
+.add-btn {
+    background-color: #4CAF50; /* Màu xanh */
+    color: white; /* Màu chữ trắng */
+    padding: 10px 20px; /* Thêm khoảng cách cho nút */
+    text-decoration: none; /* Bỏ gạch chân */
+    border-radius: 5px; /* Bo góc nút */
+}
+
+.delete {
+    font-size: 14px; /* Kích thước chữ vừa phải */
+    padding: 9px 18px; /* Khoảng cách vừa phải xung quanh chữ */
+    text-decoration: none; /* Bỏ gạch chân */
+    background-color: #f44336; /* Màu đỏ */
+    color: white; /* Màu chữ trắng */
+    border: none; /* Bỏ viền */
+}
+    .delete:hover {
+        background-color: #d32f2f; /* Màu nền thay đổi khi hover */
+    }
+    ..custom-alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.custom-alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+
+a {
+    color: black !important; /* Đặt màu chữ thành đen */
+    text-decoration: none !important; /* Loại bỏ gạch chân */
+}
+
+    a:hover {
+        color: black !important; /* Giữ màu đen khi di chuột qua */
+    }
+
+.submenu li.active {
+    background-color: #007bff; /* Màu xanh Bootstrap */
+    font-weight: bold; /* Chữ in đậm */
+    border-radius: 5px; /* Bo góc nhẹ */
+}
+
+    .submenu li.active a {
+        color: white !important; /* Chữ màu trắng để dễ nhìn */
+        text-decoration: none; /* Bỏ gạch chân */
+        display: flex;
+        align-items: center;
+        padding: 8px 12px; /* Canh chỉnh khoảng cách */
+        border-radius: 5px;
+    }
+/* Định dạng mục đang chọn (bôi xanh) */
+.sidebar ul li.active {
+    background-color: #007bff !important; /* Màu xanh */
+    color: white !important;
+    border-radius: 5px;
+}
+
+    /* Định dạng chữ của mục đang chọn */
+    .sidebar ul li.active a {
+        color: white !important;
+        text-decoration: none;
+    }
+
+/* Định dạng submenu */
+.sidebar ul .submenu {
+    display: none; /* Mặc định ẩn */
+    padding-left: 20px;
+}
+
+/* Hiển thị submenu khi mục cha có class 'active' */
+.sidebar ul li.has-submenu.active .submenu {
+    display: block; /* Hiển thị submenu */
+}
+
+/* Giữ submenu mở khi có mục con active */
+.sidebar ul li.has-submenu .submenu li.active {
+    background-color: #0056b3 !important; /* Màu xanh đậm hơn */
+    color: white;
+    border-radius: 5px;
+}
+
+/* Giữ icon không thay đổi kích thước */
+.sidebar ul li.active i {
+    font-size: inherit !important;
+}
+
+/* Khi hover vào menu */
+
+.sidebar ul li a:hover {
+    background-color: transparent !important; /* Không có màu nền khi hover */
+    color: white !important; /* Giữ màu chữ đen */
+    box-shadow: none !important; /* Xóa hiệu ứng bóng nếu có */
+    outline: none !important; /* Xóa viền nếu có */
+}
+
+/* Bôi xanh mục cha khi có mục con active */
+.sidebar ul li.has-submenu.active {
+    background-color: #007bff !important; /* Màu xanh */
+    color: white !important;
+    border-radius: 5px;
+}
+
+    /* Định dạng chữ của mục cha khi active */
+    .sidebar ul li.has-submenu.active .menu-item span {
+        color: white !important;
+    }
+
+/* Bôi xanh submenu khi active */
+.sidebar ul li.has-submenu .submenu li.active {
+    background-color: #0056b3 !important; /* Màu xanh đậm hơn */
+    color: white;
+    border-radius: 5px;
+}
+
+/* Đảm bảo icon không bị thay đổi kích thước */
+.sidebar ul li.active i {
+    font-size: inherit !important;
+}

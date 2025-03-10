@@ -1,0 +1,37 @@
+﻿@model chuyende.Models.ChucVu
+
+@{
+    ViewBag.Title = "Thêm mới chức vụ";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="form-container">
+    <h3>Thêm mới thông tin chức vụ</h3>
+
+    @using (Html.BeginForm("Create", "ChucVus", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaCV, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaCV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaCV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenCV, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenCV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TenCV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="save-btn btn btn-success">Lưu</button>
+            <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "ChucVus")'">Hủy</button>
+
+        </div>
+    }
+</div>
