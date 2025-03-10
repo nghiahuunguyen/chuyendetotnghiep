@@ -1,0 +1,285 @@
+﻿/*Login*/
+.login-container {
+    max-width: 500px;
+    margin: 30px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 10px;
+}
+.logo-img {
+    height: 50px; /* Điều chỉnh kích thước logo */
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.login-subtitle {
+    font-size: 14px;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #2f80ed;
+    outline: none;
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    color: #2f80ed;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.btn-login {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #ffd400;
+    color: #333;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #ffc107;
+}
+
+.social-login {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.social-title {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.social-title::before,
+.social-title::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 25%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.social-title::before {
+    left: 10%;
+}
+
+.social-title::after {
+    right: 10%;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    color: #666;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.social-btn.facebook:hover {
+    background-color: #3b5998;
+    color: white;
+}
+
+.social-btn.google:hover {
+    background-color: #dd4b39;
+    color: white;
+}
+
+.social-btn.apple:hover {
+    background-color: #000;
+    color: white;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.register-link a {
+    color: #2f80ed;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* TAB STYLES */
+.login-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab.active {
+    color: #2f80ed;
+    font-weight: bold;
+}
+
+.tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #2f80ed;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.login-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    text-align: center;
+}
+
+.logo {
+    width: 150px;
+    margin: 0 auto 20px;
+    display: block
+}
+
+.login-title {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+    .input-group i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .login-button:hover {
+        background-color: #0b5ed7;
+    }
+
+.forgot-password {
+    text-align: right;
+    margin-top: 10px;
+}
+
+    .forgot-password a {
+        color: #0d6efd;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    display: none;
+}

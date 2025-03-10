@@ -1,18 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\chuyende\\chuyende\\",
+  "WorkspaceRootPath": "D:\\chuyendetotnghiep\\chuyende\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\areas\\admin\\views\\sanphams\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\sanphams\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\public\\css\\use\\giohang.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\use\\giohang.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\public\\css\\admin\\detailssp.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\admin\\detailssp.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyende\\chuyende\\chuyende\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\public\\css\\use\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\use\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
-              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Index.cshtml",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAADQAAACMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-10T02:18:57.557Z",
+              "DocumentIndex": 0,
+              "Title": "giohang.css",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\giohang.css",
+              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Use\\giohang.css",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\giohang.css",
+              "RelativeToolTip": "chuyende\\Public\\css\\Use\\giohang.css",
+              "ViewState": "AgIAACsBAAAAAAAAAAAwwEYBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-03-10T12:22:56.571Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Detailssp.css",
-              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Public\\css\\Admin\\Detailssp.css",
-              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Admin\\Detailssp.css",
-              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Public\\css\\Admin\\Detailssp.css*",
-              "RelativeToolTip": "chuyende\\Public\\css\\Admin\\Detailssp.css*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAgwA8AAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-03-10T02:11:10.845Z",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Cart\\Index.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Views\\Cart\\Index.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Cart\\Index.cshtml",
+              "RelativeToolTip": "chuyende\\Views\\Cart\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-10T12:11:33.334Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
-              "ToolTip": "D:\\chuyende\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-10T02:10:24.258Z",
+              "DocumentIndex": 2,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "chuyende\\Controllers\\CartController.cs",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\CartController.cs",
+              "RelativeToolTip": "chuyende\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T12:10:30.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "layout.css",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\layout.css",
+              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Use\\layout.css",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\layout.css",
+              "RelativeToolTip": "chuyende\\Public\\css\\Use\\layout.css",
+              "ViewState": "AgIAAAcBAAAAAAAAAAAwwCMBAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-03-10T12:04:19.611Z",
               "EditorCaption": ""
             }
           ]

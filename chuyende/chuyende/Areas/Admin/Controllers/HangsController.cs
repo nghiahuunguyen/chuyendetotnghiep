@@ -14,6 +14,23 @@ namespace chuyende.Areas.Admin.Controllers
     public class HangsController : Controller
     {
         private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        public ActionResult Search(string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            }
+
+            var hang = db.Hang.FirstOrDefault(h => h.TenHang == keyword || h.TuKhoa == keyword);
+
+            if (hang == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy hãng nào phù hợp.";
+                return RedirectToAction("Index");
+            }
+
+            return View("Index", new List<Hang> { hang }); // Trả về danh sách chỉ có 1 hãng
+        }
 
         // GET: Admin/Hangs
         public ActionResult Index()

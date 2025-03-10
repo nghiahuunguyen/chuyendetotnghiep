@@ -25,8 +25,19 @@
 
     </div>
 
-    <div class="actions">
-        <a href="@Url.Action("Create", "KhachHangs")" class="add-btn">Thêm mới</a>
+    <div class="header-actions">
+
+        @using (Html.BeginForm("Search", "KhachHangs", FormMethod.Get, new { @class = "search-form" }))
+        {
+            <input type="text" name="keyword" class="search-input" placeholder="Tìm kiếm khách hàng...">
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+        }
+
+        <div class="actions">
+            <a href="@Url.Action("Create", "KhachHangs")" class="add-btn">Thêm mới</a>
+        </div>
     </div>
 
     <table>

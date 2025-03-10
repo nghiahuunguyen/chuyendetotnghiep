@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="login-container">
+    <div class="login-header">
+        <h1 class="login-title">Xin chào</h1>
+    </div>
+    <div id="registerForm" class="tab-content">
+        <form action="/register" method="post">
+            <div class="form-group">
+                <label for="fullname" class="form-label">Họ và tên</label>
+                <input type="text" id="fullname" name="fullname" class="form-control" placeholder="Nhập họ và tên" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber" class="form-label">Số điện thoại</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Nhập số điện thoại" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registerEmail" class="form-label">Email</label>
+                <input type="email" id="registerEmail" name="email" class="form-control" placeholder="Nhập email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registerPassword" class="form-label">Mật khẩu</label>
+                <input type="password" id="registerPassword" name="password" class="form-control" placeholder="Tạo mật khẩu (ít nhất 6 ký tự)" required minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" required>
+            </div>
+
+            <button type="submit" class="btn-login">Đăng ký</button>
+        </form>
+        <div class="register-link">
+            <p>Bạn đã có tài khoản? <a href="@Url.Action("Index","Login")">Đăng nhập ngay</a></p>
+        </div>
+    </div>
+
+</div>
+

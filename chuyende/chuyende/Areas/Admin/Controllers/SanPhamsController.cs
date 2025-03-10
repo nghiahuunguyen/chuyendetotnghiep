@@ -15,6 +15,24 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
 
+        public ActionResult Search(string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            }
+
+            var sanpham = db.SanPham.FirstOrDefault(h => h.TenSP == keyword || h.TuKhoa == keyword);
+
+            if (sanpham == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy hãng nào phù hợp.";
+                return RedirectToAction("Index");
+            }
+
+            return View("Index", new List<SanPham> { sanpham }); // Trả về danh sách chỉ có 1 hãng
+        }
+
         // GET: Admin/SanPhams
         public ActionResult Index()
         {

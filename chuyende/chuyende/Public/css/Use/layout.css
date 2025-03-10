@@ -85,6 +85,12 @@ body {
     align-items: center;
 }
 
+/* User tools styles */
+.user-tools {
+    display: flex;
+    align-items: center;
+}
+
 .tool-item {
     display: flex;
     align-items: center;

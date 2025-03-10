@@ -1,0 +1,159 @@
+﻿.login-container {
+	max-width: 500px;
+	margin: 30px auto;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	padding: 30px;
+}
+
+.login-header {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.login-title {
+	font-size: 24px;
+	color: #333;
+	margin-bottom: 10px;
+}
+
+.login-subtitle {
+	font-size: 14px;
+	color: #666;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-label {
+	display: block;
+	font-size: 14px;
+	color: #333;
+	margin-bottom: 8px;
+}
+
+.form-control {
+	width: 100%;
+	padding: 12px 15px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	font-size: 14px;
+	transition: border-color 0.3s;
+}
+
+	.form-control:focus {
+		border-color: #2f80ed;
+		outline: none;
+	}
+
+.forgot-password {
+	display: block;
+	text-align: right;
+	font-size: 13px;
+	color: #2f80ed;
+	text-decoration: none;
+	margin-bottom: 20px;
+}
+
+.btn-login {
+	display: block;
+	width: 100%;
+	padding: 12px;
+	background-color: #3209e6;
+	color: #ddd;
+	border: none;
+	border-radius: 6px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+	.btn-login:hover {
+		background-color: #3209e6;
+	}
+
+.social-login {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.social-title {
+	display: block;
+	font-size: 14px;
+	color: #666;
+	margin-bottom: 15px;
+	position: relative;
+}
+
+	.social-title::before,
+	.social-title::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		width: 25%;
+		height: 1px;
+		background-color: #ddd;
+	}
+
+	.social-title::before {
+		left: 10%;
+	}
+
+	.social-title::after {
+		right: 10%;
+	}
+
+.social-buttons {
+	display: flex;
+	justify-content: center;
+	gap: 15px;
+}
+
+.social-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 1px solid #ddd;
+	color: #666;
+	font-size: 20px;
+	text-decoration: none;
+	transition: all 0.3s;
+}
+
+	.social-btn.facebook:hover {
+		background-color: #3b5998;
+		color: white;
+	}
+
+	.social-btn.google:hover {
+		background-color: #dd4b39;
+		color: white;
+	}
+
+	.social-btn.apple:hover {
+		background-color: #000;
+		color: white;
+	}
+
+.register-link {
+	text-align: center;
+	margin-top: 20px;
+	font-size: 14px;
+	color: #666;
+}
+
+	.register-link a {
+		color: #2f80ed;
+		text-decoration: none;
+		font-weight: bold;
+	}
+
+		.register-link a:hover {
+			text-decoration: underline;
+		}
