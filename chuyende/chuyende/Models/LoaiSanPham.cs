@@ -22,8 +22,6 @@ namespace chuyende.Models
     
         public string MaLoaiSP { get; set; }
         public string TenLoaiSP { get; set; }
-        public string MoTa { get; set; }
-        public string TuKhoa { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SanPham> SanPham { get; set; }

@@ -46,7 +46,7 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/LoaiSanPhams/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaLoaiSP,TenLoaiSP,MoTa,TuKhoa")] LoaiSanPham loaiSanPham)
+        public ActionResult Create([Bind(Include = "MaLoaiSP,TenLoaiSP")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/LoaiSanPhams/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaLoaiSP,TenLoaiSP,MoTa,TuKhoa")] LoaiSanPham loaiSanPham)
+        public ActionResult Edit([Bind(Include = "MaLoaiSP,TenLoaiSP")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {

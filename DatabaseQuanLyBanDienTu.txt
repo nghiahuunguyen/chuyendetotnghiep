@@ -16,8 +16,6 @@ CREATE TABLE Hang (
 CREATE TABLE LoaiSanPham (
     MaLoaiSP VARCHAR(20) PRIMARY KEY,
     TenLoaiSP NVARCHAR(255),
-    MoTa NVARCHAR(1000),
-    TuKhoa NVARCHAR(255)
 );
 
 -- Bảng Sản Phẩm
@@ -28,7 +26,7 @@ CREATE TABLE SanPham (
     TenSP NVARCHAR(255),
     HinhAnh VARCHAR(255),
     SoLuong INT DEFAULT 0,
-    MoTa NVARCHAR(1000),
+    KhuyenMai NVARCHAR(1000),
     TuKhoa NVARCHAR(255),
     GiaNhap DECIMAL(15,2),
     GiaDau DECIMAL(15,2),
@@ -86,8 +84,8 @@ CREATE TABLE NhanVien (
 CREATE TABLE HoaDon (
     MaHD VARCHAR(20) PRIMARY KEY,
     MaKH VARCHAR(20),
-    PhuongThucThanhToan NVARCHAR(100),
-    TrangThai TINYINT DEFAULT 0,
+    PhuongThucThanhToan TINYINT,
+    TrangThai INT,
     NguoiTao VARCHAR(20),
     NgayTao DATETIME,
     FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH),
@@ -96,10 +94,10 @@ CREATE TABLE HoaDon (
 
 -- Bảng Chi Tiết Hóa Đơn
 CREATE TABLE ChiTietHoaDon (
-    MaCTHD VARCHAR(20) PRIMARY KEY,
     MaHD VARCHAR(20),
     MaSP VARCHAR(20),
     SoLuong INT,
+    PRIMARY KEY(MaHD,MaSP),
     FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD),
     FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
 );

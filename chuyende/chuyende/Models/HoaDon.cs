@@ -22,8 +22,8 @@ namespace chuyende.Models
     
         public string MaHD { get; set; }
         public string MaKH { get; set; }
-        public string PhuongThucThanhToan { get; set; }
-        public Nullable<byte> TrangThai { get; set; }
+        public Nullable<byte> PhuongThucThanhToan { get; set; }
+        public Nullable<int> TrangThai { get; set; }
         public string NguoiTao { get; set; }
         public Nullable<System.DateTime> NgayTao { get; set; }
     

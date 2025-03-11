@@ -33,7 +33,7 @@
                     <i class="fas fa-home"></i> Trang chủ
                 </a>
             </li>
-            
+
             <li><i class="fas fa-chart-line"></i> Trang bán hàng</li>
             <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
                 <div class="menu-item">
@@ -53,9 +53,6 @@
                     </li>
                 </ul>
             </li>
-
-
-
 
             <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "Hangs" ? "active" : "")">
                 <a href="@Url.Action("Index", "Hangs")">
@@ -90,7 +87,12 @@
                 </a>
             </li>
 
-            <li><i class="fas fa-file-invoice"></i> Đơn hàng</li>
+            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "HoaDons" ? "active" : "")">
+                <a href="@Url.Action("Index", "HoaDons")">
+                    <i class="fas fa-file-invoice"></i> Đơn hàng
+                </a>
+            </li>
+
         </ul>
 
         <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>

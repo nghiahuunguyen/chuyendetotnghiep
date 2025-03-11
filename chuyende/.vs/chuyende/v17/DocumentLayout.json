@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "D:\\chuyendetotnghiep\\chuyende\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\hoadons\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\hoadons\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\cart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\public\\css\\use\\giohang.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\use\\giohang.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\public\\css\\use\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\use\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\hoadons\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E3B1B7B4-1CAE-4E1D-BAB4-6EEEE6415C22}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\hoadons\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,66 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAGwAAAAAAAAAAAAAAHsAAAATAAAAAAAAAA==",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwDIAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-10T12:25:21.752Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "giohang.css",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\giohang.css",
-              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Use\\giohang.css",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\giohang.css",
-              "RelativeToolTip": "chuyende\\Public\\css\\Use\\giohang.css",
-              "ViewState": "AgIAACsBAAAAAAAAAAAwwEYBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-03-10T12:22:56.571Z",
+              "WhenOpened": "2025-03-11T02:02:12.068Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Cart\\Index.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Cart\\Index.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Cart\\Index.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Cart\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA3AAAAAAAAAA==",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Index.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Index.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Index.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Index.cshtml",
+              "ViewState": "AgIAADQAAAAAAAAAAAAwwEMAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-10T12:11:33.334Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CartController.cs",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\CartController.cs",
-              "RelativeDocumentMoniker": "chuyende\\Controllers\\CartController.cs",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\CartController.cs",
-              "RelativeToolTip": "chuyende\\Controllers\\CartController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-10T12:10:30.521Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "layout.css",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\layout.css",
-              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Use\\layout.css",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\layout.css",
-              "RelativeToolTip": "chuyende\\Public\\css\\Use\\layout.css",
-              "ViewState": "AgIAAAcBAAAAAAAAAAAwwCMBAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-03-10T12:04:19.611Z",
+              "WhenOpened": "2025-03-11T01:53:49.772Z",
               "EditorCaption": ""
             }
           ]

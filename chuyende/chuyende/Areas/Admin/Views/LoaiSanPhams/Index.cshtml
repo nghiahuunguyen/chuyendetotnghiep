@@ -33,7 +33,6 @@
                 <th>#</th>
                 <th>Mã loại sản phẩm</th>
                 <th>Tên loại sản phẩm</th>
-                <th>Mô tả</th>
                 <th>Chức năng</th>
             </tr>
         </thead>
@@ -45,7 +44,6 @@
                     <td>@stt</td>
                     <td>@Html.DisplayFor(modelItem => item.MaLoaiSP)</td>
                     <td>@Html.DisplayFor(modelItem => item.TenLoaiSP)</td>
-                    <td>@Html.DisplayFor(modelItem => item.MoTa)</td>
                     <td class="action-icons">
                         <a href="@Url.Action("Edit","LoaiSanPhams", new { id = item.MaLoaiSP })">
                             <i class="fas fa-edit edit"></i>

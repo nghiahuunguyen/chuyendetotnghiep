@@ -14,7 +14,6 @@ namespace chuyende.Models
     
     public partial class ChiTietHoaDon
     {
-        public string MaCTHD { get; set; }
         public string MaHD { get; set; }
         public string MaSP { get; set; }
         public Nullable<int> SoLuong { get; set; }

@@ -26,7 +26,7 @@ namespace chuyende.Models
         public string TenSP { get; set; }
         public string HinhAnh { get; set; }
         public Nullable<int> SoLuong { get; set; }
-        public string MoTa { get; set; }
+        public string KhuyenMai { get; set; }
         public string TuKhoa { get; set; }
         public Nullable<decimal> GiaNhap { get; set; }
         public Nullable<decimal> GiaDau { get; set; }
