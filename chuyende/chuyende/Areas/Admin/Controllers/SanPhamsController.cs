@@ -64,7 +64,7 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/SanPhams/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaSP,MaLoaiSP,MaHang,TenSP,SoLuong,MoTa,TuKhoa,GiaNhap,GiaDau,SoGiam,Chip,Pin,CongSac,HeDieuHanh,DungLuong,Ram,ManHinh,TheSim,CamTruoc,CamSau,Mau,KetNoi")] SanPham sanPham, HttpPostedFileBase HinhAnh)
+        public ActionResult Create([Bind(Include = "MaSP,MaLoaiSP,MaHang,TenSP,SoLuong,KhuyenMai,TuKhoa,GiaNhap,GiaDau,SoGiam,Chip,Pin,CongSac,HeDieuHanh,DungLuong,Ram,ManHinh,TheSim,CamTruoc,CamSau,Mau,KetNoi")] SanPham sanPham, HttpPostedFileBase HinhAnh)
         {
             if (ModelState.IsValid)
             {
@@ -110,7 +110,7 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/SanPhams/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaSP,MaLoaiSP,MaHang,TenSP,SoLuong,MoTa,TuKhoa,GiaNhap,GiaDau,SoGiam,Chip,Pin,CongSac,HeDieuHanh,DungLuong,Ram,ManHinh,TheSim,CamTruoc,CamSau,Mau,KetNoi")] SanPham sanPham, HttpPostedFileBase HinhAnh)
+        public ActionResult Edit([Bind(Include = "MaSP,MaLoaiSP,MaHang,TenSP,SoLuong,KhuyenMai,TuKhoa,GiaNhap,GiaDau,SoGiam,Chip,Pin,CongSac,HeDieuHanh,DungLuong,Ram,ManHinh,TheSim,CamTruoc,CamSau,Mau,KetNoi")] SanPham sanPham, HttpPostedFileBase HinhAnh)
         {
             if (ModelState.IsValid)
             {

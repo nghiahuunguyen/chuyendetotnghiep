@@ -14,6 +14,7 @@
         <h1 class="product-title">@Html.DisplayFor(model => model.TenSP)</h1>
 
         <div class="product-price">
+            <h4>Giá nhập: <span class="text-primary">@String.Format("{0:N0} VND", Model.GiaNhap)</span></h4>
             @if (Model.GiaDau.HasValue && Model.SoGiam.HasValue)
             {
                 var giaBan = Model.GiaDau.Value - (Model.GiaDau.Value * Model.SoGiam.Value / 100);
@@ -32,7 +33,9 @@
         <div class="product-promo">
             <h3>Khuyến mãi</h3>
             <ul>
-                <li style="list-style: none;">@Html.Raw(Model.MoTa.Replace("\n", "<br />"))</li>
+                <li style="list-style: none;">
+                    @Html.Raw(Model.KhuyenMai?.Replace("\n", "<br />") ?? "Không có khuyến mãi")
+                </li>
 
             </ul>
         </div>
