@@ -33,10 +33,12 @@
                 <i class="fas fa-search"></i> Tìm kiếm
             </button>
         }
-
-        <div class="actions">
-            <a href="@Url.Action("Create", "SanPhams")" class="add-btn">Thêm mới</a>
-        </div>
+        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên")
+        {
+            <div class="actions">
+                <a href="@Url.Action("Create", "SanPhams")" class="add-btn">Thêm mới</a>
+            </div>
+        }
     </div>
     
 
@@ -79,15 +81,21 @@
                         }
                     </td>
                     <td class="action-icons">
-                        <a href="@Url.Action("Edit","SanPhams", new { id = item.MaSP })">
-                            <i class="fas fa-edit edit"></i>
-                        </a>
+                        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên")
+                        {
+                            <a href="@Url.Action("Edit", "SanPhams", new { id = item.MaSP })">
+                                <i class="fas fa-edit edit"></i>
+                            </a>
+                        }
                         <a href="@Url.Action("Details","SanPhams", new { id = item.MaSP })">
                             <i class="fas fa-eye view"></i>
                         </a>
-                        <a href="@Url.Action("Delete","SanPhams", new { id = item.MaSP })">
-                            <i class="fas fa-trash delete"></i>
-                        </a>
+                        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên")
+                        {
+                            <a href="@Url.Action("Delete", "SanPhams", new { id = item.MaSP })">
+                                <i class="fas fa-trash delete"></i>
+                            </a>
+                        }
                     </td>
                 </tr>
                 stt++;

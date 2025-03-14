@@ -35,6 +35,10 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/KhachHangs
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             return View(db.KhachHang.ToList());
         }
 
@@ -64,25 +68,36 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/KhachHangs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaKH,TenKH,NgaySinh,SoDienThoai,Email,DiaChi,MatKhau")] KhachHang khachHang)
+        public ActionResult Create([Bind(Include = "TenKH,NgaySinh,SoDienThoai,Email,DiaChi,MatKhau")] KhachHang khachHang)
         {
             if (ModelState.IsValid)
             {
-                try
+                // Lấy mã KH lớn nhất hiện tại
+                var lastCustomer = db.KhachHang.OrderByDescending(k => k.MaKH).FirstOrDefault();
+                int newID = 1;
+
+                if (lastCustomer != null)
                 {
-                    db.KhachHang.Add(khachHang);
-                    db.SaveChanges();
-                    TempData["SuccessMessage"] = "Thêm khách hàng thành công!";
-                    return RedirectToAction("Index");
+                    string lastID = lastCustomer.MaKH.Replace("KH", ""); // Loại bỏ "KH"
+                    if (int.TryParse(lastID, out int idNum))
+                    {
+                        newID = idNum + 1; // Tăng lên 1
+                    }
                 }
-                catch (Exception)
-                {
-                    TempData["ErrorMessage"] = "Đã xảy ra lỗi khi thêm khách hàng!";
-                }
+
+                khachHang.MaKH = "KH" + newID.ToString("D3"); // Tạo mã dạng KH001, KH002
+
+                db.KhachHang.Add(khachHang);
+                db.SaveChanges();
+
+                TempData["SuccessMessage"] = "Thêm khách hàng thành công!";
+                return RedirectToAction("Index");
             }
+
             TempData["ErrorMessage"] = "Thêm khách hàng thất bại. Vui lòng kiểm tra lại!";
             return View(khachHang);
         }
+
 
         // GET: Admin/KhachHangs/Edit/5
         public ActionResult Edit(string id)

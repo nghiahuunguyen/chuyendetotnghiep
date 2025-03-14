@@ -31,10 +31,30 @@
 
             <!-- User tools -->
             <div class="user-tools">
-                <a href="@Url.Action("Index","Login")" class="tool-item">
-                    <i class="fas fa-user"></i>
-                    <span>Đăng nhập</span>
-                </a>
+                @if (Session["User"] == null)
+                {
+                    <!-- Nếu chưa đăng nhập, hiển thị nút đăng nhập -->
+                    <a href="@Url.Action("Index", "Login")" class="tool-item">
+                        <i class="fas fa-user"></i>
+                        <span>Đăng nhập</span>
+                    </a>
+                }
+                else
+                {
+                    var user = (chuyende.Models.KhachHang)Session["User"];
+
+                    <div class="dropdown">
+                        <a href="#" class="tool-item dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-user"></i>
+                            <span>@user.TenKH</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="@Url.Action("Details", "KhachHangs", new { id = user.MaKH })" class="dropdown-item">Thông tin cá nhân</a>
+                            <a href="@Url.Action("Logout", "Login")" class="dropdown-item">Đăng xuất</a>
+                        </div>
+                    </div>
+                }
+
                 <a href="@Url.Action("Index","Cart")" class="tool-item">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Giỏ hàng</span>
@@ -121,7 +141,7 @@
                         <a href="https://www.facebook.com/nguyenhuunghia1607" class="social-link"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/nguyenhuunghia1607/" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
-                   
+
                 </div>
             </div>
 
@@ -131,6 +151,14 @@
             </div>
         </div>
     </footer>
+    <script>
+        $(document).ready(function () {
+            $(".dropdown-toggle").click(function (e) {
+                e.preventDefault(); // Ngăn chặn reload trang
+                $(this).next(".dropdown-menu").toggle();
+            });
+        });
+    </script>
 
 </body>
 </html>

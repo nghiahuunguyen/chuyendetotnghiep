@@ -23,8 +23,8 @@
         <h3>ELECTRONICS STORE</h3>
 
         <div class="profile">
-            <h4>Nguyễn Nghĩa</h4>
-            <p>Chức vụ: Quản lý</p>
+            <h4>@Session["User"]</h4>
+            <p>Chức vụ: @Session["ChucVu"]</p>
         </div>
 
         <ul>
@@ -35,25 +35,26 @@
             </li>
 
             <li><i class="fas fa-chart-line"></i> Trang bán hàng</li>
-            <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
-                <div class="menu-item">
-                    <span><i class="fas fa-users"></i> Nhân sự</span>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </div>
-                <ul class="submenu">
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "NhanViens" ? "active" : "")">
-                        <a href="@Url.Action("Index", "NhanViens")">
-                            <i class="fas fa-user"></i> Nhân Viên
-                        </a>
-                    </li>
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "ChucVus" ? "active" : "")">
-                        <a href="@Url.Action("Index", "ChucVus")">
-                            <i class="fas fa-user-shield"></i> Chức vụ
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
+            @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên") { 
+                <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
+                    <div class="menu-item">
+                        <span><i class="fas fa-users"></i> Nhân sự</span>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "NhanViens" ? "active" : "")">
+                            <a href="@Url.Action("Index", "NhanViens")">
+                                <i class="fas fa-user"></i> Nhân Viên
+                            </a>
+                        </li>
+                        <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "ChucVus" ? "active" : "")">
+                            <a href="@Url.Action("Index", "ChucVus")">
+                                <i class="fas fa-user-shield"></i> Chức vụ
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                }
             <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "Hangs" ? "active" : "")">
                 <a href="@Url.Action("Index", "Hangs")">
                     <i class="fas fa-truck"></i> Hãng
@@ -95,7 +96,10 @@
 
         </ul>
 
-        <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        <a href="@Url.Action("Logout", "DangNhap", new { area = "Admin" })" class="logout">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </a>
+
     </div>
 
     <!-- Main Content -->

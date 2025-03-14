@@ -35,6 +35,10 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/Hangs
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             return View(db.Hang.ToList());
         }
 

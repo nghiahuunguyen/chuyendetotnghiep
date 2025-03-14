@@ -35,6 +35,10 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/NhanViens
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var nhanVien = db.NhanVien.Include(n => n.ChucVu);
             return View(nhanVien.ToList());
         }

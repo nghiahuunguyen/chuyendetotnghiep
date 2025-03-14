@@ -17,6 +17,10 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/HoaDons
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var hoaDon = db.HoaDon.Include(h => h.KhachHang).Include(h => h.NhanVien);
             return View(hoaDon.ToList());
         }

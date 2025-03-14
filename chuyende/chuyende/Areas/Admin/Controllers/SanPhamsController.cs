@@ -36,6 +36,10 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/SanPhams
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var sanPham = db.SanPham.Include(s => s.Hang).Include(s => s.LoaiSanPham);
             return View(sanPham.ToList());
         }

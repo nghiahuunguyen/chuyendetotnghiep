@@ -17,6 +17,10 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/ChucVus
         public ActionResult Index()
         {
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             return View(db.ChucVu.ToList());
         }
 
