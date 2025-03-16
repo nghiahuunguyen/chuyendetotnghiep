@@ -12,16 +12,16 @@ namespace chuyende.Areas.Admin.Controllers
 {
     public class LoaiSanPhamsController : Controller
     {
-        private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // GET: Admin/LoaiSanPhams
         public ActionResult Index()
         {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Index", "DangNhap");
-            }
-            return View(db.LoaiSanPham.ToList());
+            //if (Session["User"] == null)
+            //{
+            //    return RedirectToAction("Index", "DangNhap");
+            //}
+            return View(db.LoaiSanPhams.ToList());
         }
 
         // GET: Admin/LoaiSanPhams/Details/5
@@ -32,7 +32,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã loại sản phẩm.";
                 return RedirectToAction("Index");
             }
-            LoaiSanPham loaiSanPham = db.LoaiSanPham.Find(id);
+            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
             if (loaiSanPham == null)
             {
                 TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
@@ -50,26 +50,48 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/LoaiSanPhams/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaLoaiSP,TenLoaiSP")] LoaiSanPham loaiSanPham)
+        public ActionResult Create([Bind(Include = "TenLoaiSP")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.LoaiSanPham.Add(loaiSanPham);
+                    // Lấy mã loại sản phẩm lớn nhất hiện tại theo format "LSP001"
+                    var lastLoaiSP = db.LoaiSanPhams
+                                       .Where(lsp => lsp.MaLoaiSP.StartsWith("LSP"))
+                                       .OrderByDescending(lsp => lsp.MaLoaiSP)
+                                       .Select(lsp => lsp.MaLoaiSP)
+                                       .FirstOrDefault();
+
+                    int newId = 1; // Mặc định nếu bảng rỗng
+
+                    if (!string.IsNullOrEmpty(lastLoaiSP) && lastLoaiSP.Length >= 6)
+                    {
+                        string numberPart = lastLoaiSP.Substring(3); // Lấy phần số
+                        if (int.TryParse(numberPart, out int lastId))
+                        {
+                            newId = lastId + 1; // Tăng lên 1
+                        }
+                    }
+
+                    loaiSanPham.MaLoaiSP = "LSP" + newId.ToString("D3"); // Format LSP001, LSP002,...
+
+                    db.LoaiSanPhams.Add(loaiSanPham);
                     db.SaveChanges();
+
                     TempData["SuccessMessage"] = "Thêm loại sản phẩm thành công!";
                     return RedirectToAction("Index");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = "Thêm loại sản phẩm không thành công.";
+                    TempData["ErrorMessage"] = "Thêm loại sản phẩm không thành công. Lỗi: " + ex.Message;
                 }
             }
             else
             {
                 TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
             }
+
             return View(loaiSanPham);
         }
 
@@ -81,7 +103,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã loại sản phẩm.";
                 return RedirectToAction("Index");
             }
-            LoaiSanPham loaiSanPham = db.LoaiSanPham.Find(id);
+            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
             if (loaiSanPham == null)
             {
                 TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
@@ -124,7 +146,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã loại sản phẩm.";
                 return RedirectToAction("Index");
             }
-            LoaiSanPham loaiSanPham = db.LoaiSanPham.Find(id);
+            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
             if (loaiSanPham == null)
             {
                 TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
@@ -140,13 +162,13 @@ namespace chuyende.Areas.Admin.Controllers
         {
             try
             {
-                LoaiSanPham loaiSanPham = db.LoaiSanPham.Find(id);
+                LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
                 if (loaiSanPham == null)
                 {
                     TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
                     return RedirectToAction("Index");
                 }
-                db.LoaiSanPham.Remove(loaiSanPham);
+                db.LoaiSanPhams.Remove(loaiSanPham);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Xóa loại sản phẩm thành công!";
             }

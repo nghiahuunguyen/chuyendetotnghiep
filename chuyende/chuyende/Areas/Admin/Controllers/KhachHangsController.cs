@@ -12,7 +12,7 @@ namespace chuyende.Areas.Admin.Controllers
 {
     public class KhachHangsController : Controller
     {
-        private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         public ActionResult Search(string keyword)
         {
@@ -21,7 +21,7 @@ namespace chuyende.Areas.Admin.Controllers
                 return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
             }
 
-            var khachhang = db.KhachHang.FirstOrDefault(h => h.TenKH == keyword || h.SoDienThoai == keyword );
+            var khachhang = db.KhachHangs.FirstOrDefault(h => h.TenKH == keyword || h.SoDienThoai == keyword );
 
             if (khachhang == null)
             {
@@ -35,11 +35,11 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/KhachHangs
         public ActionResult Index()
         {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Index", "DangNhap");
-            }
-            return View(db.KhachHang.ToList());
+            //if (Session["User"] == null)
+            //{
+            //    return RedirectToAction("Index", "DangNhap");
+            //}
+            return View(db.KhachHangs.ToList());
         }
 
         // GET: Admin/KhachHangs/Details/5
@@ -50,7 +50,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy khách hàng!";
                 return RedirectToAction("Index");
             }
-            KhachHang khachHang = db.KhachHang.Find(id);
+            KhachHang khachHang = db.KhachHangs.Find(id);
             if (khachHang == null)
             {
                 TempData["ErrorMessage"] = "Không tìm thấy khách hàng!";
@@ -73,7 +73,7 @@ namespace chuyende.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 // Lấy mã KH lớn nhất hiện tại
-                var lastCustomer = db.KhachHang.OrderByDescending(k => k.MaKH).FirstOrDefault();
+                var lastCustomer = db.KhachHangs.OrderByDescending(k => k.MaKH).FirstOrDefault();
                 int newID = 1;
 
                 if (lastCustomer != null)
@@ -87,7 +87,7 @@ namespace chuyende.Areas.Admin.Controllers
 
                 khachHang.MaKH = "KH" + newID.ToString("D3"); // Tạo mã dạng KH001, KH002
 
-                db.KhachHang.Add(khachHang);
+                db.KhachHangs.Add(khachHang);
                 db.SaveChanges();
 
                 TempData["SuccessMessage"] = "Thêm khách hàng thành công!";
@@ -107,7 +107,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy khách hàng!";
                 return RedirectToAction("Index");
             }
-            KhachHang khachHang = db.KhachHang.Find(id);
+            KhachHang khachHang = db.KhachHangs.Find(id);
             if (khachHang == null)
             {
                 TempData["ErrorMessage"] = "Không tìm thấy khách hàng!";
@@ -147,7 +147,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy khách hàng!";
                 return RedirectToAction("Index");
             }
-            KhachHang khachHang = db.KhachHang.Find(id);
+            KhachHang khachHang = db.KhachHangs.Find(id);
             if (khachHang == null)
             {
                 TempData["ErrorMessage"] = "Không tìm thấy khách hàng!";
@@ -163,8 +163,8 @@ namespace chuyende.Areas.Admin.Controllers
         {
             try
             {
-                KhachHang khachHang = db.KhachHang.Find(id);
-                db.KhachHang.Remove(khachHang);
+                KhachHang khachHang = db.KhachHangs.Find(id);
+                db.KhachHangs.Remove(khachHang);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Xóa khách hàng thành công!";
             }
@@ -183,5 +183,6 @@ namespace chuyende.Areas.Admin.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

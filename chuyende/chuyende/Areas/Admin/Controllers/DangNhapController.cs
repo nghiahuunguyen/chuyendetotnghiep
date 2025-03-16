@@ -7,7 +7,7 @@ namespace chuyende.Areas.Admin.Controllers
 {
     public class DangNhapController : Controller
     {
-        private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         public ActionResult Index()
         {
@@ -23,7 +23,7 @@ namespace chuyende.Areas.Admin.Controllers
                 return View();
             }
 
-            var user = db.NhanVien.Include(nv => nv.ChucVu)
+            var user = db.NhanViens.Include(nv => nv.ChucVu)
                                   .FirstOrDefault(nv => nv.TenDN == TenDN && nv.MatKhau == MatKhau);
 
             if (user == null)

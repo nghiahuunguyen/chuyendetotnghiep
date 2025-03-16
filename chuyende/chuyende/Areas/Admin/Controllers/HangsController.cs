@@ -13,7 +13,7 @@ namespace chuyende.Areas.Admin.Controllers
 {
     public class HangsController : Controller
     {
-        private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
         public ActionResult Search(string keyword)
         {
             if (string.IsNullOrEmpty(keyword))
@@ -21,7 +21,7 @@ namespace chuyende.Areas.Admin.Controllers
                 return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
             }
 
-            var hang = db.Hang.FirstOrDefault(h => h.TenHang == keyword || h.TuKhoa == keyword);
+            var hang = db.Hangs.FirstOrDefault(h => h.TenHang == keyword || h.TuKhoa == keyword);
 
             if (hang == null)
             {
@@ -35,11 +35,11 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/Hangs
         public ActionResult Index()
         {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Index", "DangNhap");
-            }
-            return View(db.Hang.ToList());
+            //if (Session["User"] == null)
+            //{
+            //    return RedirectToAction("Index", "DangNhap");
+            //}
+            return View(db.Hangs.ToList());
         }
 
         // GET: Admin/NhaCungCaps/Details/5
@@ -50,7 +50,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã hãng.";
                 return RedirectToAction("Index");
             }
-            Hang hang = db.Hang.Find(id);
+            Hang hang = db.Hangs.Find(id);
             if (hang == null)
             {
                 TempData["ErrorMessage"] = "Hãng không tồn tại.";
@@ -81,7 +81,7 @@ namespace chuyende.Areas.Admin.Controllers
                         Logo.SaveAs(path);
                         hang.Logo = fileName;
                     }
-                    db.Hang.Add(hang);
+                    db.Hangs.Add(hang);
                     db.SaveChanges();
                     TempData["SuccessMessage"] = "Thêm hãng thành công!";
                     return RedirectToAction("Index");
@@ -100,7 +100,7 @@ namespace chuyende.Areas.Admin.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Hang hang = db.Hang.Find(id);
+            Hang hang = db.Hangs.Find(id);
             if (hang == null)
                 return HttpNotFound();
 
@@ -110,13 +110,33 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/Hangs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa")] Hang hang)
+        public ActionResult Edit([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa")] Hang hang, HttpPostedFileBase LogoFile)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Entry(hang).State = EntityState.Modified;
+                    var existingHang = db.Hangs.Find(hang.MaHang);
+                    if (existingHang == null)
+                    {
+                        TempData["ErrorMessage"] = "Không tìm thấy hãng!";
+                        return RedirectToAction("Index");
+                    }
+
+                    // Xử lý cập nhật ảnh nếu người dùng chọn ảnh mới
+                    if (LogoFile != null && LogoFile.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(LogoFile.FileName);
+                        var path = Path.Combine(Server.MapPath("~/img/hang"), fileName);
+                        LogoFile.SaveAs(path);
+                        hang.Logo = fileName; // Cập nhật ảnh mới
+                    }
+                    else
+                    {
+                        hang.Logo = existingHang.Logo; // Giữ ảnh cũ nếu không chọn ảnh mới
+                    }
+
+                    db.Entry(existingHang).CurrentValues.SetValues(hang);
                     db.SaveChanges();
                     TempData["SuccessMessage"] = "Cập nhật hãng thành công!";
                     return RedirectToAction("Index");
@@ -129,13 +149,14 @@ namespace chuyende.Areas.Admin.Controllers
             return View(hang);
         }
 
+
         // GET: Admin/Hangs/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Hang hang = db.Hang.Find(id);
+            Hang hang = db.Hangs.Find(id);
             if (hang == null)
                 return HttpNotFound();
 
@@ -149,8 +170,8 @@ namespace chuyende.Areas.Admin.Controllers
         {
             try
             {
-                Hang hang = db.Hang.Find(id);
-                db.Hang.Remove(hang);
+                Hang hang = db.Hangs.Find(id);
+                db.Hangs.Remove(hang);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Xóa hãng thành công!";
             }

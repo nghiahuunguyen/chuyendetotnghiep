@@ -23,12 +23,11 @@
 
 
     </div>
-    @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên")
-    {
+
         <div class="actions">
             <a href="@Url.Action("Create", "LoaiSanPhams")" class="add-btn">Thêm mới</a>
         </div>
-    }
+    
         
 
     <table>
@@ -49,19 +48,17 @@
                     <td>@Html.DisplayFor(modelItem => item.MaLoaiSP)</td>
                     <td>@Html.DisplayFor(modelItem => item.TenLoaiSP)</td>
                     <td class="action-icons">
-                        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên") { 
                             <a href="@Url.Action("Edit","LoaiSanPhams", new { id = item.MaLoaiSP })">
                                 <i class="fas fa-edit edit"></i>
                             </a>
-                        }
+                        
                         <a href="@Url.Action("Details","LoaiSanPhams", new { id = item.MaLoaiSP })">
                             <i class="fas fa-eye view"></i>
                         </a>
-                        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên") { 
                             <a href="@Url.Action("Delete","LoaiSanPhams", new { id = item.MaLoaiSP })">
                                 <i class="fas fa-trash delete"></i>
                             </a>
-                            }
+                           
                     </td>
                 </tr>
                 stt++;

@@ -61,10 +61,8 @@
                     <td>@Html.DisplayFor(modelItem => item.TenNV)</td>
                     <td>@Html.DisplayFor(modelItem => item.ChucVu.TenCV)</td>
                     <td>
-                        @if (item.GioiTinh.HasValue)
-                        {
-                            <span>@(item.GioiTinh.Value ? "Nam" : "Nữ")</span>
-                        }
+                        <span>@(item.GioiTinh ? "Nam" : "Nữ")</span>
+
                     </td>
                     <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
                     <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>

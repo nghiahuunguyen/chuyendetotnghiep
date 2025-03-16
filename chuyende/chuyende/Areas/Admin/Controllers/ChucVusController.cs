@@ -12,16 +12,16 @@ namespace chuyende.Areas.Admin.Controllers
 {
     public class ChucVusController : Controller
     {
-        private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // GET: Admin/ChucVus
         public ActionResult Index()
         {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Index", "DangNhap");
-            }
-            return View(db.ChucVu.ToList());
+            //if (Session["User"] == null)
+            //{
+            //    return RedirectToAction("Index", "DangNhap");
+            //}
+            return View(db.ChucVus.ToList());
         }
 
         // GET: Admin/ChucVus/Details/5
@@ -32,7 +32,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã chức vụ.";
                 return RedirectToAction("Index");
             }
-            ChucVu chucVu = db.ChucVu.Find(id);
+            ChucVu chucVu = db.ChucVus.Find(id);
             if (chucVu == null)
             {
                 TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
@@ -56,7 +56,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 try
                 {
-                    db.ChucVu.Add(chucVu);
+                    db.ChucVus.Add(chucVu);
                     db.SaveChanges();
                     TempData["SuccessMessage"] = "Thêm chức vụ thành công!";
                     return RedirectToAction("Index");
@@ -81,7 +81,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã chức vụ.";
                 return RedirectToAction("Index");
             }
-            ChucVu chucVu = db.ChucVu.Find(id);
+            ChucVu chucVu = db.ChucVus.Find(id);
             if (chucVu == null)
             {
                 TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
@@ -124,7 +124,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã chức vụ.";
                 return RedirectToAction("Index");
             }
-            ChucVu chucVu = db.ChucVu.Find(id);
+            ChucVu chucVu = db.ChucVus.Find(id);
             if (chucVu == null)
             {
                 TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
@@ -140,13 +140,13 @@ namespace chuyende.Areas.Admin.Controllers
         {
             try
             {
-                ChucVu chucVu = db.ChucVu.Find(id);
+                ChucVu chucVu = db.ChucVus.Find(id);
                 if (chucVu == null)
                 {
                     TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
                     return RedirectToAction("Index");
                 }
-                db.ChucVu.Remove(chucVu);
+                db.ChucVus.Remove(chucVu);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Xóa chức vụ thành công!";
             }

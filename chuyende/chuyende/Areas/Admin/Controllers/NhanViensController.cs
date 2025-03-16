@@ -12,7 +12,7 @@ namespace chuyende.Areas.Admin.Controllers
 {
     public class NhanViensController : Controller
     {
-        private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         public ActionResult Search(string keyword)
         {
@@ -21,7 +21,7 @@ namespace chuyende.Areas.Admin.Controllers
                 return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
             }
 
-            var nhanvien = db.NhanVien.FirstOrDefault(h => h.TenNV == keyword);
+            var nhanvien = db.NhanViens.FirstOrDefault(h => h.TenNV == keyword);
 
             if (nhanvien == null)
             {
@@ -35,11 +35,11 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/NhanViens
         public ActionResult Index()
         {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Index", "DangNhap");
-            }
-            var nhanVien = db.NhanVien.Include(n => n.ChucVu);
+            //if (Session["User"] == null)
+            //{
+            //    return RedirectToAction("Index", "DangNhap");
+            //}
+            var nhanVien = db.NhanViens.Include(n => n.ChucVu);
             return View(nhanVien.ToList());
         }
 
@@ -51,7 +51,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã nhân viên.";
                 return RedirectToAction("Index");
             }
-            NhanVien nhanVien = db.NhanVien.Find(id);
+            NhanVien nhanVien = db.NhanViens.Find(id);
             if (nhanVien == null)
             {
                 TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
@@ -63,21 +63,28 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/NhanViens/Create
         public ActionResult Create()
         {
-            ViewBag.MaCV = new SelectList(db.ChucVu, "MaCV", "TenCV");
+            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV");
             return View();
         }
 
-        // POST: Admin/NhanViens/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaNV,TenNV,SoDienThoai,Email,NgaySinh,GioiTinh,CCCD,DiaChi,TenDN,MatKhau,MaCV")] NhanVien nhanVien)
+        public ActionResult Create([Bind(Include = "TenNV,SoDienThoai,Email,NgaySinh,GioiTinh,CCCD,DiaChi,TenDN,MatKhau,MaCV")] NhanVien nhanVien)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.NhanVien.Add(nhanVien);
+                    // Lấy mã lớn nhất hiện tại
+                    var maxMaNV = db.NhanViens.OrderByDescending(nv => nv.MaNV).Select(nv => nv.MaNV).FirstOrDefault();
+
+                    // Tạo mã mới
+                    int newId = (maxMaNV != null) ? int.Parse(maxMaNV.Substring(2)) + 1 : 1;
+                    nhanVien.MaNV = "NV" + newId.ToString("D3"); // VD: NV001, NV002...
+
+                    db.NhanViens.Add(nhanVien);
                     db.SaveChanges();
+
                     TempData["SuccessMessage"] = "Thêm nhân viên thành công!";
                     return RedirectToAction("Index");
                 }
@@ -91,9 +98,10 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
             }
 
-            ViewBag.MaCV = new SelectList(db.ChucVu, "MaCV", "TenCV", nhanVien.MaCV);
+            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV", nhanVien.MaCV);
             return View(nhanVien);
         }
+
 
         // GET: Admin/NhanViens/Edit/5
         public ActionResult Edit(string id)
@@ -103,13 +111,13 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã nhân viên.";
                 return RedirectToAction("Index");
             }
-            NhanVien nhanVien = db.NhanVien.Find(id);
+            NhanVien nhanVien = db.NhanViens.Find(id);
             if (nhanVien == null)
             {
                 TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
                 return RedirectToAction("Index");
             }
-            ViewBag.MaCV = new SelectList(db.ChucVu, "MaCV", "TenCV", nhanVien.MaCV);
+            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV", nhanVien.MaCV);
             return View(nhanVien);
         }
 
@@ -136,7 +144,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
             }
-            ViewBag.MaCV = new SelectList(db.ChucVu, "MaCV", "TenCV", nhanVien.MaCV);
+            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV", nhanVien.MaCV);
             return View(nhanVien);
         }
 
@@ -148,7 +156,7 @@ namespace chuyende.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "Không tìm thấy mã nhân viên.";
                 return RedirectToAction("Index");
             }
-            NhanVien nhanVien = db.NhanVien.Find(id);
+            NhanVien nhanVien = db.NhanViens.Find(id);
             if (nhanVien == null)
             {
                 TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
@@ -164,13 +172,13 @@ namespace chuyende.Areas.Admin.Controllers
         {
             try
             {
-                NhanVien nhanVien = db.NhanVien.Find(id);
+                NhanVien nhanVien = db.NhanViens.Find(id);
                 if (nhanVien == null)
                 {
                     TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
                     return RedirectToAction("Index");
                 }
-                db.NhanVien.Remove(nhanVien);
+                db.NhanViens.Remove(nhanVien);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Xóa nhân viên thành công!";
             }

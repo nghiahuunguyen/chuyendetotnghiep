@@ -7,7 +7,7 @@ namespace chuyende.Controllers
 {
     public class LoginController : Controller
     {
-        private QuanLyBanDienTuEntities1 db = new QuanLyBanDienTuEntities1();
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // GET: Login
         public ActionResult Index()
@@ -26,7 +26,7 @@ namespace chuyende.Controllers
             }
 
             // Kiểm tra email/số điện thoại hợp lệ trong DB
-            var user = db.KhachHang.FirstOrDefault(k => (k.Email == email || k.SoDienThoai == email) && k.MatKhau == password);
+            var user = db.KhachHangs.FirstOrDefault(k => (k.Email == email || k.SoDienThoai == email) && k.MatKhau == password);
 
             if (user != null)
             {

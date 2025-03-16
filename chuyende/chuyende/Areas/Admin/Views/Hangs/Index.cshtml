@@ -33,12 +33,10 @@
                 <i class="fas fa-search"></i> Tìm kiếm
             </button>
         }
-        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên")
-        {
             <div class="actions">
                 <a href="@Url.Action("Create", "Hangs")" class="add-btn">Thêm mới</a>
             </div>
-        }
+        
     </div>
     
 
@@ -74,21 +72,15 @@
 
                     <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
                     <td class="action-icons">
-                        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên")
-                        {
                             <a href="@Url.Action("Edit", "Hangs", new { id = item.MaHang })">
                                 <i class="fas fa-edit edit"></i>
                             </a>
-                        }
                         <a href="@Url.Action("Details","Hangs", new { id = item.MaHang })">
                             <i class="fas fa-eye view"></i>
                         </a>
-                        @if (Session["ChucVu"].ToString() == "nv" && Session["ChucVu"].ToString() != "Nhân Viên")
-                        {
                             <a href="@Url.Action("Delete", "Hangs", new { id = item.MaHang })">
                                 <i class="fas fa-trash delete"></i>
                             </a>
-                        }
                     </td>
                 </tr>
                 stt++;
