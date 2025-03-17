@@ -142,9 +142,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202503161550402_InitialCreate.cs" />
-    <Compile Include="Migrations\202503161550402_InitialCreate.Designer.cs">
-      <DependentUpon>202503161550402_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202503170242429_InitialCreate.cs" />
+    <Compile Include="Migrations\202503170242429_InitialCreate.Designer.cs">
+      <DependentUpon>202503170242429_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
@@ -184,7 +184,7 @@
     <Content Include="img\logo\logo.png" />
     <Content Include="img\sanpham\iphone.png" />
     <Content Include="img\sanpham\SamsungGalaxyS25Ultra.jpg" />
-    <Content Include="Public\css\Admin\admin.css" />
+    <Content Include="Public\css\Admin\cssadmin.css" />
     <Content Include="Public\css\Admin\Detailssp.css" />
     <Content Include="Public\css\Admin\layoutadmin.css" />
     <Content Include="Public\css\Admin\login.css" />
@@ -226,6 +226,8 @@
     <Content Include="Areas\Admin\Views\Hangs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Hangs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Hangs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ChucVus\Trash.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanViens\Trash.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -283,8 +285,8 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503161550402_InitialCreate.resx">
-      <DependentUpon>202503161550402_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503170242429_InitialCreate.resx">
+      <DependentUpon>202503170242429_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

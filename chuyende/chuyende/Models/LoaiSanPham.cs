@@ -14,6 +14,7 @@ namespace chuyende.Models
         public string MaLoaiSP { get; set; }
         [Required(ErrorMessage = "Tên loại sản phẩm không được để trống"), StringLength(255)]
         public string TenLoaiSP { get; set; }
+        public int Status { get; set; }
         public virtual ICollection<SanPham> SanPhams { get; set; }
     }
 }

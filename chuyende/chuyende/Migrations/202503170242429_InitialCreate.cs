@@ -24,6 +24,7 @@
                     {
                         MaCV = c.String(nullable: false, maxLength: 128),
                         TenCV = c.String(nullable: false, maxLength: 255),
+                        Status = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.MaCV);
             
@@ -38,6 +39,7 @@
                         Email = c.String(),
                         DiaChi = c.String(),
                         TuKhoa = c.String(),
+                        Status = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.MaHang);
             
@@ -82,6 +84,7 @@
                     {
                         MaLoaiSP = c.String(nullable: false, maxLength: 128),
                         TenLoaiSP = c.String(nullable: false, maxLength: 255),
+                        Status = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.MaLoaiSP);
             
@@ -114,6 +117,7 @@
                         Email = c.String(nullable: false),
                         DiaChi = c.String(nullable: false, maxLength: 500),
                         MatKhau = c.String(nullable: false),
+                        Status = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.MaKH);
             
@@ -132,6 +136,7 @@
                         TenDN = c.String(nullable: false, maxLength: 255),
                         MatKhau = c.String(nullable: false),
                         MaCV = c.String(nullable: false, maxLength: 128),
+                        Status = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.MaNV)
                 .ForeignKey("dbo.ChucVu", t => t.MaCV, cascadeDelete: true)

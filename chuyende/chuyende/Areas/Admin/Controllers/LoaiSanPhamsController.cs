@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using chuyende.Models;
 
@@ -14,169 +10,133 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        // GET: Admin/LoaiSanPhams
-        public ActionResult Index()
+        // Danh sách loại sản phẩm theo trạng thái (mặc định là đang hoạt động)
+        public ActionResult Index(int status = 1)
         {
-            //if (Session["User"] == null)
-            //{
-            //    return RedirectToAction("Index", "DangNhap");
-            //}
-            return View(db.LoaiSanPhams.ToList());
+            var loaiSanPhams = db.LoaiSanPhams.Where(lsp => lsp.Status == status).ToList();
+            return View(loaiSanPhams);
         }
 
-        // GET: Admin/LoaiSanPhams/Details/5
+        // Hiển thị chi tiết loại sản phẩm
         public ActionResult Details(string id)
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã loại sản phẩm.";
-                return RedirectToAction("Index");
-            }
+            if (id == null) return RedirectToAction("Index");
             LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
-            if (loaiSanPham == null)
-            {
-                TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
-                return RedirectToAction("Index");
-            }
+            if (loaiSanPham == null || loaiSanPham.Status == 0) return RedirectToAction("Index");
             return View(loaiSanPham);
         }
 
-        // GET: Admin/LoaiSanPhams/Create
+        // Hiển thị form tạo loại sản phẩm mới
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/LoaiSanPhams/Create
+        // Xử lý tạo loại sản phẩm
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TenLoaiSP")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    // Lấy mã loại sản phẩm lớn nhất hiện tại theo format "LSP001"
-                    var lastLoaiSP = db.LoaiSanPhams
-                                       .Where(lsp => lsp.MaLoaiSP.StartsWith("LSP"))
-                                       .OrderByDescending(lsp => lsp.MaLoaiSP)
-                                       .Select(lsp => lsp.MaLoaiSP)
-                                       .FirstOrDefault();
-
-                    int newId = 1; // Mặc định nếu bảng rỗng
-
-                    if (!string.IsNullOrEmpty(lastLoaiSP) && lastLoaiSP.Length >= 6)
-                    {
-                        string numberPart = lastLoaiSP.Substring(3); // Lấy phần số
-                        if (int.TryParse(numberPart, out int lastId))
-                        {
-                            newId = lastId + 1; // Tăng lên 1
-                        }
-                    }
-
-                    loaiSanPham.MaLoaiSP = "LSP" + newId.ToString("D3"); // Format LSP001, LSP002,...
-
-                    db.LoaiSanPhams.Add(loaiSanPham);
-                    db.SaveChanges();
-
-                    TempData["SuccessMessage"] = "Thêm loại sản phẩm thành công!";
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    TempData["ErrorMessage"] = "Thêm loại sản phẩm không thành công. Lỗi: " + ex.Message;
-                }
+                var maxMaLoaiSP = db.LoaiSanPhams.OrderByDescending(lsp => lsp.MaLoaiSP).Select(lsp => lsp.MaLoaiSP).FirstOrDefault();
+                int newId = (maxMaLoaiSP != null) ? int.Parse(maxMaLoaiSP.Substring(3)) + 1 : 1;
+                loaiSanPham.MaLoaiSP = "LSP" + newId.ToString("D3");
+                loaiSanPham.Status = 1;
+                db.LoaiSanPhams.Add(loaiSanPham);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
-            }
-
             return View(loaiSanPham);
         }
 
-        // GET: Admin/LoaiSanPhams/Edit/5
+        // Hiển thị form chỉnh sửa loại sản phẩm
         public ActionResult Edit(string id)
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã loại sản phẩm.";
-                return RedirectToAction("Index");
-            }
+            if (id == null) return RedirectToAction("Index");
             LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
-            if (loaiSanPham == null)
-            {
-                TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
-                return RedirectToAction("Index");
-            }
+            if (loaiSanPham == null) return RedirectToAction("Index");
             return View(loaiSanPham);
         }
 
-        // POST: Admin/LoaiSanPhams/Edit/5
+        // Xử lý chỉnh sửa loại sản phẩm hoặc chuyển vào thùng rác
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaLoaiSP,TenLoaiSP")] LoaiSanPham loaiSanPham)
+        public ActionResult Edit(LoaiSanPham loaiSanPham, string actionType)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.Entry(loaiSanPham).State = EntityState.Modified;
-                    db.SaveChanges();
-                    TempData["SuccessMessage"] = "Cập nhật loại sản phẩm thành công!";
-                    return RedirectToAction("Index");
+                    if (actionType == "trash")
+                    {
+                        loaiSanPham.Status = 0;
+                        db.Entry(loaiSanPham).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Trash");
+                    }
+                    else
+                    {
+                        db.Entry(loaiSanPham).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
                 }
                 catch (Exception)
                 {
-                    TempData["ErrorMessage"] = "Cập nhật loại sản phẩm không thành công.";
+                    TempData["ErrorMessage"] = "Cập nhật không thành công.";
                 }
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
-            }
             return View(loaiSanPham);
         }
 
-        // GET: Admin/LoaiSanPhams/Delete/5
-        public ActionResult Delete(string id)
+        // Danh sách loại sản phẩm trong thùng rác
+        public ActionResult Trash()
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã loại sản phẩm.";
-                return RedirectToAction("Index");
-            }
-            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
-            if (loaiSanPham == null)
-            {
-                TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
-                return RedirectToAction("Index");
-            }
-            return View(loaiSanPham);
+            var deletedLoaiSanPhams = db.LoaiSanPhams.Where(lsp => lsp.Status == 0).ToList();
+            return View(deletedLoaiSanPhams);
         }
 
-        // POST: Admin/LoaiSanPhams/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // Chuyển loại sản phẩm vào thùng rác
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult MoveToTrash(string id)
         {
-            try
+            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
+            if (loaiSanPham != null)
             {
-                LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
-                if (loaiSanPham == null)
-                {
-                    TempData["ErrorMessage"] = "Loại sản phẩm không tồn tại.";
-                    return RedirectToAction("Index");
-                }
-                db.LoaiSanPhams.Remove(loaiSanPham);
+                loaiSanPham.Status = 0;
                 db.SaveChanges();
-                TempData["SuccessMessage"] = "Xóa loại sản phẩm thành công!";
-            }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "Xóa loại sản phẩm không thành công.";
             }
             return RedirectToAction("Index");
+        }
+
+        // Khôi phục loại sản phẩm từ thùng rác
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Restore(string id)
+        {
+            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
+            if (loaiSanPham != null)
+            {
+                loaiSanPham.Status = 1;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Trash");
+        }
+
+        // Xóa vĩnh viễn loại sản phẩm
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteForever(string id)
+        {
+            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
+            if (loaiSanPham != null)
+            {
+                db.LoaiSanPhams.Remove(loaiSanPham);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Trash");
         }
 
         protected override void Dispose(bool disposing)

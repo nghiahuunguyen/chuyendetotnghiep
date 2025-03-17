@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using chuyende.Models;
 
@@ -14,56 +11,28 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        public ActionResult Search(string keyword)
+        public ActionResult Index(string status = "Active")
         {
-            if (string.IsNullOrEmpty(keyword))
-            {
-                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
-            }
+            var nhanViens = db.NhanViens.AsQueryable();
+            if (status == "Active")
+                nhanViens = nhanViens.Where(nv => nv.Status == 1);
+            else if (status == "Deleted")
+                nhanViens = nhanViens.Where(nv => nv.Status == 0);
 
-            var nhanvien = db.NhanViens.FirstOrDefault(h => h.TenNV == keyword);
-
-            if (nhanvien == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy hãng nào phù hợp.";
-                return RedirectToAction("Index");
-            }
-
-            return View("Index", new List<NhanVien> { nhanvien }); 
+            return View(nhanViens.ToList());
         }
 
-        // GET: Admin/NhanViens
-        public ActionResult Index()
-        {
-            //if (Session["User"] == null)
-            //{
-            //    return RedirectToAction("Index", "DangNhap");
-            //}
-            var nhanVien = db.NhanViens.Include(n => n.ChucVu);
-            return View(nhanVien.ToList());
-        }
-
-        // GET: Admin/NhanViens/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã nhân viên.";
-                return RedirectToAction("Index");
-            }
+            if (id == null) return RedirectToAction("Index");
             NhanVien nhanVien = db.NhanViens.Find(id);
-            if (nhanVien == null)
-            {
-                TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
-                return RedirectToAction("Index");
-            }
+            if (nhanVien == null) return RedirectToAction("Index");
             return View(nhanVien);
         }
 
-        // GET: Admin/NhanViens/Create
         public ActionResult Create()
         {
-            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV");
+            ViewBag.MaCV = new SelectList(db.ChucVus.Where(cv => cv.Status == 1), "MaCV", "TenCV");
             return View();
         }
 
@@ -73,121 +42,131 @@ namespace chuyende.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    // Lấy mã lớn nhất hiện tại
-                    var maxMaNV = db.NhanViens.OrderByDescending(nv => nv.MaNV).Select(nv => nv.MaNV).FirstOrDefault();
-
-                    // Tạo mã mới
-                    int newId = (maxMaNV != null) ? int.Parse(maxMaNV.Substring(2)) + 1 : 1;
-                    nhanVien.MaNV = "NV" + newId.ToString("D3"); // VD: NV001, NV002...
-
-                    db.NhanViens.Add(nhanVien);
-                    db.SaveChanges();
-
-                    TempData["SuccessMessage"] = "Thêm nhân viên thành công!";
-                    return RedirectToAction("Index");
-                }
-                catch (Exception)
-                {
-                    TempData["ErrorMessage"] = "Thêm nhân viên không thành công.";
-                }
+                var maxMaNV = db.NhanViens.OrderByDescending(nv => nv.MaNV).Select(nv => nv.MaNV).FirstOrDefault();
+                int newId = (maxMaNV != null) ? int.Parse(maxMaNV.Substring(2)) + 1 : 1;
+                nhanVien.MaNV = "NV" + newId.ToString("D3");
+                nhanVien.Status = 1;
+                db.NhanViens.Add(nhanVien);
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Thêm nhân viên thành công!";
+                return RedirectToAction("Index");
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
-            }
-
-            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV", nhanVien.MaCV);
+            ViewBag.MaCV = new SelectList(db.ChucVus.Where(cv => cv.Status == 1), "MaCV", "TenCV", nhanVien.MaCV);
             return View(nhanVien);
         }
 
-
-        // GET: Admin/NhanViens/Edit/5
         public ActionResult Edit(string id)
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã nhân viên.";
-                return RedirectToAction("Index");
-            }
+            if (id == null) return RedirectToAction("Index");
             NhanVien nhanVien = db.NhanViens.Find(id);
-            if (nhanVien == null)
-            {
-                TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
-                return RedirectToAction("Index");
-            }
+            if (nhanVien == null) return RedirectToAction("Index");
             ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV", nhanVien.MaCV);
             return View(nhanVien);
         }
 
-        // POST: Admin/NhanViens/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MaNV,TenNV,SoDienThoai,Email,NgaySinh,GioiTinh,CCCD,DiaChi,TenDN,MatKhau,MaCV")] NhanVien nhanVien)
         {
             if (ModelState.IsValid)
             {
-                try
+                var existingNhanVien = db.NhanViens.Find(nhanVien.MaNV);
+                if (existingNhanVien != null)
                 {
-                    db.Entry(nhanVien).State = EntityState.Modified;
+                    existingNhanVien.TenNV = nhanVien.TenNV;
+                    existingNhanVien.SoDienThoai = nhanVien.SoDienThoai;
+                    existingNhanVien.Email = nhanVien.Email;
+                    existingNhanVien.NgaySinh = nhanVien.NgaySinh;
+                    existingNhanVien.GioiTinh = nhanVien.GioiTinh;
+                    existingNhanVien.CCCD = nhanVien.CCCD;
+                    existingNhanVien.DiaChi = nhanVien.DiaChi;
+                    existingNhanVien.TenDN = nhanVien.TenDN;
+                    existingNhanVien.MatKhau = nhanVien.MatKhau;
+                    existingNhanVien.MaCV = nhanVien.MaCV;
                     db.SaveChanges();
-                    TempData["SuccessMessage"] = "Cập nhật thông tin nhân viên thành công!";
-                    return RedirectToAction("Index");
+                    TempData["SuccessMessage"] = "Cập nhật nhân viên thành công!";
                 }
-                catch (Exception)
-                {
-                    TempData["ErrorMessage"] = "Cập nhật thông tin nhân viên không thành công.";
-                }
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
-            }
-            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV", nhanVien.MaCV);
-            return View(nhanVien);
-        }
-
-        // GET: Admin/NhanViens/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã nhân viên.";
-                return RedirectToAction("Index");
-            }
-            NhanVien nhanVien = db.NhanViens.Find(id);
-            if (nhanVien == null)
-            {
-                TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
                 return RedirectToAction("Index");
             }
             return View(nhanVien);
         }
 
-        // POST: Admin/NhanViens/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult MoveToTrash(string id)
         {
-            try
+            NhanVien nhanVien = db.NhanViens.Find(id);
+            if (nhanVien != null)
             {
-                NhanVien nhanVien = db.NhanViens.Find(id);
-                if (nhanVien == null)
-                {
-                    TempData["ErrorMessage"] = "Nhân viên không tồn tại.";
-                    return RedirectToAction("Index");
-                }
-                db.NhanViens.Remove(nhanVien);
+                nhanVien.Status = 0;
                 db.SaveChanges();
-                TempData["SuccessMessage"] = "Xóa nhân viên thành công!";
-            }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "Xóa nhân viên không thành công.";
+                TempData["WarningMessage"] = "Nhân viên đã được chuyển vào thùng rác.";
             }
             return RedirectToAction("Index");
         }
+
+        public ActionResult Trash()
+        {
+            var deletedNhanViens = db.NhanViens.Where(nv => nv.Status == 0).ToList();
+            return View(deletedNhanViens);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Restore(string id)
+        {
+            NhanVien nhanVien = db.NhanViens.Find(id);
+            if (nhanVien != null)
+            {
+                nhanVien.Status = 1;
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Nhân viên đã được khôi phục!";
+            }
+            return RedirectToAction("Trash");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteForever(string id)
+        {
+            NhanVien nhanVien = db.NhanViens.Find(id);
+            if (nhanVien != null)
+            {
+                db.NhanViens.Remove(nhanVien);
+                db.SaveChanges();
+                TempData["ErrorMessage"] = "Nhân viên đã bị xóa vĩnh viễn.";
+            }
+            return RedirectToAction("Trash");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RestoreAll()
+        {
+            var deletedNhanViens = db.NhanViens.Where(nv => nv.Status == 0).ToList();
+            foreach (var nhanVien in deletedNhanViens)
+            {
+                nhanVien.Status = 1; // Đặt lại trạng thái hoạt động
+            }
+            db.SaveChanges();
+            TempData["SuccessMessage"] = "Tất cả nhân viên đã được khôi phục!";
+            return RedirectToAction("Index"); // Chuyển hướng về danh sách nhân viên
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteAllForever()
+        {
+            var deletedNhanViens = db.NhanViens.Where(nv => nv.Status == 0).ToList();
+            if (deletedNhanViens.Any())
+            {
+                db.NhanViens.RemoveRange(deletedNhanViens); // Xóa tất cả nhân viên trong thùng rác
+                db.SaveChanges();
+                TempData["ErrorMessage"] = "Tất cả nhân viên đã bị xóa vĩnh viễn.";
+            }
+            return RedirectToAction("Index"); // Chuyển hướng về danh sách nhân viên
+        }
+
 
         protected override void Dispose(bool disposing)
         {

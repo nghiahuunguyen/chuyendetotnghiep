@@ -91,14 +91,30 @@ table {
     }
 
 .action-icons {
-    gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Đẩy nút vào gần hơn */
+    gap: 5px; /* Giảm khoảng cách giữa các nút */
+    padding-left: 10px; /* Đẩy nút vào trong ô */
 }
-    .action-icons i {
-        padding: 8px;
-        border-radius: 5px;
-        cursor: pointer;
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; /* Giảm kích thước */
+    height: 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+    .btn-icon i {
+        font-size: 14px; /* Giảm kích thước icon */
         color: white;
     }
+
 
 .edit {
     background: #007bff;
@@ -117,12 +133,24 @@ table {
     justify-content: flex-end; /* Đặt các phần tử con (nút) vào bên phải */
 }
 
+.add-btn, .trash-btn {
+    padding: 6px 10px; /* Giảm padding để thu nhỏ nút */
+    font-size: 15px; /* Giảm kích thước chữ */
+    border-radius: 4px;
+}
+
+.add-btn i, .trash-btn i {
+    font-size: 11px; /* Giảm kích thước icon */
+}
+
 .add-btn {
-    background-color: #4CAF50; /* Màu xanh */
-    color: white; /* Màu chữ trắng */
-    padding: 10px 20px; /* Thêm khoảng cách cho nút */
-    text-decoration: none; /* Bỏ gạch chân */
-    border-radius: 5px; /* Bo góc nút */
+    background-color: #28a745; /* Màu xanh */
+    color: white;
+}
+
+.trash-btn {
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
 }
 
 .delete {
@@ -133,10 +161,12 @@ table {
     color: white; /* Màu chữ trắng */
     border: none; /* Bỏ viền */
 }
+
     .delete:hover {
         background-color: #d32f2f; /* Màu nền thay đổi khi hover */
     }
-    .custom-alert-success {
+
+.custom-alert-success {
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;

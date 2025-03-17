@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using chuyende.Models;
 
@@ -14,149 +11,156 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        // GET: Admin/ChucVus
-        public ActionResult Index()
+        // Hiển thị danh sách chức vụ
+        public ActionResult Index(string status = "Active")
         {
-            //if (Session["User"] == null)
-            //{
-            //    return RedirectToAction("Index", "DangNhap");
-            //}
-            return View(db.ChucVus.ToList());
+            var chucVus = db.ChucVus.AsQueryable();
+            if (status == "Active")
+            {
+                chucVus = chucVus.Where(m => m.Status == 1);
+            }
+            else if (status == "Deleted")
+            {
+                chucVus = chucVus.Where(m => m.Status == 0);
+            }
+            return View(chucVus.ToList());
         }
 
-        // GET: Admin/ChucVus/Details/5
+        // Xem chi tiết chức vụ
         public ActionResult Details(string id)
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã chức vụ.";
-                return RedirectToAction("Index");
-            }
+            if (id == null) return RedirectToAction("Index");
             ChucVu chucVu = db.ChucVus.Find(id);
-            if (chucVu == null)
-            {
-                TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
-                return RedirectToAction("Index");
-            }
+            if (chucVu == null) return RedirectToAction("Index");
             return View(chucVu);
         }
 
-        // GET: Admin/ChucVus/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        // Hiển thị form thêm mới
+        public ActionResult Create() => View();
 
-        // POST: Admin/ChucVus/Create
+        // Xử lý thêm mới
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MaCV,TenCV")] ChucVu chucVu)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    db.ChucVus.Add(chucVu);
-                    db.SaveChanges();
-                    TempData["SuccessMessage"] = "Thêm chức vụ thành công!";
-                    return RedirectToAction("Index");
-                }
-                catch (Exception)
-                {
-                    TempData["ErrorMessage"] = "Thêm chức vụ không thành công.";
-                }
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
+                chucVu.Status = 1;
+                db.ChucVus.Add(chucVu);
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Chức vụ đã được thêm thành công!";
+                return RedirectToAction("Index");
             }
             return View(chucVu);
         }
 
-        // GET: Admin/ChucVus/Edit/5
+        // Hiển thị form chỉnh sửa
         public ActionResult Edit(string id)
         {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã chức vụ.";
-                return RedirectToAction("Index");
-            }
+            if (id == null) return RedirectToAction("Index");
             ChucVu chucVu = db.ChucVus.Find(id);
-            if (chucVu == null)
-            {
-                TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
-                return RedirectToAction("Index");
-            }
+            if (chucVu == null) return RedirectToAction("Index");
             return View(chucVu);
         }
 
-        // POST: Admin/ChucVus/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MaCV,TenCV")] ChucVu chucVu)
         {
             if (ModelState.IsValid)
             {
-                try
+                var existingChucVu = db.ChucVus.Find(chucVu.MaCV);
+                if (existingChucVu != null)
                 {
-                    db.Entry(chucVu).State = EntityState.Modified;
+                    existingChucVu.TenCV = chucVu.TenCV;
                     db.SaveChanges();
-                    TempData["SuccessMessage"] = "Cập nhật chức vụ thành công!";
-                    return RedirectToAction("Index");
+                    TempData["SuccessMessage"] = "Chức vụ đã được cập nhật!";
                 }
-                catch (Exception)
-                {
-                    TempData["ErrorMessage"] = "Cập nhật chức vụ không thành công.";
-                }
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
-            }
-            return View(chucVu);
-        }
-
-        // GET: Admin/ChucVus/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã chức vụ.";
-                return RedirectToAction("Index");
-            }
-            ChucVu chucVu = db.ChucVus.Find(id);
-            if (chucVu == null)
-            {
-                TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
                 return RedirectToAction("Index");
             }
             return View(chucVu);
         }
 
-        // POST: Admin/ChucVus/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // Chuyển chức vụ vào thùng rác
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult MoveToTrash(string id)
         {
-            try
+            ChucVu chucVu = db.ChucVus.Find(id);
+            if (chucVu != null)
             {
-                ChucVu chucVu = db.ChucVus.Find(id);
-                if (chucVu == null)
-                {
-                    TempData["ErrorMessage"] = "Chức vụ không tồn tại.";
-                    return RedirectToAction("Index");
-                }
-                db.ChucVus.Remove(chucVu);
+                chucVu.Status = 0;
                 db.SaveChanges();
-                TempData["SuccessMessage"] = "Xóa chức vụ thành công!";
-            }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "Xóa chức vụ không thành công.";
+                TempData["WarningMessage"] = "Chức vụ đã được chuyển vào thùng rác.";
             }
             return RedirectToAction("Index");
         }
 
+        // Hiển thị danh sách chức vụ trong thùng rác
+        public ActionResult Trash()
+        {
+            var deletedChucVus = db.ChucVus.Where(m => m.Status == 0).ToList();
+            return View(deletedChucVus);
+        }
+
+        // Khôi phục chức vụ từ thùng rác
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Restore(string id)
+        {
+            ChucVu chucVu = db.ChucVus.Find(id);
+            if (chucVu != null)
+            {
+                chucVu.Status = 1;
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Chức vụ đã được khôi phục!";
+            }
+            return RedirectToAction("Trash");
+        }
+
+        // Xóa vĩnh viễn một chức vụ
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteForever(string id)
+        {
+            ChucVu chucVu = db.ChucVus.Find(id);
+            if (chucVu != null)
+            {
+                db.ChucVus.Remove(chucVu);
+                db.SaveChanges();
+                TempData["ErrorMessage"] = "Chức vụ đã bị xóa vĩnh viễn!";
+            }
+            return RedirectToAction("Trash");
+        }
+
+        // Khôi phục tất cả chức vụ từ thùng rác
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RestoreAll()
+        {
+            var deletedChucVus = db.ChucVus.Where(m => m.Status == 0).ToList();
+            foreach (var chucVu in deletedChucVus)
+            {
+                chucVu.Status = 1;
+            }
+            db.SaveChanges();
+            TempData["SuccessMessage"] = "Tất cả chức vụ đã được khôi phục!";
+            return RedirectToAction("Trash");
+        }
+
+        // Xóa tất cả chức vụ trong thùng rác vĩnh viễn
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteAllForever()
+        {
+            var deletedChucVus = db.ChucVus.Where(m => m.Status == 0).ToList();
+            db.ChucVus.RemoveRange(deletedChucVus);
+            db.SaveChanges();
+            TempData["ErrorMessage"] = "Tất cả chức vụ đã bị xóa vĩnh viễn!";
+            return RedirectToAction("Trash");
+        }
+
+        // Giải phóng bộ nhớ
         protected override void Dispose(bool disposing)
         {
             if (disposing)

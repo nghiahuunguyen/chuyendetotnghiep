@@ -37,7 +37,6 @@ namespace chuyende.Models
         public string CamSau { get; set; }
         public string Mau { get; set; }
         public string KetNoi { get; set; }
-        [Required]
         public int Status { get; set; }
 
         public virtual Hang Hang { get; set; }

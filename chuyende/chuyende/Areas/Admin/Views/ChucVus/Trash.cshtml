@@ -1,0 +1,69 @@
+﻿@model List<chuyende.Models.ChucVu>
+
+@{
+    ViewBag.Title = "Thùng rác ";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Thùng rác chức vụ</h3>
+
+    <div class="form-actions d-flex justify-content-end gap-2 mb-3">
+        @using (Html.BeginForm("RestoreAll", "ChucVus", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-recycle"></i> Khôi phục tất cả
+            </button>
+        }
+
+        @using (Html.BeginForm("DeleteAllForever", "ChucVus", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i> Xóa tất cả vĩnh viễn
+            </button>
+        }
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên chức vụ</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TenCV</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            @using (Html.BeginForm("Restore", "ChucVus", new { id = item.MaCV }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-undo"></i> Khôi phục
+                                </button>
+                            }
+
+                            @using (Html.BeginForm("DeleteForever", "ChucVus", new { id = item.MaCV }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Xóa vĩnh viễn
+                                </button>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class="form-actions">
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "ChucVus")'">Hủy</button>
+    </div>
+</div>

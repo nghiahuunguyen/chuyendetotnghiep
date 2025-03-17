@@ -30,6 +30,7 @@ namespace chuyende.Models
         public string MatKhau { get; set; }
         [Required]
         public string MaCV { get; set; }
+        public int Status { get; set; }
         public virtual ICollection<HoaDon> HoaDons { get; set; }
         public virtual ChucVu ChucVu { get; set; }
     }

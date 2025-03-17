@@ -23,6 +23,7 @@ namespace chuyende.Models
         public string DiaChi { get; set; }
         [Required]
         public string MatKhau { get; set; }
+        public int Status { get; set; }
         public virtual ICollection<HoaDon> HoaDons { get; set; }
     }
 }

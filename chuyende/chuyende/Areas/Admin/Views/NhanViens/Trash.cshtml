@@ -1,0 +1,69 @@
+﻿@model IEnumerable<chuyende.Models.NhanVien>
+
+@{
+    ViewBag.Title = "Thùng rác nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="table-container">
+    <h3>Thùng rác nhân viên</h3>
+    <div class="form-actions d-flex justify-content-end gap-2 mb-3">
+        @using (Html.BeginForm("RestoreAll", "NhanViens", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-recycle"></i> Khôi phục tất cả
+            </button>
+        }
+
+        @using (Html.BeginForm("DeleteAllForever", "NhanViens", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i> Xóa tất cả vĩnh viễn
+            </button>
+        }
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mã NV</th>
+                <th>Tên Nhân Viên</th>
+                <th>Email</th>
+                <th>Số Điện Thoại</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaNV</td>
+                    <td>@item.TenNV</td>
+                    <td>@item.Email</td>
+                    <td>@item.SoDienThoai</td>
+                    <td>
+                        <form action="@Url.Action("Restore", "NhanViens")" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.MaNV" />
+                            <button type="submit" class="btn btn-success btn-sm">Khôi phục</button>
+                        </form>
+
+                        <form action="@Url.Action("DeleteForever", "NhanViens")" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.MaNV" />
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa vĩnh viễn</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "NhanViens")'">Hủy</button>
+    </div>
+</div>
+    
+
