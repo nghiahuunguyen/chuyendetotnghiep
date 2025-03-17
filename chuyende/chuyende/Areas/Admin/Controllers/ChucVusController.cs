@@ -128,7 +128,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 db.ChucVus.Remove(chucVu);
                 db.SaveChanges();
-                TempData["ErrorMessage"] = "Chức vụ đã bị xóa vĩnh viễn!";
+                TempData["SuccessMessage"] = "Chức vụ đã bị xóa vĩnh viễn!";
             }
             return RedirectToAction("Trash");
         }
@@ -145,7 +145,7 @@ namespace chuyende.Areas.Admin.Controllers
             }
             db.SaveChanges();
             TempData["SuccessMessage"] = "Tất cả chức vụ đã được khôi phục!";
-            return RedirectToAction("Trash");
+            return RedirectToAction("Index");
         }
 
         // Xóa tất cả chức vụ trong thùng rác vĩnh viễn
@@ -156,8 +156,8 @@ namespace chuyende.Areas.Admin.Controllers
             var deletedChucVus = db.ChucVus.Where(m => m.Status == 0).ToList();
             db.ChucVus.RemoveRange(deletedChucVus);
             db.SaveChanges();
-            TempData["ErrorMessage"] = "Tất cả chức vụ đã bị xóa vĩnh viễn!";
-            return RedirectToAction("Trash");
+            TempData["SuccessMessage"] = "Tất cả chức vụ đã bị xóa vĩnh viễn!";
+            return RedirectToAction("Index");
         }
 
         // Giải phóng bộ nhớ

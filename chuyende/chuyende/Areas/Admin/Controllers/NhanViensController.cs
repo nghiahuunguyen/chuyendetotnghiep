@@ -42,18 +42,26 @@ namespace chuyende.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var maxMaNV = db.NhanViens.OrderByDescending(nv => nv.MaNV).Select(nv => nv.MaNV).FirstOrDefault();
-                int newId = (maxMaNV != null) ? int.Parse(maxMaNV.Substring(2)) + 1 : 1;
-                nhanVien.MaNV = "NV" + newId.ToString("D3");
-                nhanVien.Status = 1;
+                // Lấy mã NV lớn nhất hiện tại, nếu không có thì bắt đầu từ NV001
+                var lastNhanVien = db.NhanViens.OrderByDescending(nv => nv.MaNV).FirstOrDefault();
+                int newId = (lastNhanVien != null && lastNhanVien.MaNV.StartsWith("NV"))
+                    ? int.Parse(lastNhanVien.MaNV.Substring(2)) + 1
+                    : 1;
+
+                // Gán mã mới với format NV001, NV002, ...
+                nhanVien.MaNV = $"NV{newId:D3}";
+                nhanVien.Status = 1; // Đánh dấu nhân viên đang hoạt động
+
                 db.NhanViens.Add(nhanVien);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Thêm nhân viên thành công!";
                 return RedirectToAction("Index");
             }
+
             ViewBag.MaCV = new SelectList(db.ChucVus.Where(cv => cv.Status == 1), "MaCV", "TenCV", nhanVien.MaCV);
             return View(nhanVien);
         }
+
 
         public ActionResult Edit(string id)
         {
@@ -134,7 +142,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 db.NhanViens.Remove(nhanVien);
                 db.SaveChanges();
-                TempData["ErrorMessage"] = "Nhân viên đã bị xóa vĩnh viễn.";
+                TempData["SuccessMessage"] = "Nhân viên đã bị xóa vĩnh viễn.";
             }
             return RedirectToAction("Trash");
         }
@@ -162,7 +170,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 db.NhanViens.RemoveRange(deletedNhanViens); // Xóa tất cả nhân viên trong thùng rác
                 db.SaveChanges();
-                TempData["ErrorMessage"] = "Tất cả nhân viên đã bị xóa vĩnh viễn.";
+                TempData["SuccessMessage"] = "Tất cả nhân viên đã bị xóa vĩnh viễn.";
             }
             return RedirectToAction("Index"); // Chuyển hướng về danh sách nhân viên
         }

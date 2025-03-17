@@ -228,6 +228,7 @@
     <Content Include="Areas\Admin\Views\Hangs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ChucVus\Trash.cshtml" />
     <Content Include="Areas\Admin\Views\NhanViens\Trash.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiSanPhams\Trash.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

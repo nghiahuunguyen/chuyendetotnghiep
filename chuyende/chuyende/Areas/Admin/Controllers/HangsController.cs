@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -14,66 +13,60 @@ namespace chuyende.Areas.Admin.Controllers
     public class HangsController : Controller
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
-        public ActionResult Search(string keyword)
+
+        public ActionResult Index(string status = "Active", string keyword = "")
         {
-            if (string.IsNullOrEmpty(keyword))
+            var hangs = db.Hangs.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
             {
-                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+                hangs = hangs.Where(h => h.TenHang.Contains(keyword) || h.TuKhoa.Contains(keyword));
             }
 
-            var hang = db.Hangs.FirstOrDefault(h => h.TenHang == keyword || h.TuKhoa == keyword);
-
-            if (hang == null)
+            if (status == "Active")
             {
-                TempData["ErrorMessage"] = "Không tìm thấy hãng nào phù hợp.";
-                return RedirectToAction("Index");
+                hangs = hangs.Where(h => h.Status == 1);
             }
-
-            return View("Index", new List<Hang> { hang }); // Trả về danh sách chỉ có 1 hãng
+            else if (status == "Deleted")
+            {
+                hangs = hangs.Where(h => h.Status == 0);
+            }
+            return View(hangs.ToList());
         }
 
-        // GET: Admin/Hangs
-        public ActionResult Index()
-        {
-            //if (Session["User"] == null)
-            //{
-            //    return RedirectToAction("Index", "DangNhap");
-            //}
-            return View(db.Hangs.ToList());
-        }
-
-        // GET: Admin/NhaCungCaps/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy mã hãng.";
                 return RedirectToAction("Index");
-            }
             Hang hang = db.Hangs.Find(id);
             if (hang == null)
-            {
-                TempData["ErrorMessage"] = "Hãng không tồn tại.";
                 return RedirectToAction("Index");
-            }
             return View(hang);
         }
 
-        // GET: Admin/Hangs/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Hangs/Create
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa")] Hang hang, HttpPostedFileBase Logo)
+        public ActionResult Create([Bind(Include = "TenHang,SoDienThoai,Email,DiaChi,TuKhoa,Status")] Hang hang, HttpPostedFileBase Logo)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Lấy mã NV lớn nhất hiện tại, nếu không có thì bắt đầu từ NV001
+                    var lastHang = db.Hangs.OrderByDescending(h => h.MaHang).FirstOrDefault();
+                    int newId = (lastHang != null && lastHang.MaHang.StartsWith("Hang"))
+                        ? int.Parse(lastHang.MaHang.Substring(2)) + 1
+                        : 1;
+
+                    // Gán mã mới với format NV001, NV002, ...
+                    hang.MaHang = $"Hang{newId:D3}";
+                    // Kiểm tra và lưu ảnh nếu có
                     if (Logo != null && Logo.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(Logo.FileName);
@@ -81,114 +74,138 @@ namespace chuyende.Areas.Admin.Controllers
                         Logo.SaveAs(path);
                         hang.Logo = fileName;
                     }
+
+                    hang.Status = 1; // Đánh dấu hãng là Active
                     db.Hangs.Add(hang);
                     db.SaveChanges();
                     TempData["SuccessMessage"] = "Thêm hãng thành công!";
                     return RedirectToAction("Index");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = "Có lỗi xảy ra khi thêm hãng!";
+                    ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
                 }
             }
             return View(hang);
         }
 
-        // GET: Admin/Hangs/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
+                return RedirectToAction("Index");
             Hang hang = db.Hangs.Find(id);
             if (hang == null)
-                return HttpNotFound();
-
+                return RedirectToAction("Index");
             return View(hang);
         }
 
-        // POST: Admin/Hangs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa")] Hang hang, HttpPostedFileBase LogoFile)
         {
             if (ModelState.IsValid)
             {
-                try
+                var existingHang = db.Hangs.Find(hang.MaHang);
+                if (existingHang != null)
                 {
-                    var existingHang = db.Hangs.Find(hang.MaHang);
-                    if (existingHang == null)
-                    {
-                        TempData["ErrorMessage"] = "Không tìm thấy hãng!";
-                        return RedirectToAction("Index");
-                    }
+                    existingHang.TenHang = hang.TenHang;
+                    existingHang.SoDienThoai = hang.SoDienThoai;
+                    existingHang.Email = hang.Email;
+                    existingHang.DiaChi = hang.DiaChi;
+                    existingHang.TuKhoa = hang.TuKhoa;
 
-                    // Xử lý cập nhật ảnh nếu người dùng chọn ảnh mới
                     if (LogoFile != null && LogoFile.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(LogoFile.FileName);
                         var path = Path.Combine(Server.MapPath("~/img/hang"), fileName);
                         LogoFile.SaveAs(path);
-                        hang.Logo = fileName; // Cập nhật ảnh mới
+                        existingHang.Logo = fileName;
                     }
-                    else
-                    {
-                        hang.Logo = existingHang.Logo; // Giữ ảnh cũ nếu không chọn ảnh mới
-                    }
-
-                    db.Entry(existingHang).CurrentValues.SetValues(hang);
                     db.SaveChanges();
                     TempData["SuccessMessage"] = "Cập nhật hãng thành công!";
-                    return RedirectToAction("Index");
                 }
-                catch (Exception)
-                {
-                    TempData["ErrorMessage"] = "Có lỗi xảy ra khi cập nhật hãng!";
-                }
+                return RedirectToAction("Index");
             }
             return View(hang);
         }
 
-
-        // GET: Admin/Hangs/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            Hang hang = db.Hangs.Find(id);
-            if (hang == null)
-                return HttpNotFound();
-
-            return View(hang);
-        }
-
-        // POST: Admin/Hangs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult MoveToTrash(string id)
         {
-            try
+            Hang hang = db.Hangs.Find(id);
+            if (hang != null)
             {
-                Hang hang = db.Hangs.Find(id);
-                db.Hangs.Remove(hang);
+                hang.Status = 0;
                 db.SaveChanges();
-                TempData["SuccessMessage"] = "Xóa hãng thành công!";
-            }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "Không thể xóa hãng do lỗi dữ liệu hoặc ràng buộc!";
+                TempData["WarningMessage"] = "Hãng đã được chuyển vào thùng rác.";
             }
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        public ActionResult Trash(string keyword = "")
         {
-            if (disposing)
-                db.Dispose();
-            base.Dispose(disposing);
+            var deletedHangs = db.Hangs.Where(h => h.Status == 0);
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                deletedHangs = deletedHangs.Where(h => h.TenHang.Contains(keyword) || h.TuKhoa.Contains(keyword));
+            }
+
+            return View(deletedHangs.ToList());
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Restore(string id)
+        {
+            Hang hang = db.Hangs.Find(id);
+            if (hang != null)
+            {
+                hang.Status = 1;
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Hãng đã được khôi phục!";
+            }
+            return RedirectToAction("Trash");
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteForever(string id)
+        {
+            Hang hang = db.Hangs.Find(id);
+            if (hang != null)
+            {
+                db.Hangs.Remove(hang);
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Hãng đã bị xóa vĩnh viễn!";
+            }
+            return RedirectToAction("Trash");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RestoreAll()
+        {
+            var deletedHangs = db.Hangs.Where(h => h.Status == 0).ToList();
+            foreach (var hang in deletedHangs)
+            {
+                hang.Status = 1;
+            }
+            db.SaveChanges();
+            TempData["SuccessMessage"] = "Tất cả hãng đã được khôi phục!";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteAllForever()
+        {
+            var deletedHangs = db.Hangs.Where(h => h.Status == 0).ToList();
+            db.Hangs.RemoveRange(deletedHangs);
+            db.SaveChanges();
+            TempData["SuccessMessage"] = "Tất cả hãng đã bị xóa vĩnh viễn!";
+            return RedirectToAction("Index");
+        }
     }
 }
