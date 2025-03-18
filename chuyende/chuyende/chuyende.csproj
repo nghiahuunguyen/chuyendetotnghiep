@@ -135,6 +135,7 @@
     <Compile Include="Areas\Admin\Controllers\KhachHangsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanViensController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SanPhamsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -184,7 +185,7 @@
     <Content Include="img\logo\logo.png" />
     <Content Include="img\sanpham\iphone.png" />
     <Content Include="img\sanpham\SamsungGalaxyS25Ultra.jpg" />
-    <Content Include="Public\css\Admin\cssadmin.css" />
+    <Content Include="Public\css\Admin\admin.css" />
     <Content Include="Public\css\Admin\Detailssp.css" />
     <Content Include="Public\css\Admin\layoutadmin.css" />
     <Content Include="Public\css\Admin\login.css" />
@@ -229,6 +230,13 @@
     <Content Include="Areas\Admin\Views\ChucVus\Trash.cshtml" />
     <Content Include="Areas\Admin\Views\NhanViens\Trash.cshtml" />
     <Content Include="Areas\Admin\Views\LoaiSanPhams\Trash.cshtml" />
+    <Content Include="Areas\Admin\Views\Hangs\Trash.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPhams\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPhams\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPhams\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPhams\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPhams\Trash.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

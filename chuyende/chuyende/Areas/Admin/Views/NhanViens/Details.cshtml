@@ -28,10 +28,10 @@
                 <td>@Html.DisplayFor(model => model.TenNV)</td>
                 <td>@Html.DisplayFor(model => model.ChucVu.TenCV)</td>
                 <td>
-                    @if (Model.GioiTinh.HasValue)
-                    {
-                        <span>@(Model.GioiTinh.Value ? "Nam" : "Nữ")</span>
-                    }
+                <td>
+                    @(Model.GioiTinh ? "Nam" : "Nữ")
+                </td>
+
                 </td>
                 <td>@Html.DisplayFor(model => model.DiaChi)</td>
                 <td>@Html.DisplayFor(model => model.CCCD)</td>

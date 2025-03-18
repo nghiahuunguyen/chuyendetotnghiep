@@ -1,0 +1,143 @@
+﻿@model IEnumerable<chuyende.Models.SanPham>
+
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Danh sách sản phẩm</h3>
+    <div>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="custom-alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="custom-alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+
+    </div>
+
+    <div class="header-actions">
+
+        @using (Html.BeginForm("Search", "SanPhams", FormMethod.Get, new { @class = "search-form" }))
+        {
+            <input type="text" name="keyword" class="search-input" placeholder="Tìm kiếm sản phẩm...">
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+        }
+    <div class="actions">
+        <a href="@Url.Action("Create", "SanPhams")" class="add-btn">
+            <i class="fas fa-plus"></i> Thêm mới
+        </a>
+        <a href="@Url.Action("Trash", "SanPhams")" class="trash-btn">
+            <i class="fas fa-trash"></i> Thùng rác
+        </a>
+    </div>
+        
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                    <th>Giá bán</th>
+                    <th>Chức năng</th>
+                </tr>
+            <tbody>
+                @{ int stt = 1; }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@stt</td>
+                        <td>@Html.DisplayFor(modelItem => item.MaSP)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TenSP)</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.HinhAnh))
+                            {
+                                <img src="@Url.Content("~/img/sanpham/" + item.HinhAnh)" alt="Hình ảnh" class="img-thumbnail" style="max-width: 100px; max-height: 100px;" />
+                            }
+                            else
+                            {
+                                <span>Không có hình ảnh</span>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.SoLuong)</td>
+                        <td>
+                            @if (item.GiaDau > 0 && item.SoGiam >= 0)
+
+                            {
+                                var giaBan = item.GiaDau - (item.GiaDau * item.SoGiam / 100);
+                                @String.Format("{0:N0} VND", giaBan)
+                            }
+                        </td>
+                        <td class="text-start">
+                            <button class="btn status-toggle @(item.Status == 1 ? "btn-success" : "btn-danger")"
+                                    data-id="@item.MaSP">
+                                <i class="fa @(item.Status == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                            </button>
+                            <a href="@Url.Action("Edit", "SanPhams", new { id = item.MaSP })" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Details","SanPhams", new { id = item.MaSP })" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            @using (Html.BeginForm("MoveToTrash", "SanPhams", new { id = item.MaSP }, FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            }
+
+                        </td>
+                    </tr>
+                    stt++;
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+    $(".status-toggle").click(function () {
+        var button = $(this);
+        var id = button.data("id");
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        $.ajax({
+            url: '@Url.Action("ToggleStatus", "SanPhams")',
+            type: "POST",
+            data: { id: id, __RequestVerificationToken: token },
+            success: function (response) {
+                if (response.success) {
+                    if (response.status === 1) {
+                        button.removeClass("btn-danger").addClass("btn-success");
+                        button.html('<i class="fa fa-toggle-on"></i>');
+                    } else {
+                        button.removeClass("btn-success").addClass("btn-danger");
+                        button.html('<i class="fa fa-toggle-off"></i>');
+                    }
+                } else {
+                    alert("Cập nhật trạng thái thất bại!");
+                }
+            }
+        });
+    });
+});
+
+</script>

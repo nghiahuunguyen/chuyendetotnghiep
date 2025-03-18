@@ -1,0 +1,82 @@
+﻿@model IEnumerable<chuyende.Models.SanPham>
+
+@{
+    ViewBag.Title = "Thùng rác sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Thùng rác sản phẩm</h3>
+    <div class="form-actions d-flex justify-content-end gap-2 mb-3">
+        @using (Html.BeginForm("RestoreAll", "SanPhams", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-recycle"></i> Khôi phục tất cả
+            </button>
+        }
+
+        @using (Html.BeginForm("DeleteAllForever", "SanPhams", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i> Xóa tất cả vĩnh viễn
+            </button>
+        }
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Số lượng</th>
+                <th>Giá bán</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TenSP</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.HinhAnh))
+                        {
+                            <img src="@Url.Content("~/img/sanpham/" + item.HinhAnh)" alt="Hình ảnh sản phẩm" style="max-width: 100px; max-height: 100px;" />
+                        }
+                        else
+                        {
+                            <span>Không có hình ảnh</span>
+                        }
+                    </td>
+                    <td>@item.SoLuong</td>
+                    <td>
+                        @if (item.GiaDau > 0 && item.SoGiam >= 0)
+
+                        {
+                            var giaBan = item.GiaDau - (item.GiaDau * item.SoGiam / 100);
+                            @String.Format("{0:N0} VND", giaBan)
+                        }
+                    </td>
+                    <td>
+                        <form action="@Url.Action("Restore", "SanPhams")" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.MaSP" />
+                            <button type="submit" class="btn btn-success btn-sm">Khôi phục</button>
+                        </form>
+
+                        <form action="@Url.Action("DeleteForever", "SanPhams")" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.MaSP" />
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa vĩnh viễn</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "SanPhams")'">Hủy</button>
+    </div>
+</div>

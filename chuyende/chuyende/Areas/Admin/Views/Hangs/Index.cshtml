@@ -33,21 +33,22 @@
                 <i class="fas fa-search"></i> Tìm kiếm
             </button>
         }
-    <div class="actions">
-        <a href="@Url.Action("Create", "Hangs")" class="add-btn">
-            <i class="fas fa-plus"></i> Thêm mới
-        </a>
-        <a href="@Url.Action("Trash", "Hangs")" class="trash-btn">
-            <i class="fas fa-trash"></i> Thùng rác
-        </a>
+        <div class="actions">
+            <a href="@Url.Action("Create", "Hangs")" class="add-btn">
+                <i class="fas fa-plus"></i> Thêm mới
+            </a>
+            <a href="@Url.Action("Trash", "Hangs")" class="trash-btn">
+                <i class="fas fa-trash"></i> Thùng rác
+            </a>
+
+        </div>
 
     </div>
-        
-    </div>
-    
 
-    <table>
-        <thead>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+
             <tr>
                 <th>#</th>
                 <th>Mã hãng</th>
@@ -56,45 +57,77 @@
                 <th>Số điện thoại</th>
                 <th>Chức năng</th>
             </tr>
-        </thead>
-        <tbody>
-            @{ int stt = 1; }
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@stt</td>
-                    <td>@Html.DisplayFor(modelItem => item.MaHang)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TenHang)</td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(item.Logo))
-                        {
-                            <img src="@Url.Content("~/img/hang/" + item.Logo)" alt="Logo" style="max-width: 100px; max-height: 100px;" />
-                        }
-                        else
-                        {
-                            <span>No logo</span>
-                        }
-                    </td>
 
-                    <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
-                    <td class="action-icons">
-                        <a href="@Url.Action("Edit","Hangs", new { id = item.MaHang })" class="btn-icon edit">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="@Url.Action("Details","Hangs", new { id = item.MaHang })" class="btn-icon view">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        @using (Html.BeginForm("MoveToTrash", "Hangs", new { id = item.MaHang }, FormMethod.Post, new { @class = "delete-form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn-icon delete">
-                                <i class="fas fa-trash"></i>
+            <tbody>
+                @{ int stt = 1; }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@stt</td>
+                        <td>@Html.DisplayFor(modelItem => item.MaHang)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TenHang)</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.Logo))
+                            {
+                                <img src="@Url.Content("~/img/hang/" + item.Logo)" alt="Logo" style="max-width: 100px; max-height: 100px;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">No logo</span>
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                        <td class="text-start">
+                            <button class="btn btn-sm status-toggle @(item.Status == 1 ? "btn-success" : "btn-danger")"
+                                    data-id="@item.MaHang">
+                                <i class="fa @(item.Status == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
                             </button>
-                        }
-                    </td>
-                </tr>
-                stt++;
-            }
-        </tbody>
-    </table>
+                            <a href="@Url.Action("Edit","Hangs", new { id = item.MaHang })" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Details","Hangs", new { id = item.MaHang })" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            @using (Html.BeginForm("MoveToTrash", "Hangs", new { id = item.MaHang }, FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                    stt++;
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $(".status-toggle").click(function () {
+            var button = $(this);
+            var id = button.data("id");
+
+            $.ajax({
+                url: '@Url.Action("ToggleStatus", "Hangs")',
+                type: "POST",
+                data: { id: id },
+                success: function (response) {
+                    if (response.success) {
+                        if (response.status === 1) {
+                            button.removeClass("btn-danger").addClass("btn-success");
+                            button.html('<i class="fa fa-toggle-on"></i>');
+                        } else {
+                            button.removeClass("btn-success").addClass("btn-danger");
+                            button.html('<i class="fa fa-toggle-off"></i>');
+                        }
+                    } else {
+                        alert("Cập nhật trạng thái thất bại!");
+                    }
+                }
+            });
+        });
+    });
+</script>

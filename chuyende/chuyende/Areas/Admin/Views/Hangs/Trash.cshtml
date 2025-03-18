@@ -1,0 +1,77 @@
+﻿@model IEnumerable<chuyende.Models.Hang>
+
+@{
+    ViewBag.Title = "Thùng rác hãng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Thùng rác hãng</h3>
+    <div class="form-actions d-flex justify-content-end gap-2 mb-3">
+        @using (Html.BeginForm("RestoreAll", "Hangs", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary btn-sm">
+                <i class="fas fa-recycle"></i> Khôi phục tất cả
+            </button>
+        }
+
+        @using (Html.BeginForm("DeleteAllForever", "Hangs", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fas fa-trash"></i> Xóa tất cả vĩnh viễn
+            </button>
+        }
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên hãng</th>
+                <th>Logo</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Từ khóa</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TenHang</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Logo))
+                        {
+                            <img src="@Url.Content("~/img/hang/" + item.Logo)" alt="Logo" style="max-width: 100px; max-height: 100px;" />
+                        }
+                        else
+                        {
+                            <span>No logo</span>
+                        }
+                    </td>
+                    <td>@item.SoDienThoai</td>
+                    <td>@item.Email</td>
+                    <td>@item.TuKhoa</td>
+                    <td>
+                        <form action="@Url.Action("Restore", "Hangs")" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.MaHang" />
+                            <button type="submit" class="btn btn-success btn-sm">Khôi phục</button>
+                        </form>
+
+                        <form action="@Url.Action("DeleteForever", "Hangs")" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.MaHang" />
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa vĩnh viễn</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "Hangs")'">Hủy</button>
+    </div>
+</div>
