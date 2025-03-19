@@ -1,4 +1,4 @@
-﻿﻿@model chuyende.Models.KhachHang
+﻿@model chuyende.Models.KhachHang
 @{
     ViewBag.Title = "Đăng ký";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,74 +9,89 @@
         <h1 class="login-title">Xin chào mừng đến với cửa hàng</h1>
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-    }
+    <div id="registerForm" class="tab-content">
+        @using (Html.BeginForm("Index", "Register", FormMethod.Post, new { @class = "register-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<div id="registerForm" class="tab-content">
-    @using (Html.BeginForm("Index", "Register", FormMethod.Post, new { @class = "register-form" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            <label for="TenKH" class="form-label">Họ và tên</label>
-            @Html.TextBoxFor(model => model.TenKH, new { @class = "form-control", placeholder = "Nhập họ và tên" })
-            @Html.ValidationMessageFor(model => model.TenKH, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            <label for="SoDienThoai" class="form-label">Số điện thoại</label>
-            @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control", placeholder = "Nhập số điện thoại" })
-            @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            <label for="Email" class="form-label">Email</label>
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Nhập email" })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            <label for="MatKhau" class="form-label">Mật khẩu</label>
-            <div class="password-wrapper">
-                @Html.PasswordFor(model => model.MatKhau, new { @class = "form-control", placeholder = "Nhập mật khẩu", id = "password" })
-                <button type="button" class="toggle-password" data-target="password">
-                    <i class="fa fa-eye-slash"></i>
-                </button>
+            <div class="form-group">
+                <label for="TenKH" class="form-label">Họ và tên</label>
+                @Html.TextBoxFor(model => model.TenKH, new { @class = "form-control", placeholder = "Nhập họ và tên" })
+                @Html.ValidationMessageFor(model => model.TenKH, "", new { @class = "text-danger" })
             </div>
-            @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
-        </div>
 
-        <div class="form-group">
-            <label for="ConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
-            <div class="password-wrapper">
-                <input type="password" name="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" id="confirmPassword" />
-                <button type="button" class="toggle-password" data-target="confirmPassword">
-                    <i class="fa fa-eye-slash"></i>
-                </button>
+            <div class="form-group">
+                <label for="SoDienThoai" class="form-label">Số điện thoại</label>
+                @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control", placeholder = "Nhập số điện thoại" })
+                @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
             </div>
-            @if (ViewBag.ConfirmPasswordError != null)
-            {
-                <span class="text-danger">@ViewBag.ConfirmPasswordError</span>
-            }
+
+            <div class="form-group">
+                <label for="Email" class="form-label">Email</label>
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Nhập email" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="MatKhau" class="form-label">Mật khẩu</label>
+                <div class="password-wrapper">
+                    @Html.PasswordFor(model => model.MatKhau, new { @class = "form-control", placeholder = "Nhập mật khẩu", id = "password" })
+                    <button type="button" class="toggle-password" data-target="password">
+                        <i class="fa fa-eye-slash"></i>
+                    </button>
+                </div>
+                @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label for="ConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                <div class="password-wrapper">
+                    <input type="password" name="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" id="confirmPassword" />
+                    <button type="button" class="toggle-password" data-target="confirmPassword">
+                        <i class="fa fa-eye-slash"></i>
+                    </button>
+                </div>
+                <span id="confirmPasswordError" class="text-danger">
+                    @if (ViewBag.ConfirmPasswordError != null)
+                    {
+                        @ViewBag.ConfirmPasswordError
+                    }
+                </span>
+            </div>
+
+            <button type="submit" class="btn-login">Đăng ký</button>
+        }
+
+        <div class="register-link">
+            <p>Bạn đã có tài khoản? <a href="@Url.Action("Index","Login")">Đăng nhập ngay</a></p>
         </div>
-
-
-        <button type="submit" class="btn-login">Đăng ký</button>
-
-    }
-
-    <div class="register-link">
-        <p>Bạn đã có tài khoản? <a href="@Url.Action("Index","Login")">Đăng nhập ngay</a></p>
     </div>
-</div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("registerForm").addEventListener("submit", function (event) {
+        // Xử lý hiển thị mật khẩu
+        document.querySelectorAll(".toggle-password").forEach(button => {
+            button.addEventListener("click", function () {
+                let targetId = this.getAttribute("data-target");
+                let passwordField = document.getElementById(targetId);
+                let icon = this.querySelector("i");
+
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    icon.classList.remove("fa-eye-slash");
+                    icon.classList.add("fa-eye");
+                } else {
+                    passwordField.type = "password";
+                    icon.classList.remove("fa-eye");
+                    icon.classList.add("fa-eye-slash");
+                }
+            });
+        });
+
+        // Xử lý kiểm tra mật khẩu khớp trước khi gửi form
+        document.querySelector(".register-form").addEventListener("submit", function (event) {
             var password = document.getElementById("password").value;
             var confirmPassword = document.getElementById("confirmPassword").value;
             var errorMessage = document.getElementById("confirmPasswordError");
@@ -84,7 +99,6 @@
             if (password !== confirmPassword) {
                 event.preventDefault(); // Ngăn form submit
                 errorMessage.textContent = "Mật khẩu xác nhận không khớp!";
-                errorMessage.style.color = "red";
             } else {
                 errorMessage.textContent = "";
             }

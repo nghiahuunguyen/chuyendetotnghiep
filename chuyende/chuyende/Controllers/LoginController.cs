@@ -10,6 +10,7 @@ namespace chuyende.Controllers
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // GET: Login
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
@@ -25,12 +26,13 @@ namespace chuyende.Controllers
                 return View();
             }
 
-            // Kiểm tra email/số điện thoại hợp lệ trong DB
-            var user = db.KhachHangs.FirstOrDefault(k => (k.Email == email || k.SoDienThoai == email) && k.MatKhau == password);
+            string hashedPassword = HashPassword(password); // Băm mật khẩu trước khi kiểm tra
+
+            var user = db.KhachHangs.FirstOrDefault(k =>
+                (k.Email == email || k.SoDienThoai == email) && k.MatKhau == hashedPassword);
 
             if (user != null)
             {
-                // Lưu session để duy trì đăng nhập
                 Session["User"] = user;
                 return RedirectToAction("Index", "Home");
             }
@@ -40,6 +42,16 @@ namespace chuyende.Controllers
             }
 
             return View();
+        }
+
+        // Hàm băm mật khẩu SHA-256
+        private string HashPassword(string password)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+            }
         }
 
         public ActionResult Logout()

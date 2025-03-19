@@ -6,7 +6,6 @@ namespace chuyende.Models
     public class KhachHang
     {
         [Key]
-        [StringLength(10)]
         public string MaKH { get; set; }
 
         [Required(ErrorMessage = "Họ tên không được để trống!")]

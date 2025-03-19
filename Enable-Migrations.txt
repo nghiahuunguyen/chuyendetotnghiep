@@ -1,3 +1,7 @@
 Enable-Migrations
 Add-Migration InitialCreate
 Update-Database
+
+
+gửi mail  Install-Package MailKit
+

@@ -33,7 +33,12 @@ namespace chuyende.Controllers
                 return View(khachHang);
             }
 
+            // Tạo mã khách hàng tự động
+            khachHang.MaKH = GenerateCustomerCode();
+
+            // Băm mật khẩu
             khachHang.MatKhau = HashPassword(khachHang.MatKhau);
+
             db.KhachHangs.Add(khachHang);
             try
             {
@@ -50,11 +55,25 @@ namespace chuyende.Controllers
                 }
                 return View(khachHang); // Hiển thị lại form với lỗi
             }
-
-
-            TempData["SuccessMessage"] = "Đăng ký thành công!";
             return RedirectToAction("Index", "Login");
         }
+
+        // Hàm tạo mã khách hàng tự động
+        private string GenerateCustomerCode()
+        {
+            var lastCustomer = db.KhachHangs.OrderByDescending(kh => kh.MaKH).FirstOrDefault();
+            int nextNumber = 1;
+            if (lastCustomer != null)
+            {
+                string lastCode = lastCustomer.MaKH.Substring(2); // Bỏ 'KH' để lấy số
+                if (int.TryParse(lastCode, out int lastNumber))
+                {
+                    nextNumber = lastNumber + 1;
+                }
+            }
+            return $"KH{nextNumber:D3}"; // Format thành KH001, KH002, ...
+        }
+
         // Hàm băm mật khẩu bằng SHA-256
         private string HashPassword(string password)
         {
