@@ -157,3 +157,20 @@
 		.register-link a:hover {
 			text-decoration: underline;
 		}
+.password-wrapper {
+	position: relative;
+}
+
+	.password-wrapper input {
+		padding-right: 40px; /* Chừa khoảng trống cho icon */
+	}
+
+	.password-wrapper .toggle-password {
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+		background: none;
+		border: none;
+		cursor: pointer;
+	}

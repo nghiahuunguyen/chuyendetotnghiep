@@ -13,7 +13,7 @@ namespace chuyende.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202503170242429_InitialCreate"; }
+            get { return "202503181453415_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

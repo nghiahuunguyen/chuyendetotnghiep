@@ -93,31 +93,28 @@
                 c => new
                     {
                         MaHD = c.String(nullable: false, maxLength: 128),
-                        MaKH = c.String(nullable: false, maxLength: 128),
-                        PhuongThucThanhToan = c.Int(nullable: false),
-                        TrangThai = c.Int(nullable: false),
-                        NguoiTao = c.String(nullable: false),
-                        NgayTao = c.DateTime(nullable: false),
-                        NhanVien_MaNV = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.MaHD)
-                .ForeignKey("dbo.KhachHang", t => t.MaKH, cascadeDelete: true)
-                .ForeignKey("dbo.NhanVien", t => t.NhanVien_MaNV)
-                .Index(t => t.MaKH)
-                .Index(t => t.NhanVien_MaNV);
-            
-            CreateTable(
-                "dbo.KhachHang",
-                c => new
-                    {
-                        MaKH = c.String(nullable: false, maxLength: 128),
+                        MaKH = c.String(nullable: false),
                         TenKH = c.String(nullable: false, maxLength: 255),
                         NgaySinh = c.DateTime(nullable: false),
                         SoDienThoai = c.String(nullable: false, maxLength: 20),
                         Email = c.String(nullable: false),
                         DiaChi = c.String(nullable: false, maxLength: 500),
-                        MatKhau = c.String(nullable: false),
-                        Status = c.Int(nullable: false),
+                        PhuongThucThanhToan = c.Int(nullable: false),
+                        TrangThai = c.Int(nullable: false),
+                        NguoiTao = c.String(nullable: false),
+                        NgayTao = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.MaHD);
+            
+            CreateTable(
+                "dbo.KhachHangs",
+                c => new
+                    {
+                        MaKH = c.String(nullable: false, maxLength: 10),
+                        TenKH = c.String(nullable: false, maxLength: 100),
+                        SoDienThoai = c.String(nullable: false, maxLength: 15),
+                        Email = c.String(nullable: false, maxLength: 100),
+                        MatKhau = c.String(nullable: false, maxLength: 255),
                     })
                 .PrimaryKey(t => t.MaKH);
             
@@ -146,18 +143,14 @@
         
         public override void Down()
         {
-            DropForeignKey("dbo.HoaDon", "NhanVien_MaNV", "dbo.NhanVien");
             DropForeignKey("dbo.NhanVien", "MaCV", "dbo.ChucVu");
-            DropForeignKey("dbo.HoaDon", "MaKH", "dbo.KhachHang");
             DropForeignKey("dbo.SanPham", "MaLoaiSP", "dbo.LoaiSanPham");
             DropForeignKey("dbo.SanPham", "MaHang", "dbo.Hang");
             DropIndex("dbo.NhanVien", new[] { "MaCV" });
-            DropIndex("dbo.HoaDon", new[] { "NhanVien_MaNV" });
-            DropIndex("dbo.HoaDon", new[] { "MaKH" });
             DropIndex("dbo.SanPham", new[] { "MaHang" });
             DropIndex("dbo.SanPham", new[] { "MaLoaiSP" });
             DropTable("dbo.NhanVien");
-            DropTable("dbo.KhachHang");
+            DropTable("dbo.KhachHangs");
             DropTable("dbo.HoaDon");
             DropTable("dbo.LoaiSanPham");
             DropTable("dbo.SanPham");
