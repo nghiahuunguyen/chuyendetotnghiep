@@ -296,6 +296,9 @@
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Register\ConfirmOTP.cshtml" />
+    <Content Include="Views\Login\ResetPassword.cshtml" />
+    <Content Include="Views\Login\ForgotPassword.cshtml" />
+    <Content Include="Views\Login\NewPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

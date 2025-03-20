@@ -5,7 +5,18 @@
 }
 
 <div class="login-container">
+   
     <div class="login-header">
+        @if (ViewBag.EmailError != null)
+        {
+            <p style="color: red">@ViewBag.EmailError</p>
+        }
+
+        <!-- Hiển thị lỗi trùng Số điện thoại -->
+        @if (ViewBag.PhoneError != null)
+        {
+            <p style="color: red">@ViewBag.PhoneError</p>
+        }
         <h1 class="login-title">Xin chào mừng đến với cửa hàng</h1>
     </div>
 

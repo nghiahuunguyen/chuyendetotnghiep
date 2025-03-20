@@ -21,6 +21,22 @@ namespace chuyende.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(KhachHang khachHang)
         {
+            // Kiểm tra Email đã tồn tại hay chưa
+            bool emailExists = db.KhachHangs.Any(k => k.Email == khachHang.Email);
+            if (emailExists)
+            {
+                ViewBag.EmailError = "Email đã được sử dụng!";
+                return View(khachHang); // Trả về view và hiển thị thông báo lỗi
+            }
+
+            // Kiểm tra Số điện thoại đã tồn tại hay chưa
+            bool phoneExists = db.KhachHangs.Any(k => k.SoDienThoai == khachHang.SoDienThoai);
+            if (phoneExists)
+            {
+                ViewBag.PhoneError = "Số điện thoại đã được sử dụng!";
+                return View(khachHang); // Trả về view và hiển thị thông báo lỗi
+            }
+
             string confirmPassword = Request.Form["ConfirmPassword"];
 
             if (khachHang.MatKhau != confirmPassword)
@@ -44,7 +60,7 @@ namespace chuyende.Controllers
             db.SaveChanges();
 
             // Gửi email chứa mã OTP
-            string emailBody = $"<p>Chào {khachHang.TenKH},</p><p>Mã xác nhận của bạn là: <strong>{khachHang.ActivationToken}</strong></p>";
+            string emailBody = $"<p>Chào {khachHang.TenKH},</p><p>Mã xác nhận của bạn là: <strong>{khachHang.ActivationToken}</strong>. Vui lòng không chia sẻ mã này bất kỳ ai</p>";
             SendMail sendMail = new SendMail();
             sendMail.SendMailFunction(khachHang.Email, "Mã xác nhận đăng ký", emailBody);
 
