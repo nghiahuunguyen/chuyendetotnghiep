@@ -25,5 +25,7 @@ namespace chuyende.Models
         [Required(ErrorMessage = "Mật khẩu không được để trống!")]
         [StringLength(255)]
         public string MatKhau { get; set; }
+        public bool IsActive { get; set; } = false;
+        public string ActivationToken { get; set; }
     }
 }

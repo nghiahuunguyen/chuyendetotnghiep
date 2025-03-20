@@ -166,8 +166,6 @@ D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.csproj.CoreCompileInpu
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.csproj.Up2Date
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.dll
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.pdb
-D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.InitialCreate.resources
-D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.csproj.GenerateResource.cache
 D:\chuyendetotnghiep\chuyende\chuyende\bin\BouncyCastle.Cryptography.dll
 D:\chuyendetotnghiep\chuyende\chuyende\bin\MailKit.dll
 D:\chuyendetotnghiep\chuyende\chuyende\bin\MimeKit.dll
@@ -191,3 +189,5 @@ D:\chuyendetotnghiep\chuyende\chuyende\bin\System.Numerics.Vectors.xml
 D:\chuyendetotnghiep\chuyende\chuyende\bin\System.Runtime.CompilerServices.Unsafe.xml
 D:\chuyendetotnghiep\chuyende\chuyende\bin\System.Threading.Tasks.Extensions.xml
 D:\chuyendetotnghiep\chuyende\chuyende\bin\System.ValueTuple.xml
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.InitialCreate.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.csproj.GenerateResource.cache

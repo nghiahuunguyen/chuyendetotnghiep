@@ -175,9 +175,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202503190609468_InitialCreate.cs" />
-    <Compile Include="Migrations\202503190609468_InitialCreate.Designer.cs">
-      <DependentUpon>202503190609468_InitialCreate.cs</DependentUpon>
+    <Compile Include="Helper\SendMail.cs" />
+    <Compile Include="Migrations\202503200434063_InitialCreate.cs" />
+    <Compile Include="Migrations\202503200434063_InitialCreate.Designer.cs">
+      <DependentUpon>202503200434063_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
@@ -293,7 +294,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Register\VerifyOTP.cshtml" />
+    <Content Include="Views\Register\Activate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -327,8 +328,8 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503190609468_InitialCreate.resx">
-      <DependentUpon>202503190609468_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503200434063_InitialCreate.resx">
+      <DependentUpon>202503200434063_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

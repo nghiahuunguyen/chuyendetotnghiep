@@ -1,4 +1,5 @@
 ﻿using chuyende.Models;
+using chuyende.Helper;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -20,7 +21,7 @@ namespace chuyende.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(KhachHang khachHang)
         {
-            string confirmPassword = Request.Form["ConfirmPassword"]; // Lấy mật khẩu xác nhận từ form
+            string confirmPassword = Request.Form["ConfirmPassword"];
 
             if (khachHang.MatKhau != confirmPassword)
             {
@@ -35,46 +36,63 @@ namespace chuyende.Controllers
 
             // Tạo mã khách hàng tự động
             khachHang.MaKH = GenerateCustomerCode();
-
-            // Băm mật khẩu
             khachHang.MatKhau = HashPassword(khachHang.MatKhau);
+            khachHang.IsActive = false; // Chưa kích hoạt
+            khachHang.ActivationToken = GenerateToken(); // Tạo token xác nhận
 
             db.KhachHangs.Add(khachHang);
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                foreach (var validationErrors in ex.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        ModelState.AddModelError(validationError.PropertyName, validationError.ErrorMessage);
-                    }
-                }
-                return View(khachHang); // Hiển thị lại form với lỗi
-            }
+            db.SaveChanges();
+
+            // Gửi email xác nhận
+            string activationLink = Url.Action("Activate", "Register", new { token = khachHang.ActivationToken, email = khachHang.Email }, Request.Url.Scheme);
+            string emailBody = $"<p>Chào {khachHang.TenKH},</p><p>Nhấn vào <a href='{activationLink}'>đây</a> để kích hoạt tài khoản của bạn.</p>";
+
+            SendMail sendMail = new SendMail();
+            sendMail.SendMailFunction(khachHang.Email, "Xác nhận đăng ký", emailBody);
+
             return RedirectToAction("Index", "Login");
         }
 
-        // Hàm tạo mã khách hàng tự động
+        // Xác nhận tài khoản khi người dùng nhấn vào link xác nhận
+        public ActionResult Activate(string token, string email)
+        {
+            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email && kh.ActivationToken == token);
+
+            if (user != null && !user.IsActive)
+            {
+                user.IsActive = true;
+                user.ActivationToken = null; // Xóa token sau khi xác nhận
+                db.SaveChanges();
+                ViewBag.Message = "Tài khoản của bạn đã được kích hoạt!";
+            }
+            else
+            {
+                ViewBag.Message = "Liên kết không hợp lệ hoặc tài khoản đã được kích hoạt.";
+            }
+
+            return View();
+        }
+
         private string GenerateCustomerCode()
         {
             var lastCustomer = db.KhachHangs.OrderByDescending(kh => kh.MaKH).FirstOrDefault();
             int nextNumber = 1;
             if (lastCustomer != null)
             {
-                string lastCode = lastCustomer.MaKH.Substring(2); // Bỏ 'KH' để lấy số
+                string lastCode = lastCustomer.MaKH.Substring(2);
                 if (int.TryParse(lastCode, out int lastNumber))
                 {
                     nextNumber = lastNumber + 1;
                 }
             }
-            return $"KH{nextNumber:D3}"; // Format thành KH001, KH002, ...
+            return $"KH{nextNumber:D3}";
         }
 
-        // Hàm băm mật khẩu bằng SHA-256
+        private string GenerateToken()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -88,6 +106,5 @@ namespace chuyende.Controllers
                 return builder.ToString();
             }
         }
-
     }
 }

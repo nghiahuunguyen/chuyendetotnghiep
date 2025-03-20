@@ -115,6 +115,8 @@
                         SoDienThoai = c.String(nullable: false, maxLength: 15),
                         Email = c.String(nullable: false, maxLength: 100),
                         MatKhau = c.String(nullable: false, maxLength: 255),
+                        IsActive = c.Boolean(nullable: false),
+                        ActivationToken = c.String(),
                     })
                 .PrimaryKey(t => t.MaKH);
             
