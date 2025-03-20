@@ -90,7 +90,7 @@ namespace chuyende.Controllers
             db.SaveChanges();
 
             // Gửi email chứa mã OTP
-            string emailBody = $"<p>Chào {user.TenKH},</p><p>Mã xác nhận đặt lại mật khẩu của bạn là: <strong>{user.ActivationToken}</strong></p>";
+            string emailBody = $"<p>Chào {user.TenKH},</p><p>Mã xác nhận đặt lại mật khẩu của bạn là: <strong>{user.ActivationToken}</strong>. Vui lòng không chia sẻ mã này bất kỳ ai.</p>";
             SendMail sendMail = new SendMail();
             sendMail.SendMailFunction(user.Email, "Mã xác nhận đặt lại mật khẩu", emailBody);
 
