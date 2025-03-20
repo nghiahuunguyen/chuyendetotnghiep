@@ -38,39 +38,43 @@ namespace chuyende.Controllers
             khachHang.MaKH = GenerateCustomerCode();
             khachHang.MatKhau = HashPassword(khachHang.MatKhau);
             khachHang.IsActive = false; // Chưa kích hoạt
-            khachHang.ActivationToken = GenerateToken(); // Tạo token xác nhận
+            khachHang.ActivationToken = GenerateOTP(); // 🔹 Sử dụng mã OTP thay vì token
 
             db.KhachHangs.Add(khachHang);
             db.SaveChanges();
 
-            // Gửi email xác nhận
-            string activationLink = Url.Action("Activate", "Register", new { token = khachHang.ActivationToken, email = khachHang.Email }, Request.Url.Scheme);
-            string emailBody = $"<p>Chào {khachHang.TenKH},</p><p>Nhấn vào <a href='{activationLink}'>đây</a> để kích hoạt tài khoản của bạn.</p>";
-
+            // Gửi email chứa mã OTP
+            string emailBody = $"<p>Chào {khachHang.TenKH},</p><p>Mã xác nhận của bạn là: <strong>{khachHang.ActivationToken}</strong></p>";
             SendMail sendMail = new SendMail();
-            sendMail.SendMailFunction(khachHang.Email, "Xác nhận đăng ký", emailBody);
+            sendMail.SendMailFunction(khachHang.Email, "Mã xác nhận đăng ký", emailBody);
 
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("ConfirmOTP", new { email = khachHang.Email });
         }
 
-        // Xác nhận tài khoản khi người dùng nhấn vào link xác nhận
-        public ActionResult Activate(string token, string email)
+        // Trang nhập mã xác nhận OTP
+        public ActionResult ConfirmOTP(string email)
         {
-            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email && kh.ActivationToken == token);
+            ViewBag.Email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmOTP(string email, string otp)
+        {
+            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email && kh.ActivationToken == otp);
 
             if (user != null && !user.IsActive)
             {
                 user.IsActive = true;
-                user.ActivationToken = null; // Xóa token sau khi xác nhận
+                user.ActivationToken = null; // Xóa OTP sau khi xác nhận
                 db.SaveChanges();
-                ViewBag.Message = "Tài khoản của bạn đã được kích hoạt!";
+                return RedirectToAction("Index", "Login");
             }
             else
             {
-                ViewBag.Message = "Liên kết không hợp lệ hoặc tài khoản đã được kích hoạt.";
+                ViewBag.Message = "Mã xác nhận không hợp lệ!";
+                return View();
             }
-
-            return View();
         }
 
         private string GenerateCustomerCode()
@@ -88,9 +92,10 @@ namespace chuyende.Controllers
             return $"KH{nextNumber:D3}";
         }
 
-        private string GenerateToken()
+        private string GenerateOTP()
         {
-            return Guid.NewGuid().ToString();
+            Random random = new Random();
+            return random.Next(100000, 999999).ToString(); // 🔹 OTP 6 chữ số
         }
 
         private string HashPassword(string password)
