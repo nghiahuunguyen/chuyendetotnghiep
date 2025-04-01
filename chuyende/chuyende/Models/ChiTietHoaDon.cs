@@ -15,5 +15,7 @@ namespace chuyende.Models
         public string MaHD { get; set; }
         public string MaSP { get; set; }
         public int SoLuong { get; set; }
+        public virtual HoaDon HoaDon { get; set; }
+        public virtual SanPham SanPham { get; set; }
     }
 }

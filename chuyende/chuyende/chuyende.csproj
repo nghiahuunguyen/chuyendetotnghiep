@@ -172,13 +172,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\SendMail.cs" />
-    <Compile Include="Migrations\202503200434063_InitialCreate.cs" />
-    <Compile Include="Migrations\202503200434063_InitialCreate.Designer.cs">
-      <DependentUpon>202503200434063_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202503210122001_InitialCreate.cs" />
+    <Compile Include="Migrations\202503210122001_InitialCreate.Designer.cs">
+      <DependentUpon>202503210122001_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Models\NhanVien.cs" />
     <Compile Include="Models\SanPham.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Public\css\Use\khachhang.css" />
     <Content Include="Public\css\Use\xacnhan.css" />
   </ItemGroup>
   <ItemGroup>
@@ -225,7 +227,7 @@
     <Content Include="Public\css\Admin\login.css" />
     <Content Include="Public\css\Use\dangnhapky.css" />
     <Content Include="Public\css\Use\giohang.css" />
-    <Content Include="Public\css\Use\layout.css" />
+    <Content Include="Public\css\Use\_layout.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -299,6 +301,7 @@
     <Content Include="Views\Login\ResetPassword.cshtml" />
     <Content Include="Views\Login\ForgotPassword.cshtml" />
     <Content Include="Views\Login\NewPassword.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -332,8 +335,8 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503200434063_InitialCreate.resx">
-      <DependentUpon>202503200434063_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503210122001_InitialCreate.resx">
+      <DependentUpon>202503210122001_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

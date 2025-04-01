@@ -22,7 +22,7 @@ namespace chuyende.Controllers
         public ActionResult Index(KhachHang khachHang)
         {
             // Kiểm tra Email đã tồn tại hay chưa
-            bool emailExists = db.KhachHangs.Any(k => k.Email == khachHang.Email);
+            bool emailExists = db.KhachHangs.Any(k => k.Email == khachHang.Email && k.IsActive);
             if (emailExists)
             {
                 ViewBag.EmailError = "Email đã được sử dụng!";
@@ -30,12 +30,13 @@ namespace chuyende.Controllers
             }
 
             // Kiểm tra Số điện thoại đã tồn tại hay chưa
-            bool phoneExists = db.KhachHangs.Any(k => k.SoDienThoai == khachHang.SoDienThoai);
+            bool phoneExists = db.KhachHangs.Any(k => k.SoDienThoai == khachHang.SoDienThoai && k.IsActive);
             if (phoneExists)
             {
                 ViewBag.PhoneError = "Số điện thoại đã được sử dụng!";
                 return View(khachHang); // Trả về view và hiển thị thông báo lỗi
             }
+
 
             string confirmPassword = Request.Form["ConfirmPassword"];
 

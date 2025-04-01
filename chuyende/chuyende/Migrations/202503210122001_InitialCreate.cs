@@ -12,36 +12,33 @@
                 c => new
                     {
                         ID = c.String(nullable: false, maxLength: 128),
-                        MaHD = c.String(),
-                        MaSP = c.String(),
+                        MaHD = c.String(maxLength: 128),
+                        MaSP = c.String(maxLength: 128),
                         SoLuong = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.HoaDon", t => t.MaHD)
+                .ForeignKey("dbo.SanPham", t => t.MaSP)
+                .Index(t => t.MaHD)
+                .Index(t => t.MaSP);
             
             CreateTable(
-                "dbo.ChucVu",
+                "dbo.HoaDon",
                 c => new
                     {
-                        MaCV = c.String(nullable: false, maxLength: 128),
-                        TenCV = c.String(nullable: false, maxLength: 255),
-                        Status = c.Int(nullable: false),
+                        MaHD = c.String(nullable: false, maxLength: 128),
+                        MaKH = c.String(nullable: false),
+                        TenKH = c.String(nullable: false, maxLength: 255),
+                        NgaySinh = c.DateTime(nullable: false),
+                        SoDienThoai = c.String(nullable: false, maxLength: 20),
+                        Email = c.String(nullable: false),
+                        DiaChi = c.String(nullable: false, maxLength: 500),
+                        PhuongThucThanhToan = c.Int(nullable: false),
+                        TrangThai = c.Int(nullable: false),
+                        NguoiTao = c.String(nullable: false),
+                        NgayTao = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.MaCV);
-            
-            CreateTable(
-                "dbo.Hang",
-                c => new
-                    {
-                        MaHang = c.String(nullable: false, maxLength: 128),
-                        TenHang = c.String(),
-                        Logo = c.String(),
-                        SoDienThoai = c.String(),
-                        Email = c.String(),
-                        DiaChi = c.String(),
-                        TuKhoa = c.String(),
-                        Status = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.MaHang);
+                .PrimaryKey(t => t.MaHD);
             
             CreateTable(
                 "dbo.SanPham",
@@ -79,6 +76,21 @@
                 .Index(t => t.MaHang);
             
             CreateTable(
+                "dbo.Hang",
+                c => new
+                    {
+                        MaHang = c.String(nullable: false, maxLength: 128),
+                        TenHang = c.String(),
+                        Logo = c.String(),
+                        SoDienThoai = c.String(),
+                        Email = c.String(),
+                        DiaChi = c.String(),
+                        TuKhoa = c.String(),
+                        Status = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.MaHang);
+            
+            CreateTable(
                 "dbo.LoaiSanPham",
                 c => new
                     {
@@ -89,22 +101,14 @@
                 .PrimaryKey(t => t.MaLoaiSP);
             
             CreateTable(
-                "dbo.HoaDon",
+                "dbo.ChucVu",
                 c => new
                     {
-                        MaHD = c.String(nullable: false, maxLength: 128),
-                        MaKH = c.String(nullable: false),
-                        TenKH = c.String(nullable: false, maxLength: 255),
-                        NgaySinh = c.DateTime(nullable: false),
-                        SoDienThoai = c.String(nullable: false, maxLength: 20),
-                        Email = c.String(nullable: false),
-                        DiaChi = c.String(nullable: false, maxLength: 500),
-                        PhuongThucThanhToan = c.Int(nullable: false),
-                        TrangThai = c.Int(nullable: false),
-                        NguoiTao = c.String(nullable: false),
-                        NgayTao = c.DateTime(nullable: false),
+                        MaCV = c.String(nullable: false, maxLength: 128),
+                        TenCV = c.String(nullable: false, maxLength: 255),
+                        Status = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.MaHD);
+                .PrimaryKey(t => t.MaCV);
             
             CreateTable(
                 "dbo.KhachHangs",
@@ -148,16 +152,20 @@
             DropForeignKey("dbo.NhanVien", "MaCV", "dbo.ChucVu");
             DropForeignKey("dbo.SanPham", "MaLoaiSP", "dbo.LoaiSanPham");
             DropForeignKey("dbo.SanPham", "MaHang", "dbo.Hang");
+            DropForeignKey("dbo.ChiTietHoaDon", "MaSP", "dbo.SanPham");
+            DropForeignKey("dbo.ChiTietHoaDon", "MaHD", "dbo.HoaDon");
             DropIndex("dbo.NhanVien", new[] { "MaCV" });
             DropIndex("dbo.SanPham", new[] { "MaHang" });
             DropIndex("dbo.SanPham", new[] { "MaLoaiSP" });
+            DropIndex("dbo.ChiTietHoaDon", new[] { "MaSP" });
+            DropIndex("dbo.ChiTietHoaDon", new[] { "MaHD" });
             DropTable("dbo.NhanVien");
             DropTable("dbo.KhachHangs");
-            DropTable("dbo.HoaDon");
-            DropTable("dbo.LoaiSanPham");
-            DropTable("dbo.SanPham");
-            DropTable("dbo.Hang");
             DropTable("dbo.ChucVu");
+            DropTable("dbo.LoaiSanPham");
+            DropTable("dbo.Hang");
+            DropTable("dbo.SanPham");
+            DropTable("dbo.HoaDon");
             DropTable("dbo.ChiTietHoaDon");
         }
     }

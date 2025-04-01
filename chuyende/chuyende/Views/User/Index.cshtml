@@ -1,0 +1,191 @@
+﻿@model chuyende.Models.KhachHang
+@{
+    ViewBag.Title = "Thông tin khách hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="custom-alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="custom-alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
+</div>
+<div class="account-container">
+    
+    <div class="account-sidebar">
+        <div> @Model.TenKH</div>
+        <a href="@Url.Action("Index", "User")" class="account-sidebar-item active">
+            <i class="fas fa-address-book"></i>
+            Thông tin tài khoản
+        </a>
+
+        <div class="account-sidebar-item">
+            <i class="fas fa-shopping-bag"></i>
+            Đơn hàng đã mua
+        </div>
+
+        <a href="@Url.Action("Logout", "User")" class="logout">
+            <button class="account-sidebar-logout">Đăng Xuất</button>
+        </a>
+
+    </div>
+
+    <div class="main-content">
+        <div class="personal-info">
+            <h2>THÔNG TIN TÀI KHOẢN</h2>
+
+            <form id="updateForm" method="post" action="@Url.Action("UpdateUser", "User")">
+                <div class="info-row">
+                    <label>Họ và tên:</label>
+                    <span class="text-display">@Model.TenKH</span>
+                    <input type="text" name="TenKH" class="edit-input" value="@Model.TenKH" style="display: none;">
+                    <a href="#" class="edit-btn"><i class="fas fa-edit"></i></a>
+                </div>
+
+                <div class="info-row">
+                    <label>Số điện thoại:</label>
+                    <span class="text-display">@Model.SoDienThoai</span>
+                    <input type="text" name="SoDienThoai" class="edit-input" value="@Model.SoDienThoai" style="display: none;">
+                    <a href="#" class="edit-btn"><i class="fas fa-edit"></i></a>
+                </div>
+
+                <div class="info-row">
+                    <label>Email:</label>
+                    <span class="text-display">@Model.Email</span>
+                    <input type="email" name="Email" class="edit-input" value="@Model.Email" style="display: none;">
+                    <a href="#" class="edit-btn"><i class="fas fa-edit"></i></a>
+                </div>
+
+
+                <div class="address-form">
+                    <button type="submit" class="update-button">CẬP NHẬT</button>
+                </div>
+
+            </form>
+
+
+        </div>
+        <div class="personal-info">
+            <h2>ĐỔI MẬT KHẨU</h2>
+            <form id="changePasswordForm" method="post" action="@Url.Action("ChangePassword", "User")">
+                <div class="info-row">
+                    <label>Mật khẩu hiện tại:</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="CurrentPassword">
+                        <span class="toggle-password" onclick="togglePassword('CurrentPassword')">
+                            <i class="fas fa-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <label>Mật khẩu mới:</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="NewPassword" required>
+                        <span class="toggle-password" onclick="togglePassword('NewPassword')">
+                            <i class="fas fa-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <label>Nhập lại mật khẩu mới:</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="ConfirmNewPassword" required>
+                        <span class="toggle-password" onclick="togglePassword('ConfirmNewPassword')">
+                            <i class="fas fa-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="address-form">
+                    <button type="submit" class="update-button">ĐỔI MẬT KHẨU</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".edit-btn").click(function (e) {
+            e.preventDefault();
+            var parent = $(this).closest(".info-row");
+            parent.find(".text-display").hide();
+            parent.find(".edit-input").show().focus();
+            $(this).hide();
+        });
+    });
+</script>
+<script>
+    function togglePassword(fieldName) {
+        var input = document.getElementsByName(fieldName)[0];
+        var icon = input.nextElementSibling.querySelector("i");
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }
+    }
+</script>
+
+<style>
+    .password-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+    }
+
+        .password-wrapper input {
+            flex: 1;
+            padding-right: 30px;
+            width: 100%;
+        }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .wide-input {
+        width: 100%;
+    }
+    .custom-alert-success, .custom-alert-danger {
+        text-align: center;
+        padding: 10px;
+        margin: 20px auto;
+        width: 50%;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .custom-alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .custom-alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+</style>

@@ -28,5 +28,6 @@ namespace chuyende.Models
         [Required]
         public string NguoiTao { get; set; }
         public DateTime NgayTao { get; set; }
+        public virtual ICollection<ChiTietHoaDon> ChiTietHoaDon { get; set; }
     }
 }

@@ -41,5 +41,6 @@ namespace chuyende.Models
 
         public virtual Hang Hang { get; set; }
         public virtual LoaiSanPham LoaiSanPham { get; set; }
+        public virtual ICollection<ChiTietHoaDon> ChiTietHoaDon { get; set; }
     }
 }

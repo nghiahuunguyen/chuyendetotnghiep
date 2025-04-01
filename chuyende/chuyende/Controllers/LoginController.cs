@@ -27,6 +27,13 @@ namespace chuyende.Controllers
                 return View();
             }
 
+            var userExists = db.KhachHangs.Any(k => k.Email == email || k.SoDienThoai == email);
+            if (!userExists)
+            {
+                ViewBag.ErrorMessage = "Tài khoản chưa tồn tại.";
+                return View();
+            }
+
             string hashedPassword = HashPassword(password); // Băm mật khẩu trước khi kiểm tra
 
             var user = db.KhachHangs.FirstOrDefault(k =>
@@ -40,7 +47,7 @@ namespace chuyende.Controllers
 
             if (!user.IsActive) // Kiểm tra tài khoản đã kích hoạt chưa
             {
-                ViewBag.ErrorMessage = "Tài khoản chưa được kích hoạt. Vui lòng kiểm tra email để xác nhận.";
+                ViewBag.ErrorMessage = "Tài khoản không tồn tại.";
                 return View();
             }
 
@@ -81,7 +88,7 @@ namespace chuyende.Controllers
 
             if (user == null || !user.IsActive)
             {
-                ViewBag.ErrorMessage = "Email không tồn tại hoặc tài khoản chưa kích hoạt.";
+                ViewBag.ErrorMessage = "Tài khoản không tồn tại.";
                 return View();
             }
 
