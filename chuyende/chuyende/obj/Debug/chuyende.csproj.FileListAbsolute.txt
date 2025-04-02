@@ -191,3 +191,5 @@ D:\chuyendetotnghiep\chuyende\chuyende\bin\System.Threading.Tasks.Extensions.xml
 D:\chuyendetotnghiep\chuyende\chuyende\bin\System.ValueTuple.xml
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.InitialCreate.resources
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.csproj.GenerateResource.cache
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabase.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaseHD.resources

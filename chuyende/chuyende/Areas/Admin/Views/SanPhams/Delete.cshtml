@@ -33,12 +33,12 @@
                 </td>
                 <td>@Html.DisplayFor(model => model.SoLuong)</td>
                 <td>
-                    @if (Model.GiaDau.HasValue && Model.SoGiam.HasValue)
-                    {
-                        var giaBan = Model.GiaDau.Value - (Model.GiaDau.Value * Model.SoGiam.Value / 100);
-                        @String.Format("{0:N0} VND", giaBan)
+                    @{
+                        var giaBan = Model.GiaDau - (Model.GiaDau * Model.SoGiam / 100m);
                     }
+                    @String.Format("{0:N0} VND", giaBan)
                 </td>
+
             </tr>
         </tbody>
     </table>
