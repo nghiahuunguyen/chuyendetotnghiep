@@ -7,17 +7,15 @@
     <link rel="stylesheet" href="~/Public/css/Admin/layoutadmin.css">
     <link rel="stylesheet" href="~/Public/css/Admin/admin.css">
     <link rel="stylesheet" href="~/Public/css/Admin/Detailssp.css">
+    <link rel="stylesheet" href="~/Public/css/Admin/phantrang.css">
     <title>@ViewBag.Title</title>
     <link rel="icon" type="image/png" href="~/img/logo/logo.png">
     <!-- Bootstrap 5 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
 </head>
 <body>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <h3>ELECTRONICS STORE</h3>
@@ -35,7 +33,7 @@
             </li>
 
             <li><i class="fas fa-chart-line"></i> Trang bán hàng</li>
-          
+
             <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
                 <div class="menu-item">
                     <span><i class="fas fa-users"></i> Nhân sự</span>
@@ -54,7 +52,7 @@
                     </li>
                 </ul>
             </li>
-           
+
             <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "Hangs" ? "active" : "")">
                 <a href="@Url.Action("Index", "Hangs")">
                     <i class="fas fa-truck"></i> Hãng
@@ -81,7 +79,6 @@
                 </ul>
             </li>
 
-
             <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "KhachHangs" ? "active" : "")">
                 <a href="@Url.Action("Index", "KhachHangs")">
                     <i class="fas fa-user"></i> Khách hàng
@@ -93,13 +90,11 @@
                     <i class="fas fa-file-invoice"></i> Đơn hàng
                 </a>
             </li>
-
         </ul>
 
         <a href="@Url.Action("Logout", "DangNhap", new { area = "Admin" })" class="logout">
             <i class="fas fa-sign-out-alt"></i> Đăng xuất
         </a>
-
     </div>
 
     <!-- Main Content -->
@@ -107,7 +102,8 @@
         @RenderBody()
     </div>
 
-   
+    <!-- Render the Scripts section -->
+    @RenderSection("Scripts", required: false)
 
 </body>
 </html>

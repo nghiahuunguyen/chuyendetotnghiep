@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using chuyende.Models;
+using PagedList;
+using PagedList.Mvc;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -15,8 +17,12 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        public ActionResult Index(string status = "Active", string keyword = "")
+
+        public ActionResult Index(string status = "Active", string keyword = "", int? page = 1)
         {
+            int pageSize = 5; // Hiển thị 5 hãng mỗi trang
+            int pageNumber = (page ?? 1); // Nếu không có số trang, mặc định là trang 1
+
             var hangs = db.Hangs.AsQueryable();
 
             if (!string.IsNullOrEmpty(keyword))
@@ -37,7 +43,7 @@ namespace chuyende.Areas.Admin.Controllers
                     break;
             }
 
-            return View(hangs.ToList());
+            return View(hangs.OrderBy(h => h.TenHang).ToPagedList(pageNumber, pageSize));
         }
 
         [HttpPost]
@@ -105,14 +111,18 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 try
                 {
-                    // Lấy mã NV lớn nhất hiện tại, nếu không có thì bắt đầu từ NV001
-                    var lastHang = db.Hangs.OrderByDescending(nv => nv.MaHang).FirstOrDefault();
-                    int newId = (lastHang != null && lastHang.MaHang.StartsWith("Hang"))
-                        ? int.Parse(lastHang.MaHang.Substring(2)) + 1
-                        : 1;
+                    // Lấy mã hãng lớn nhất từ database
+                    var maxHang = db.Hangs
+                        .Where(h => h.MaHang.StartsWith("Hang") && h.MaHang.Length == 7)
+                        .OrderByDescending(h => h.MaHang)
+                        .Select(h => h.MaHang)
+                        .FirstOrDefault();
 
-                    // Gán mã mới với format NV001, NV002, ...
-                    hang.MaHang = $"NV{newId:D3}";
+                    // Xác định số ID mới
+                    int newId = (maxHang != null && int.TryParse(maxHang.Substring(4), out int id)) ? id + 1 : 1;
+                    hang.MaHang = $"Hang{newId:D3}"; // Định dạng Hang001, Hang002, ...
+
+                    // Xử lý upload file Logo
                     if (Logo != null && Logo.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(Logo.FileName);
@@ -120,19 +130,23 @@ namespace chuyende.Areas.Admin.Controllers
                         Logo.SaveAs(path);
                         hang.Logo = fileName;
                     }
+
+                    // Gán trạng thái mặc định
                     hang.Status = 1;
                     db.Hangs.Add(hang);
                     db.SaveChanges();
+
                     TempData["SuccessMessage"] = "Thêm hãng thành công!";
                     return RedirectToAction("Index");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = "Có lỗi xảy ra khi thêm hãng!";
+                    TempData["ErrorMessage"] = "Có lỗi xảy ra khi thêm hãng! " + ex.Message;
                 }
             }
             return View(hang);
         }
+
 
 
         public ActionResult Edit(string id)

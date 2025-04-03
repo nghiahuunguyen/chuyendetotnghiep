@@ -24,7 +24,7 @@ namespace chuyende.Models
         public string TuKhoa { get; set; }
         public decimal? GiaNhap { get; set; }
         public decimal? GiaDau { get; set; }
-        public int SoGiam { get; set; }
+        public int? SoGiam { get; set; }
         public string MoTa { get; set; }
         public int Status { get; set; }
 

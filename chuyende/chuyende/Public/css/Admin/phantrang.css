@@ -1,0 +1,28 @@
+﻿.pagination-container {
+    text-align: right; /* Căn phải */
+    margin-top: 10px;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination li {
+    display: inline;
+    margin: 0 3px;
+}
+
+.pagination li a, .pagination li span {
+    padding: 5px 8px; /* Giảm kích thước nút */
+    font-size: 14px;  /* Giảm kích thước chữ */
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #007bff;
+    background: #fff;
+    border-radius: 3px;
+}
+
+.pagination li a:hover {
+    background: #007bff;
+    color: #fff;
+}

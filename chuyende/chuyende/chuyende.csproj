@@ -62,6 +62,12 @@
     <Reference Include="MimeKit, Version=4.11.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeKit.4.11.0\lib\net47\MimeKit.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.0\lib\net462\System.Buffers.dll</HintPath>
@@ -163,7 +169,6 @@
     <Compile Include="Areas\Admin\Controllers\ChucVusController.cs" />
     <Compile Include="Areas\Admin\Controllers\DangNhapController.cs" />
     <Compile Include="Areas\Admin\Controllers\HangsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HoaDonsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamsController.cs" />
@@ -182,13 +187,9 @@
     <Compile Include="Migrations\202504020034315_InitialCreate.Designer.cs">
       <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202504020049221_UpdateDatabase.cs" />
-    <Compile Include="Migrations\202504020049221_UpdateDatabase.Designer.cs">
-      <DependentUpon>202504020049221_UpdateDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504020114599_UpdateDatabaseHD.cs" />
-    <Compile Include="Migrations\202504020114599_UpdateDatabaseHD.Designer.cs">
-      <DependentUpon>202504020114599_UpdateDatabaseHD.cs</DependentUpon>
+    <Compile Include="Migrations\202504030244269_UpdateDatabase.cs" />
+    <Compile Include="Migrations\202504030244269_UpdateDatabase.Designer.cs">
+      <DependentUpon>202504030244269_UpdateDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
@@ -201,6 +202,8 @@
     <Compile Include="Models\NhanVien.cs" />
     <Compile Include="Models\SanPham.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Use\user.css" />
     <Content Include="Public\css\Use\xacnhanmk.css" />
   </ItemGroup>
@@ -282,11 +285,6 @@
     <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Trash.cshtml" />
-    <Content Include="Areas\Admin\Views\HoaDons\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\HoaDons\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\HoaDons\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\HoaDons\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\HoaDons\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -352,11 +350,8 @@
     <EmbeddedResource Include="Migrations\202504020034315_InitialCreate.resx">
       <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504020049221_UpdateDatabase.resx">
-      <DependentUpon>202504020049221_UpdateDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504020114599_UpdateDatabaseHD.resx">
-      <DependentUpon>202504020114599_UpdateDatabaseHD.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504030244269_UpdateDatabase.resx">
+      <DependentUpon>202504030244269_UpdateDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
