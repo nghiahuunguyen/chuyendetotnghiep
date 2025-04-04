@@ -30,6 +30,7 @@
         <thead>
             <tr>
                 <th>Tên loại sản phẩm</th>
+                <th>Link</th>
                 <th>Chức năng</th>
             </tr>
         </thead>
@@ -38,6 +39,7 @@
             {
                 <tr>
                     <td>@item.TenLoaiSP</td>
+                    <td>@Html.DisplayFor(model => model.Link)</td>
                     <td>
                         <div class="d-flex gap-2">
                             @using (Html.BeginForm("Restore", "LoaiSanPhams", new { id = item.MaLoaiSP }, FormMethod.Post))

@@ -6,17 +6,19 @@
 }
 
 <div class="table-container">
-    <h3>Xem chi tiết chức vụ</h3>
+    <h3>Xem chi tiết loại sản phẩm</h3>
 
     <table>
         <thead>
             <tr>
                 <th>Tên loại sản phẩm</th>
+                <th>Link</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>@Html.DisplayFor(model => model.TenLoaiSP)</td>
+                <td>@Html.DisplayFor(model => model.Link)</td>
             </tr>
         </tbody>
     </table>

@@ -7,10 +7,12 @@
     {
         public override void Up()
         {
+            AddColumn("dbo.LoaiSanPham", "Link", c => c.String());
         }
         
         public override void Down()
         {
+            DropColumn("dbo.LoaiSanPham", "Link");
         }
     }
 }

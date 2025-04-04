@@ -43,6 +43,7 @@
                 <th>#</th>
                 <th>Mã loại sản phẩm</th>
                 <th>Tên loại sản phẩm</th>
+                <th>Link</th>
                 <th>Chức năng</th>
             </tr>
             <tbody>
@@ -53,7 +54,12 @@
                         <td>@stt</td>
                         <td>@Html.DisplayFor(modelItem => item.MaLoaiSP)</td>
                         <td>@Html.DisplayFor(modelItem => item.TenLoaiSP)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Link)</td>
                         <td class="text-start">
+                            <button class="btn status-toggle @(item.Status == 1 ? "btn-success" : "btn-danger")"
+                                    data-id="@item.MaLoaiSP">
+                                <i class="fa @(item.Status == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                            </button>
                             <a href="@Url.Action("Edit","LoaiSanPhams", new { id = item.MaLoaiSP })" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -88,3 +94,32 @@
     </div>
 
 </div>
+<script>
+    $(document).ready(function () {
+    $(".status-toggle").click(function () {
+        var button = $(this);
+        var id = button.data("id");
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        $.ajax({
+            url: '@Url.Action("ToggleStatus", "LoaiSanPhams")',
+            type: "POST",
+            data: { id: id, __RequestVerificationToken: token },
+            success: function (response) {
+                if (response.success) {
+                    if (response.status === 1) {
+                        button.removeClass("btn-danger").addClass("btn-success");
+                        button.html('<i class="fa fa-toggle-on"></i>');
+                    } else {
+                        button.removeClass("btn-success").addClass("btn-danger");
+                        button.html('<i class="fa fa-toggle-off"></i>');
+                    }
+                } else {
+                    alert("Cập nhật trạng thái thất bại!");
+                }
+            }
+        });
+    });
+});
+
+</script>

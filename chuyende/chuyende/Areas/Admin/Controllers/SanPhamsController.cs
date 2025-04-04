@@ -36,7 +36,7 @@ namespace chuyende.Areas.Admin.Controllers
         }
 
         // GET: Admin/SanPhams
-        public ActionResult Index(string status = "Active", string keyword = "", int? page = 1)
+        public ActionResult Index(int status = 3, string keyword = "", int? page = 1)
         {
             int pageSize = 5; // 5 sản phẩm mỗi trang
             int pageNumber = (page ?? 1);
@@ -50,14 +50,17 @@ namespace chuyende.Areas.Admin.Controllers
 
             switch (status)
             {
-                case "Active":
+                case 1:
                     sanPhams = sanPhams.Where(sp => sp.Status == 1);
                     break;
-                case "Unpublished":
+                case 2:
                     sanPhams = sanPhams.Where(sp => sp.Status == 2);
                     break;
-                case "Deleted":
+                case 0:
                     sanPhams = sanPhams.Where(sp => sp.Status == 0);
+                    break;
+                case 3: // Active + Unpublished
+                    sanPhams = sanPhams.Where(sp => sp.Status == 1 || sp.Status == 2);
                     break;
             }
 

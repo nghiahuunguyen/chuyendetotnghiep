@@ -177,6 +177,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -187,9 +188,9 @@
     <Compile Include="Migrations\202504020034315_InitialCreate.Designer.cs">
       <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202504030244269_UpdateDatabase.cs" />
-    <Compile Include="Migrations\202504030244269_UpdateDatabase.Designer.cs">
-      <DependentUpon>202504030244269_UpdateDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\202504041320340_UpdateDatabase.cs" />
+    <Compile Include="Migrations\202504041320340_UpdateDatabase.Designer.cs">
+      <DependentUpon>202504041320340_UpdateDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
@@ -204,12 +205,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\PagedList.css" />
     <Content Include="img\banner\1.jpg" />
-    <Content Include="img\banner\2.jpeg" />
     <Content Include="img\banner\2.jpg" />
-    <Content Include="img\banner\3.jpg" />
     <Content Include="img\banner\4.jpg" />
     <Content Include="img\banner\Banner 1.png" />
     <Content Include="Public\css\Admin\phantrang.css" />
+    <Content Include="Public\css\Use\sanpham.css" />
     <Content Include="Public\css\Use\user.css" />
     <Content Include="Public\css\Use\xacnhanmk.css" />
   </ItemGroup>
@@ -320,6 +320,8 @@
     <Content Include="Views\Login\ForgotPassword.cshtml" />
     <Content Include="Views\Login\NewPassword.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Module\Menu.cshtml" />
+    <Content Include="Views\Module\ByLoai.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -356,8 +358,8 @@
     <EmbeddedResource Include="Migrations\202504020034315_InitialCreate.resx">
       <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504030244269_UpdateDatabase.resx">
-      <DependentUpon>202504030244269_UpdateDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504041320340_UpdateDatabase.resx">
+      <DependentUpon>202504041320340_UpdateDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

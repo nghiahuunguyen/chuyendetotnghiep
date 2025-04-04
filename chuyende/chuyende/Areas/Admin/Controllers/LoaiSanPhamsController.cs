@@ -12,19 +12,83 @@ namespace chuyende.Areas.Admin.Controllers
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // Danh sách loại sản phẩm theo trạng thái (mặc định là đang hoạt động)
-        public ActionResult Index(int status = 1, string keyword = "", int page = 1)
+        public ActionResult Index(int status = 3, string keyword = "", int page = 1)
         {
             int pageSize = 5; // Số lượng mục trên mỗi trang
-            var loaiSanPhams = db.LoaiSanPhams.Where(lsp => lsp.Status == status);
 
+            // Khởi tạo query cơ bản
+            var loaiSanPhams = db.LoaiSanPhams.AsQueryable();
+
+            // Lọc theo keyword (nếu có)
             if (!string.IsNullOrEmpty(keyword))
             {
                 loaiSanPhams = loaiSanPhams.Where(lsp => lsp.TenLoaiSP.Contains(keyword));
             }
 
+            // Lọc theo status
+            switch (status)
+            {
+                case 1: // Active
+                    loaiSanPhams = loaiSanPhams.Where(sp => sp.Status == 1);
+                    break;
+                case 2: // Unpublished
+                    loaiSanPhams = loaiSanPhams.Where(sp => sp.Status == 2);
+                    break;
+                case 0: // Deleted
+                    loaiSanPhams = loaiSanPhams.Where(sp => sp.Status == 0);
+                    break;
+                case 3: // Active + Unpublished
+                    loaiSanPhams = loaiSanPhams.Where(sp => sp.Status == 1 || sp.Status == 2);
+                    break;
+            }
+
+            // Phân trang
             var pagedLoaiSanPhams = loaiSanPhams.OrderBy(lsp => lsp.MaLoaiSP).ToPagedList(page, pageSize);
 
             return View(pagedLoaiSanPhams);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Publish(string id)
+        {
+            var loaisanPham = db.LoaiSanPhams.Find(id);
+            if (loaisanPham != null)
+            {
+                loaisanPham.Status = 1; 
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Loại sản phẩm đã được xuất bản!";
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Unpublish(string id)
+        {
+            var loaisanPham = db.LoaiSanPhams.Find(id);
+            if (loaisanPham != null)
+            {
+                loaisanPham.Status = 2; // Không xuất bản
+                db.SaveChanges();
+                TempData["WarningMessage"] = "Loại sản phẩm đã được chuyển sang trạng thái không xuất bản.";
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult ToggleStatus(string id)
+        {
+            var loaisanPham = db.LoaiSanPhams.Find(id);
+            if (loaisanPham != null)
+            {
+                loaisanPham.Status = (loaisanPham.Status == 1) ? 2 : 1; // Chuyển đổi trạng thái
+                db.SaveChanges();
+                return Json(new { success = true, status =  loaisanPham.Status });
+            }
+            return Json(new { success = false });
         }
 
         // Hiển thị chi tiết loại sản phẩm
@@ -45,7 +109,7 @@ namespace chuyende.Areas.Admin.Controllers
         // Xử lý tạo loại sản phẩm
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TenLoaiSP")] LoaiSanPham loaiSanPham)
+        public ActionResult Create([Bind(Include = "TenLoaiSP,Link")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +144,7 @@ namespace chuyende.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaLoaiSP,TenLoaiSP")] LoaiSanPham loaiSanPham)
+        public ActionResult Edit([Bind(Include = "MaLoaiSP,TenLoaiSP,Link")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {

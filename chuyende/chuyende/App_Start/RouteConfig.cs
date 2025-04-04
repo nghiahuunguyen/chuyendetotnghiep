@@ -13,6 +13,14 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Route alias như /Dien-Thoai
+            routes.MapRoute(
+                name: "AliasRoute",
+                url: "{alias}",
+                defaults: new { controller = "Module", action = "ByLoai" }
+            );
+
+            // Default route
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
@@ -20,4 +28,5 @@ namespace chuyende
             );
         }
     }
+
 }
