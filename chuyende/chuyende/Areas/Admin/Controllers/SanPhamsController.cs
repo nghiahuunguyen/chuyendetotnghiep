@@ -7,8 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using chuyende.Models;
 using PagedList;
+using chuyende.Models;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -16,33 +16,36 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        public ActionResult Search(string keyword = "", int page = 1, int pageSize = 10)
+        public ActionResult Search(string keyword)
         {
-            if (string.IsNullOrWhiteSpace(keyword))
+            if (string.IsNullOrEmpty(keyword))
             {
+                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            }
+
+            // Use Contains() instead of == for partial matching
+            var sanphams = db.SanPhams.Where(h => h.TenSP.Contains(keyword) || h.TuKhoa.Contains(keyword)).ToList();
+
+            if (sanphams == null || !sanphams.Any())
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy sản phẩm nào phù hợp.";
                 return RedirectToAction("Index");
             }
 
-            var sanphams = db.SanPhams
-                .Where(sp => sp.TenSP.Contains(keyword) || sp.TuKhoa.Contains(keyword))
-                .OrderBy(sp => sp.MaSP)
-                .ToPagedList(page, pageSize);
-
-            ViewBag.Keyword = keyword;
-            return View(sanphams);
+            return View("Index", sanphams.ToPagedList(1, 5)); // Trả về danh sách các sản phẩm phù hợp
         }
 
-
-
         // GET: Admin/SanPhams
-        public ActionResult Index(string status = "Active", string keyword = "", int page = 1, int pageSize = 10)
+        public ActionResult Index(string status = "Active", string keyword = "", int? page = 1)
         {
+            int pageSize = 5; // 5 sản phẩm mỗi trang
+            int pageNumber = (page ?? 1);
+
             var sanPhams = db.SanPhams.AsQueryable();
 
             if (!string.IsNullOrEmpty(keyword))
             {
                 sanPhams = sanPhams.Where(sp => sp.TenSP.Contains(keyword) || sp.TuKhoa.Contains(keyword));
-                ViewBag.Keyword = keyword;
             }
 
             switch (status)
@@ -58,12 +61,15 @@ namespace chuyende.Areas.Admin.Controllers
                     break;
             }
 
-            sanPhams = sanPhams.OrderBy(sp => sp.MaSP);
+            // Sắp xếp sản phẩm trước khi phân trang
+            sanPhams = sanPhams.OrderBy(s => s.MaSP);
 
-            return View(sanPhams.ToPagedList(page, pageSize));
+            // Lưu các bộ lọc vào ViewBag để duy trì trạng thái khi chuyển trang
+            ViewBag.CurrentStatus = status;
+            ViewBag.CurrentKeyword = keyword;
+
+            return View(sanPhams.ToPagedList(pageNumber, pageSize));
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -128,25 +134,13 @@ namespace chuyende.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 // Lấy mã NV lớn nhất hiện tại, nếu không có thì bắt đầu từ NV001
-                var lastSP = db.SanPhams
-                                        .Where(sp => sp.MaSP.StartsWith("SP"))
-                                        .OrderByDescending(sp => sp.MaSP)
-                                        .Select(sp => sp.MaSP)
-                                        .FirstOrDefault();
+                var lastSP = db.SanPhams.OrderByDescending(nv => nv.MaSP).FirstOrDefault();
+                int newId = (lastSP != null && lastSP.MaHang.StartsWith("SP"))
+                    ? int.Parse(lastSP.MaHang.Substring(2)) + 1
+                    : 1;
 
-                int newId = 1; // Mặc định nếu không có sản phẩm nào
-
-                if (lastSP != null)
-                {
-                    string numberPart = lastSP.Substring(2); // Lấy phần số từ "SP001"
-                    if (int.TryParse(numberPart, out int idNumber))
-                    {
-                        newId = idNumber + 1;
-                    }
-                }
-
-                sanPham.MaSP = $"SP{newId:D3}"; // Format thành SP001, SP002...
-
+                // Gán mã mới với format NV001, NV002, ...
+                sanPham.MaSP = $"SP{newId:D3}";
 
                 if (HinhAnh != null && HinhAnh.ContentLength > 0)
                 {
@@ -230,10 +224,13 @@ namespace chuyende.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Trash()
+        public ActionResult Trash(int? page = 1)
         {
-            var deletedSanPhams = db.SanPhams.Where(sp => sp.Status == 0).ToList();
-            return View(deletedSanPhams);
+            int pageSize = 5; // 5 sản phẩm mỗi trang
+            int pageNumber = (page ?? 1);
+
+            var deletedSanPhams = db.SanPhams.Where(sp => sp.Status == 0).OrderBy(s => s.MaSP);
+            return View(deletedSanPhams.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpPost]

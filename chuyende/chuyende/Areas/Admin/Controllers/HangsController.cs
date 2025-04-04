@@ -17,7 +17,24 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
+        public ActionResult Search(string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            }
 
+            // Use Contains() instead of == for partial matching
+            var hangs = db.Hangs.Where(h => h.TenHang.Contains(keyword) || h.TuKhoa.Contains(keyword)).ToList();
+
+            if (hangs == null || !hangs.Any())
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy hãng nào phù hợp.";
+                return RedirectToAction("Index");
+            }
+
+            return View("Index", hangs.ToPagedList(1, 5)); // Trả về danh sách các sản phẩm phù hợp
+        }
         public ActionResult Index(string status = "Active", string keyword = "", int? page = 1)
         {
             int pageSize = 5; // Số hãng mỗi trang
