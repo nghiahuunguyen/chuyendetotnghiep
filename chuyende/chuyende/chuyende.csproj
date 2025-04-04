@@ -203,6 +203,12 @@
     <Compile Include="Models\SanPham.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="img\banner\1.jpg" />
+    <Content Include="img\banner\2.jpeg" />
+    <Content Include="img\banner\2.jpg" />
+    <Content Include="img\banner\3.jpg" />
+    <Content Include="img\banner\4.jpg" />
+    <Content Include="img\banner\Banner 1.png" />
     <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Use\user.css" />
     <Content Include="Public\css\Use\xacnhanmk.css" />
@@ -239,7 +245,7 @@
     <Content Include="Public\css\Admin\login.css" />
     <Content Include="Public\css\Use\nhapky.css" />
     <Content Include="Public\css\Use\giohang.css" />
-    <Content Include="Public\css\Use\_layout.css" />
+    <Content Include="Public\css\Use\_layoutuse.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />

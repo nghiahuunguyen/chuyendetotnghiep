@@ -331,3 +331,264 @@ footer {
         height: 40px;
         width: auto;
     }
+
+/* Main Banner Styles */
+.main-banner {
+    padding: 15px 15px;
+    background-color: #f0f0f0;
+}
+
+    .main-banner .container {
+        display: block;
+        padding: 0;
+    }
+
+.tet-promotion-banner {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.banner-link {
+    display: block;
+    position: relative;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.banner-cta {
+    position: absolute;
+    left: 270px;
+    bottom: 75px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #ffd400;
+    color: #d62300;
+    font-weight: bold;
+    padding: 8px 30px;
+    border-radius: 20px;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.banner-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+    .banner-close i {
+        color: #666;
+        font-size: 12px;
+    }
+
+/* Responsive adjustments for the banner */
+@media (max-width: 992px) {
+    .banner-cta {
+        left: 30%;
+        bottom: 20%;
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-button {
+        padding: 6px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .banner-cta {
+        left: 50%;
+        bottom: 15%;
+        transform: translateX(-50%);
+    }
+
+    .cta-button {
+        padding: 5px 15px;
+        font-size: 12px;
+    }
+}
+/*Slider*/
+.slider-banner {
+    padding-bottom: 20px;
+}
+
+.carousel-item img {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.carousel-indicators {
+    bottom: -30px;
+}
+
+    .carousel-indicators button {
+        background-color: #ccc;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        margin: 0 5px;
+    }
+
+    .carousel-indicators .active {
+        background-color: #333;
+    }
+
+/* Thêm responsive */
+@media (max-width: 768px) {
+    .carousel-item img {
+        max-height: 200px;
+    }
+
+    .carousel-caption {
+        padding: 8px;
+    }
+
+        .carousel-caption h5 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .carousel-caption p {
+            font-size: 12px;
+            margin-bottom: 0;
+        }
+}
+
+/* Footer Styles */
+.main-footer {
+    background-color: #fff;
+    padding: 30px 0;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 20px;
+    padding-right: 15px;
+}
+
+.footer-title {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+        .footer-links a:hover {
+            color: #2f80ed;
+        }
+
+.payment-methods img {
+    max-width: 100%;
+    height: auto;
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    color: #666;
+    text-decoration: none;
+}
+
+    .social-link:hover {
+        background-color: #2f80ed;
+        color: #fff;
+    }
+
+.app-download h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.app-links {
+    display: flex;
+    gap: 10px;
+}
+
+.app-link img {
+    height: 32px;
+    width: auto;
+}
+
+.footer-bottom {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+    font-size: 12px;
+    color: #666;
+}
+
+.copyright, .address {
+    margin-bottom: 10px;
+}
+
+.certification {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+    .certification img {
+        height: 40px;
+        width: auto;
+    }
