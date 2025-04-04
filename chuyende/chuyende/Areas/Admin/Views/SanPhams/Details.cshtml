@@ -45,7 +45,9 @@
         <div class="product-specs">
             <h3>Thông số kỹ thuật</h3>
             <ul>
-                @Html.Raw(Model.KhuyenMai?.Replace("\n", "<br />") ?? "Không có khuyến mãi")
+                <li>
+                    @Html.Raw(Model.MoTa?.Replace("\n", "<br />") ?? "Không có mô tả")
+                </li>
             </ul>
         </div>
         <div class="form-actions">

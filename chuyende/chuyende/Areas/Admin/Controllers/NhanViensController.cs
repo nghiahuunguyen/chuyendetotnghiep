@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using chuyende.Models;
+using PagedList;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -11,16 +12,20 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        public ActionResult Index(string status = "Active")
+        public ActionResult Index(string status = "Active", int page = 1, int pageSize = 10)
         {
             var nhanViens = db.NhanViens.AsQueryable();
+
             if (status == "Active")
                 nhanViens = nhanViens.Where(nv => nv.Status == 1);
             else if (status == "Deleted")
                 nhanViens = nhanViens.Where(nv => nv.Status == 0);
 
-            return View(nhanViens.ToList());
+            nhanViens = nhanViens.OrderBy(nv => nv.MaNV); // Sắp xếp theo mã nhân viên
+
+            return View(nhanViens.ToPagedList(page, pageSize));
         }
+
 
         public ActionResult Details(string id)
         {

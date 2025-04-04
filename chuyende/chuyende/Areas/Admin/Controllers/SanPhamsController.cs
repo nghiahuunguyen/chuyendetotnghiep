@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using chuyende.Models;
+using PagedList;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -15,32 +16,33 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        public ActionResult Search(string keyword)
+        public ActionResult Search(string keyword = "", int page = 1, int pageSize = 10)
         {
-            if (string.IsNullOrEmpty(keyword))
+            if (string.IsNullOrWhiteSpace(keyword))
             {
-                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
-            }
-
-            var sanpham = db.SanPhams.FirstOrDefault(h => h.TenSP == keyword || h.TuKhoa == keyword);
-
-            if (sanpham == null)
-            {
-                TempData["ErrorMessage"] = "Không tìm thấy hãng nào phù hợp.";
                 return RedirectToAction("Index");
             }
 
-            return View("Index", new List<SanPham> { sanpham }); // Trả về danh sách chỉ có 1 hãng
+            var sanphams = db.SanPhams
+                .Where(sp => sp.TenSP.Contains(keyword) || sp.TuKhoa.Contains(keyword))
+                .OrderBy(sp => sp.MaSP)
+                .ToPagedList(page, pageSize);
+
+            ViewBag.Keyword = keyword;
+            return View(sanphams);
         }
 
+
+
         // GET: Admin/SanPhams
-        public ActionResult Index(string status = "Active", string keyword = "")
+        public ActionResult Index(string status = "Active", string keyword = "", int page = 1, int pageSize = 10)
         {
             var sanPhams = db.SanPhams.AsQueryable();
 
             if (!string.IsNullOrEmpty(keyword))
             {
                 sanPhams = sanPhams.Where(sp => sp.TenSP.Contains(keyword) || sp.TuKhoa.Contains(keyword));
+                ViewBag.Keyword = keyword;
             }
 
             switch (status)
@@ -56,8 +58,12 @@ namespace chuyende.Areas.Admin.Controllers
                     break;
             }
 
-            return View(sanPhams.ToList());
+            sanPhams = sanPhams.OrderBy(sp => sp.MaSP);
+
+            return View(sanPhams.ToPagedList(page, pageSize));
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -122,13 +128,25 @@ namespace chuyende.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 // Lấy mã NV lớn nhất hiện tại, nếu không có thì bắt đầu từ NV001
-                var lastSP = db.SanPhams.OrderByDescending(nv => nv.MaSP).FirstOrDefault();
-                int newId = (lastSP != null && lastSP.MaHang.StartsWith("SP"))
-                    ? int.Parse(lastSP.MaHang.Substring(2)) + 1
-                    : 1;
+                var lastSP = db.SanPhams
+                                        .Where(sp => sp.MaSP.StartsWith("SP"))
+                                        .OrderByDescending(sp => sp.MaSP)
+                                        .Select(sp => sp.MaSP)
+                                        .FirstOrDefault();
 
-                // Gán mã mới với format NV001, NV002, ...
-                sanPham.MaSP = $"SP{newId:D3}";
+                int newId = 1; // Mặc định nếu không có sản phẩm nào
+
+                if (lastSP != null)
+                {
+                    string numberPart = lastSP.Substring(2); // Lấy phần số từ "SP001"
+                    if (int.TryParse(numberPart, out int idNumber))
+                    {
+                        newId = idNumber + 1;
+                    }
+                }
+
+                sanPham.MaSP = $"SP{newId:D3}"; // Format thành SP001, SP002...
+
 
                 if (HinhAnh != null && HinhAnh.ContentLength > 0)
                 {

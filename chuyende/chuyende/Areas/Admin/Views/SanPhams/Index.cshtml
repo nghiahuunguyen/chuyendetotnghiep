@@ -1,4 +1,6 @@
-﻿@model IEnumerable<chuyende.Models.SanPham>
+﻿@model PagedList.IPagedList<chuyende.Models.SanPham>
+@using PagedList.Mvc
+
 
 @{
     ViewBag.Title = "Danh sách sản phẩm";
@@ -33,29 +35,29 @@
                 <i class="fas fa-search"></i> Tìm kiếm
             </button>
         }
-    <div class="actions">
-        <a href="@Url.Action("Create", "SanPhams")" class="add-btn">
-            <i class="fas fa-plus"></i> Thêm mới
-        </a>
-        <a href="@Url.Action("Trash", "SanPhams")" class="trash-btn">
-            <i class="fas fa-trash"></i> Thùng rác
-        </a>
-    </div>
-        
+        <div class="actions">
+            <a href="@Url.Action("Create", "SanPhams")" class="add-btn">
+                <i class="fas fa-plus"></i> Thêm mới
+            </a>
+            <a href="@Url.Action("Trash", "SanPhams")" class="trash-btn">
+                <i class="fas fa-trash"></i> Thùng rác
+            </a>
+        </div>
+
     </div>
 
 
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
-                <tr>
-                    <th>#</th>
-                    <th>Mã sản phẩm</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Hình ảnh</th>
-                    <th>Số lượng</th>
-                    <th>Giá bán</th>
-                    <th>Chức năng</th>
-                </tr>
+            <tr>
+                <th>#</th>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Số lượng</th>
+                <th>Giá bán</th>
+                <th>Chức năng</th>
+            </tr>
             <tbody>
                 @{ int stt = 1; }
                 @foreach (var item in Model)
@@ -109,6 +111,19 @@
             </tbody>
         </table>
     </div>
+    <div class="pagination-container text-end">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, keyword = Request.QueryString["keyword"], status = Request.QueryString["status"] }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5,
+                Display = PagedListDisplayMode.IfNeeded
+            })
+    </div>
+
 
 </div>
 

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using chuyende.Models;
+using PagedList;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -11,10 +12,19 @@ namespace chuyende.Areas.Admin.Controllers
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // Danh sách loại sản phẩm theo trạng thái (mặc định là đang hoạt động)
-        public ActionResult Index(int status = 1)
+        public ActionResult Index(int status = 1, string keyword = "", int page = 1)
         {
-            var loaiSanPhams = db.LoaiSanPhams.Where(lsp => lsp.Status == status).ToList();
-            return View(loaiSanPhams);
+            int pageSize = 5; // Số lượng mục trên mỗi trang
+            var loaiSanPhams = db.LoaiSanPhams.Where(lsp => lsp.Status == status);
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                loaiSanPhams = loaiSanPhams.Where(lsp => lsp.TenLoaiSP.Contains(keyword));
+            }
+
+            var pagedLoaiSanPhams = loaiSanPhams.OrderBy(lsp => lsp.MaLoaiSP).ToPagedList(page, pageSize);
+
+            return View(pagedLoaiSanPhams);
         }
 
         // Hiển thị chi tiết loại sản phẩm

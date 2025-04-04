@@ -20,8 +20,8 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Index(string status = "Active", string keyword = "", int? page = 1)
         {
-            int pageSize = 5; // Hiển thị 5 hãng mỗi trang
-            int pageNumber = (page ?? 1); // Nếu không có số trang, mặc định là trang 1
+            int pageSize = 5; // Số hãng mỗi trang
+            int pageNumber = (page ?? 1); // Nếu không có trang, mặc định trang 1
 
             var hangs = db.Hangs.AsQueryable();
 
@@ -43,7 +43,9 @@ namespace chuyende.Areas.Admin.Controllers
                     break;
             }
 
-            return View(hangs.OrderBy(h => h.TenHang).ToPagedList(pageNumber, pageSize));
+            hangs = hangs.OrderBy(h => h.TenHang); // Sắp xếp theo tên hãng
+
+            return View(hangs.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpPost]

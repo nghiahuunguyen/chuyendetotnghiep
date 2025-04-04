@@ -1,4 +1,6 @@
-﻿@model IEnumerable<chuyende.Models.NhanVien>
+﻿@model PagedList.IPagedList<chuyende.Models.NhanVien>
+@using PagedList.Mvc
+
 
 @{
     ViewBag.Title = "Danh sách nhân viên";
@@ -90,6 +92,19 @@
             </tbody>
         </table>
     </div>
+    <div class="pagination-container text-end">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5,
+                Display = PagedListDisplayMode.IfNeeded
+            })
+    </div>
+
 </div>
 
 
