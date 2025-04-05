@@ -12,7 +12,31 @@ namespace chuyende
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute(
+            name: "ByHang",
+            url: "{loaiAlias}/hang/{hangAlias}",
+            defaults: new { controller = "Module", action = "ByHang" },
+            constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", hangAlias = @"^[a-zA-Z0-9\-]+$" }
+            );
 
+            routes.MapRoute(
+                name: "Cart",
+                url: "Cart/{action}/{id}",
+                defaults: new { controller = "Cart", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Register",
+                url: "Register/{action}/{id}",
+                defaults: new { controller = "Register", action = "Index", id = UrlParameter.Optional }
+            );
+
+
+            routes.MapRoute(
+                name: "Login",
+                url: "Login/{action}/{id}",
+                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
+            );
             // Route chi tiết sản phẩm: /{loaiAlias}/{alias}
             routes.MapRoute(
                 name: "ChiTietSanPham",

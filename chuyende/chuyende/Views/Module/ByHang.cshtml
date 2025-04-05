@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "ByHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="product-display">
+    <div class="container">
+        <div class="products-grid">
+            @foreach (var product in Model)
+            {
+                <div class="product-card">
+                    <a href="@Url.Action("ChiTiet", "Module", new { loaiAlias = product.LoaiSanPham.Link, alias = product.Link })" class="product-link">
+                        <div class="product-img-container">
+                            <img src="@Url.Content("~/img/sanpham/" + product.HinhAnh)" alt="@product.TenSP">
+                        </div>
+                        <h3 class="product-name">@product.TenSP</h3>
+                        <div class="product-price">
+                            <span class="current-price">
+                                @if (product.GiaDau > 0 && product.SoGiam >= 0)
+                                {
+                                    var giaBan = product.GiaDau - (product.GiaDau * product.SoGiam / 100);
+                                    @String.Format("{0:N0} VND", giaBan)
+                                }
+                            </span>
+                            <div class="price-info">
+                                <span class="old-price">@(product.GiaDau?.ToString("#,##0") ?? "0") VNĐ</span>
+                                <span class="discount">-@product.SoGiam%</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+

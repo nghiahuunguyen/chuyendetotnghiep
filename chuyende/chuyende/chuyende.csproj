@@ -192,6 +192,10 @@
     <Compile Include="Migrations\202504050310275_UpdateDatabase1.Designer.cs">
       <DependentUpon>202504050310275_UpdateDatabase1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504050743397_UpdateDatabaseHang.cs" />
+    <Compile Include="Migrations\202504050743397_UpdateDatabaseHang.Designer.cs">
+      <DependentUpon>202504050743397_UpdateDatabaseHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
@@ -324,6 +328,7 @@
     <Content Include="Views\Module\Menu.cshtml" />
     <Content Include="Views\Module\ByLoai.cshtml" />
     <Content Include="Views\Module\ChiTiet.cshtml" />
+    <Content Include="Views\Module\ByHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -362,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504050310275_UpdateDatabase1.resx">
       <DependentUpon>202504050310275_UpdateDatabase1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504050743397_UpdateDatabaseHang.resx">
+      <DependentUpon>202504050743397_UpdateDatabaseHang.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -124,7 +124,7 @@ namespace chuyende.Areas.Admin.Controllers
         // POST: Admin/Hangs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa,Status")] Hang hang, HttpPostedFileBase Logo)
+        public ActionResult Create([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa,Status,Link")] Hang hang, HttpPostedFileBase Logo)
         {
             if (ModelState.IsValid)
             {
@@ -180,7 +180,7 @@ namespace chuyende.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa")] Hang hang, HttpPostedFileBase LogoFile)
+        public ActionResult Edit([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa,Link")] Hang hang, HttpPostedFileBase LogoFile)
         {
             if (ModelState.IsValid)
             {

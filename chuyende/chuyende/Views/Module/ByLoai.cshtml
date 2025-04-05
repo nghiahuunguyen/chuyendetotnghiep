@@ -1,12 +1,25 @@
 ﻿@model IEnumerable<chuyende.Models.SanPham>
 @{
-    // Đặt tiêu đề trang với tên loại sản phẩm từ ViewBag.Title
     ViewBag.Title = ViewBag.TenLoaiSP;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <section class="product-display">
     <div class="container">
+        <!-- Hiển thị logo của các hãng liên quan đến loại sản phẩm -->
+        <div class="brand-logos">
+            @foreach (var hang in ViewBag.HangSanPhams)
+            {
+                <div class="brand-logo-container">
+                    @if (hang != null && hang.Logo != null)
+                    {
+                        <a href="@Url.Action("ByHang", "Module", new { loaiAlias = Request.Url.Segments[1].Trim('/'), hangAlias = hang.MaHang })">
+                            <img src="@Url.Content("~/img/hang/" + hang.Logo)" alt="@hang.TenHang" class="brand-logo">
+                        </a>
+                    }
+                </div>
+            }
+        </div>
         <!-- Products grid -->
         <div class="products-grid">
             <!-- Lặp qua từng sản phẩm -->
@@ -38,3 +51,34 @@
         </div>
     </div>
 </section>
+
+<style>
+    /* CSS cho phần logo của các hãng */
+    .brand-logos {
+        display: flex;
+        flex-wrap: nowrap; /* Đảm bảo không bị xuống dòng */
+        justify-content: center; /* Canh giữa các logo */
+        gap: 20px; /* Khoảng cách giữa các logo */
+        margin-bottom: 20px; /* Khoảng cách dưới các logo */
+    }
+
+    .brand-logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px; /* Tăng chiều rộng container logo */
+        height: 80px; /* Tăng chiều cao container logo */
+    }
+
+    .brand-logo {
+        width: 100%; /* Đảm bảo logo chiếm hết chiều rộng của container */
+        height: 100%; /* Đảm bảo logo chiếm hết chiều cao của container */
+        object-fit: contain; /* Đảm bảo ảnh không bị biến dạng và vẫn giữ được tỷ lệ */
+        transition: transform 0.3s ease; /* Thêm hiệu ứng zoom khi hover */
+    }
+
+        .brand-logo:hover {
+            transform: scale(1.1); /* Zoom khi hover */
+        }
+
+</style>

@@ -19,6 +19,7 @@ namespace chuyende.Models
         public string DiaChi { get; set; }
         public string TuKhoa { get; set; }
         public int Status { get; set; }
+        public string Link { get; set; }
         public virtual ICollection<SanPham> SanPhams { get; set; }
     }
 }
