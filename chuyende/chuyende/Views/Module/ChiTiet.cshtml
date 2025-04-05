@@ -1,0 +1,18 @@
+﻿@model chuyende.Models.SanPham
+@{
+    ViewBag.Title = ViewBag.TenSP;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="product-detail">
+    <div class="container">
+        <h2>@Model.TenSP</h2>
+
+        <div class="product-info">
+            <img src="@Url.Content("~/img/sanpham/" + Model.HinhAnh)" alt="@Model.TenSP" />
+            <p><strong>Giá:</strong> @String.Format("{0:N0} VNĐ", Model.GiaDau)</p>
+            <p><strong>Giảm giá:</strong> -@Model.SoGiam%</p>
+            <p><strong>Mô tả:</strong> @Model.MoTa</p>
+        </div>
+    </div>
+</section>

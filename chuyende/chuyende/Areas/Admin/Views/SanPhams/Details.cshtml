@@ -21,10 +21,10 @@
                 var giaBan = Model.GiaDau - (Model.GiaDau * Model.SoGiam / 100);
                 @String.Format("{0:N0} VND", giaBan)
             }
-        <span style="text-decoration: line-through; color: #888; margin-left: 10px;">
-            @(Model.GiaDau?.ToString("#,##0") ?? "0") VNĐ
+            <span style="text-decoration: line-through; color: #888; margin-left: 10px;">
+                @(Model.GiaDau?.ToString("#,##0") ?? "0") VNĐ
 
-        </span>
+            </span>
 
             <span style="color: #d32f2f; margin-left: 10px;">-@Html.DisplayFor(model => model.SoGiam)%</span>
         </div>
@@ -44,12 +44,13 @@
 
         <div class="product-specs">
             <h3>Thông số kỹ thuật</h3>
-            <ul>
-                <li>
-                    @Html.Raw(Model.MoTa?.Replace("\n", "<br />") ?? "Không có mô tả")
-                </li>
-            </ul>
+            <p>
+                @Html.Raw(Model.MoTa?.Replace("\n", "<br />") ?? "Không có mô tả")
+            </p>
         </div>
+
+
+        <h3 class="product-title">Link: @Html.DisplayFor(model => model.Link)</h3>
         <div class="form-actions">
             <button type="button" class="save-btn btn btn-warning" onclick="window.location.href='@Url.Action("Edit", "SanPhams", new { id = Model.MaSP })'">Chỉnh sửa</button>
             <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "SanPhams")'">Hủy</button>

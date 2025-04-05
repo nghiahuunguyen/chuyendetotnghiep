@@ -188,9 +188,9 @@
     <Compile Include="Migrations\202504020034315_InitialCreate.Designer.cs">
       <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202504041320340_UpdateDatabase.cs" />
-    <Compile Include="Migrations\202504041320340_UpdateDatabase.Designer.cs">
-      <DependentUpon>202504041320340_UpdateDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\202504050310275_UpdateDatabase1.cs" />
+    <Compile Include="Migrations\202504050310275_UpdateDatabase1.Designer.cs">
+      <DependentUpon>202504050310275_UpdateDatabase1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
@@ -322,6 +322,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Module\Menu.cshtml" />
     <Content Include="Views\Module\ByLoai.cshtml" />
+    <Content Include="Views\Module\ChiTiet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -358,8 +359,8 @@
     <EmbeddedResource Include="Migrations\202504020034315_InitialCreate.resx">
       <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504041320340_UpdateDatabase.resx">
-      <DependentUpon>202504041320340_UpdateDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504050310275_UpdateDatabase1.resx">
+      <DependentUpon>202504050310275_UpdateDatabase1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -13,7 +13,16 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // Route alias như /Dien-Thoai
+            // Route cho chi tiết sản phẩm (ModuleController)
+            routes.MapRoute(
+    name: "ChiTietSanPham",
+    url: "{loaiAlias}/{alias}",
+    defaults: new { controller = "Module", action = "ChiTiet" }
+);
+
+
+
+            // Route alias theo loại sản phẩm
             routes.MapRoute(
                 name: "AliasRoute",
                 url: "{alias}",
@@ -28,5 +37,6 @@ namespace chuyende
             );
         }
     }
+
 
 }

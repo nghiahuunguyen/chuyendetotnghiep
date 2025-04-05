@@ -49,6 +49,46 @@ namespace chuyende.Controllers
 
             return View(sanPhams);
         }
+        public ActionResult ChiTiet(string loaiAlias, string alias, string version)
+        {
+            if (string.IsNullOrEmpty(alias))
+            {
+                return HttpNotFound("Alias không hợp lệ.");
+            }
+
+            // Kiểm tra loại sản phẩm
+            var loai = db.LoaiSanPhams
+                         .FirstOrDefault(l => l.Link.Trim().ToLower() == loaiAlias.Trim().ToLower());
+
+            if (loai == null)
+            {
+                return HttpNotFound("Không tìm thấy loại sản phẩm.");
+            }
+
+            // Tìm sản phẩm theo alias trong loại sản phẩm
+            var sanPham = db.SanPhams
+                            .FirstOrDefault(sp => sp.Link.Trim().ToLower() == alias.Trim().ToLower()
+                                                 && sp.MaLoaiSP == loai.MaLoaiSP && sp.Status == 1);
+
+            if (sanPham == null)
+            {
+                return HttpNotFound("Không tìm thấy sản phẩm.");
+            }
+
+            // Nếu có version, bạn có thể xử lý thêm nếu cần
+            if (!string.IsNullOrEmpty(version))
+            {
+                // Xử lý version nếu cần
+            }
+
+            ViewBag.TenSP = sanPham.TenSP;
+            ViewBag.Title = sanPham.TenSP;
+
+            return View(sanPham);
+        }
+
+
+
 
     }
 }
