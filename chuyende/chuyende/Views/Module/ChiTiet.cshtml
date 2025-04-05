@@ -4,15 +4,55 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="product-detail">
-    <div class="container">
-        <h2>@Model.TenSP</h2>
-
-        <div class="product-info">
-            <img src="@Url.Content("~/img/sanpham/" + Model.HinhAnh)" alt="@Model.TenSP" />
-            <p><strong>Giá:</strong> @String.Format("{0:N0} VNĐ", Model.GiaDau)</p>
-            <p><strong>Giảm giá:</strong> -@Model.SoGiam%</p>
-            <p><strong>Mô tả:</strong> @Model.MoTa</p>
-        </div>
+<div class="product-container">
+    <div class="product-images">
+        <img class="product-main-image" style="max-width: 400px; max-height: 400px;" src="@Url.Content("~/img/sanpham/" + Model.HinhAnh)" />
     </div>
-</section>
+    <div class="product-info">
+        <h1 class="product-title">@Html.DisplayFor(model => model.TenSP)</h1>
+
+        <div class="product-price">
+            
+            @if (Model.GiaDau > 0 && Model.SoGiam >= 0)
+
+            {
+                var giaBan = Model.GiaDau - (Model.GiaDau * Model.SoGiam / 100);
+                @String.Format("{0:N0} VND", giaBan)
+            }
+            <span style="text-decoration: line-through; color: #888; margin-left: 10px;">
+                @(Model.GiaDau?.ToString("#,##0") ?? "0") VNĐ
+
+            </span>
+
+            <span style="color: #d32f2f; margin-left: 10px;">-@Html.DisplayFor(model => model.SoGiam)%</span>
+        </div>
+        
+
+        <div class="product-promo">
+            <h3>Khuyến mãi</h3>
+            <ul>
+                <li style="list-style: none;">
+                    @Html.Raw(Model.KhuyenMai?.Replace("\n", "<br />") ?? "Không có khuyến mãi")
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="product-specs">
+            <h3>Thông số kỹ thuật</h3>
+            <p>
+                @Html.Raw(Model.MoTa?.Replace("\n", "<br />") ?? "Không có mô tả")
+            </p>
+        </div>
+
+        <div class="product-actions">
+            <button class="buy-now">
+                <i class="fas fa-shopping-cart"></i> Mua ngay
+            </button>
+            <button class="add-to-cart">
+                <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+            </button>
+        </div>
+
+    </div>
+</div>

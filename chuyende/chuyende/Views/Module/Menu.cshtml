@@ -1,20 +1,15 @@
-﻿
-
-
-@model IEnumerable<chuyende.Models.LoaiSanPham>
+﻿@model IEnumerable<chuyende.Models.LoaiSanPham>
 
 <nav class="main-nav">
     <div class="container">
-        <a href="@Url.Action("Index","Home")" class="nav-item">
+        <a href="@Url.Action("Index", "Home")" class="nav-item">
             <span>Trang Chủ</span>
         </a>
         @foreach (var item in Model)
         {
-
-            <a href="@item.Link" class="nav-item">
+            <a href="@Url.RouteUrl("AliasRoute", new { alias = item.Link })" class="nav-item">
                 <span>@item.TenLoaiSP</span>
             </a>
         }
     </div>
 </nav>
-

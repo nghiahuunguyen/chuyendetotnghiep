@@ -13,20 +13,20 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // Route cho chi tiết sản phẩm (ModuleController)
+            // Route chi tiết sản phẩm: /{loaiAlias}/{alias}
             routes.MapRoute(
-    name: "ChiTietSanPham",
-    url: "{loaiAlias}/{alias}",
-    defaults: new { controller = "Module", action = "ChiTiet" }
-);
+                name: "ChiTietSanPham",
+                url: "{loaiAlias}/{alias}",
+                defaults: new { controller = "Module", action = "ChiTiet" },
+                constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", alias = @"^[a-zA-Z0-9\-]+$" }
+            );
 
-
-
-            // Route alias theo loại sản phẩm
+            // Route loại sản phẩm: /{alias}
             routes.MapRoute(
                 name: "AliasRoute",
                 url: "{alias}",
-                defaults: new { controller = "Module", action = "ByLoai" }
+                defaults: new { controller = "Module", action = "ByLoai" },
+                constraints: new { alias = @"^[a-zA-Z0-9\-]+$" }
             );
 
             // Default route
@@ -35,6 +35,7 @@ namespace chuyende
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
         }
     }
 
