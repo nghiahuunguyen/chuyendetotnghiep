@@ -22,7 +22,6 @@ namespace chuyende.Models
         public string DiaChi { get; set; }
         public int PhuongThucThanhToan { get; set; }
         public int TrangThai { get; set; }
-        [Required]
         public string NguoiTao { get; set; }
         public DateTime NgayTao { get; set; }
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDon { get; set; }

@@ -1,0 +1,132 @@
+﻿
+/*Order Admin*/
+
+.form-container {
+    display: flex;
+    width: 100%;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+.customer-info, .order-info {
+    flex: 1;
+    padding: 20px;
+}
+.customer-info h3, .order-info h3 {
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+.form-group {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.avatar {
+    width: 100px;
+    height: 100px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    position: relative;
+}
+.avatar-upload {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #007bff;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.gender-group {
+    display: flex;
+    gap: 15px;
+}
+.gender-option {
+    display: flex;
+    align-items: center;
+}
+.gender-option input {
+    margin-right: 5px;
+}
+.table-container {
+    margin-bottom: 15px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.add-product-btn {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.payment-btn {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+/* Tăng z-index của modal để tránh bị đè */
+.modal {
+    z-index: 1060;
+}
+
+.modal-backdrop {
+    z-index: 1055;
+}
+
+/* Đảm bảo Select2 hiển thị đúng trong modal */
+.select2-container {
+    z-index: 1065;
+}
+
+    .select2-container .select2-dropdown {
+        z-index: 1065;
+    }
+
+/* Đảm bảo form-group có kích thước cố định */
+.form-group {
+    width: 100%;
+}
+
+/* Đặt chiều rộng cố định cho ô chọn sản phẩm (Select2) và ô số lượng */
+#productSelect + .select2-container,
+#quantityInput {
+    width: 100% !important;
+    max-width: 500px; /* Tăng chiều rộng tối đa từ 300px lên 400px */
+}
+

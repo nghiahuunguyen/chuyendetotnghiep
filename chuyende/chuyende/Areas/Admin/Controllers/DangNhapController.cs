@@ -32,7 +32,7 @@ namespace chuyende.Areas.Admin.Controllers
                 return View();
             }
 
-            Session["User"] = user.TenNV;
+            Session["Admin"] = user.TenNV;
             Session["ChucVu"] = user.ChucVu?.TenCV?.Trim() ?? "Không xác định";
 
             return RedirectToAction("Index", "HomeAdmin");

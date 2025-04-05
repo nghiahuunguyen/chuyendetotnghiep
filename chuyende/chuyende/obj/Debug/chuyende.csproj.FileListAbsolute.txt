@@ -197,3 +197,4 @@ D:\chuyendetotnghiep\chuyende\chuyende\bin\PagedList.xml
 D:\chuyendetotnghiep\chuyende\chuyende\bin\PagedList.Mvc.xml
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabase1.resources
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaseHang.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabasehd.resources

@@ -14,7 +14,13 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Index(string status = "Active", int page = 1, int pageSize = 10)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var nhanViens = db.NhanViens.AsQueryable();
+
+            
 
             if (status == "Active")
                 nhanViens = nhanViens.Where(nv => nv.Status == 1);

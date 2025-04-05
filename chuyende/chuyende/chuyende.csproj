@@ -169,6 +169,7 @@
     <Compile Include="Areas\Admin\Controllers\ChucVusController.cs" />
     <Compile Include="Areas\Admin\Controllers\DangNhapController.cs" />
     <Compile Include="Areas\Admin\Controllers\HangsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HoaDonsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamsController.cs" />
@@ -196,6 +197,10 @@
     <Compile Include="Migrations\202504050743397_UpdateDatabaseHang.Designer.cs">
       <DependentUpon>202504050743397_UpdateDatabaseHang.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504051432563_UpdateDatabasehd.cs" />
+    <Compile Include="Migrations\202504051432563_UpdateDatabasehd.Designer.cs">
+      <DependentUpon>202504051432563_UpdateDatabasehd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
@@ -212,6 +217,7 @@
     <Content Include="img\banner\2.jpg" />
     <Content Include="img\banner\4.jpg" />
     <Content Include="img\banner\Banner 1.png" />
+    <Content Include="Public\css\Admin\hoadonadmin.css" />
     <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Use\chitietsp.css" />
     <Content Include="Public\css\Use\sanpham.css" />
@@ -296,6 +302,11 @@
     <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Trash.cshtml" />
+    <Content Include="Areas\Admin\Views\HoaDons\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\HoaDons\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\HoaDons\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\HoaDons\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\HoaDons\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -370,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504050743397_UpdateDatabaseHang.resx">
       <DependentUpon>202504050743397_UpdateDatabaseHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504051432563_UpdateDatabasehd.resx">
+      <DependentUpon>202504051432563_UpdateDatabasehd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -38,11 +38,16 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/SanPhams
         public ActionResult Index(int status = 3, string keyword = "", int? page = 1)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             int pageSize = 5; // 5 sản phẩm mỗi trang
             int pageNumber = (page ?? 1);
 
             var sanPhams = db.SanPhams.AsQueryable();
 
+           
             if (!string.IsNullOrEmpty(keyword))
             {
                 sanPhams = sanPhams.Where(sp => sp.TenSP.Contains(keyword) || sp.TuKhoa.Contains(keyword));

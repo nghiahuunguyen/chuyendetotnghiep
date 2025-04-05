@@ -14,10 +14,16 @@ namespace chuyende.Areas.Admin.Controllers
         // Danh sách loại sản phẩm theo trạng thái (mặc định là đang hoạt động)
         public ActionResult Index(int status = 3, string keyword = "", int page = 1)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             int pageSize = 5; // Số lượng mục trên mỗi trang
 
             // Khởi tạo query cơ bản
             var loaiSanPhams = db.LoaiSanPhams.AsQueryable();
+
+            
 
             // Lọc theo keyword (nếu có)
             if (!string.IsNullOrEmpty(keyword))

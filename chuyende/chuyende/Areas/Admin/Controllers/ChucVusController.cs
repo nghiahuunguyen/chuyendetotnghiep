@@ -14,7 +14,12 @@ namespace chuyende.Areas.Admin.Controllers
         // Hiển thị danh sách chức vụ
         public ActionResult Index(string status = "Active")
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var chucVus = db.ChucVus.AsQueryable();
+            
             if (status == "Active")
             {
                 chucVus = chucVus.Where(m => m.Status == 1);

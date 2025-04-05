@@ -37,10 +37,16 @@ namespace chuyende.Areas.Admin.Controllers
         }
         public ActionResult Index(string status = "Active", string keyword = "", int? page = 1)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             int pageSize = 5; // Số hãng mỗi trang
             int pageNumber = (page ?? 1); // Nếu không có trang, mặc định trang 1
 
             var hangs = db.Hangs.AsQueryable();
+
+            
 
             if (!string.IsNullOrEmpty(keyword))
             {
