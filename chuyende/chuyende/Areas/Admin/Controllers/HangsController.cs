@@ -192,6 +192,7 @@ namespace chuyende.Areas.Admin.Controllers
                     existingHang.Email = hang.Email;
                     existingHang.DiaChi = hang.DiaChi;
                     existingHang.TuKhoa = hang.TuKhoa;
+                    existingHang.Link = hang.Link;
 
                     if (LogoFile != null && LogoFile.ContentLength > 0)
                     {
