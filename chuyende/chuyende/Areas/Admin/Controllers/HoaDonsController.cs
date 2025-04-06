@@ -22,8 +22,32 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "DangNhap");
             }
-            return View(db.HoaDons.ToList());
+            var hoaDons = db.HoaDons.Include(hd => hd.ChiTietHoaDon).ToList();
+
+            // Tính tổng tiền cho mỗi hóa đơn và lưu vào ViewBag
+            List<decimal> tongTienList = new List<decimal>();
+            foreach (var hoaDon in hoaDons)
+            {
+                decimal tongTien = 0;
+
+                // Tính tổng tiền cho mỗi hóa đơn
+                foreach (var chiTiet in hoaDon.ChiTietHoaDon)
+                {
+                    var sanPham = db.SanPhams.Find(chiTiet.MaSP);
+                    if (sanPham != null)
+                    {
+                        tongTien += (sanPham.GiaDau ?? 0) * chiTiet.SoLuong;
+                    }
+                }
+
+                tongTienList.Add(tongTien); // Lưu tổng tiền vào danh sách
+            }
+
+            ViewBag.TongTienList = tongTienList; // Truyền danh sách tổng tiền vào View
+
+            return View(hoaDons); // Truyền danh sách hóa đơn vào View
         }
+
 
         // GET: Admin/HoaDons/Details/5
         public ActionResult Details(string id)
@@ -86,31 +110,17 @@ namespace chuyende.Areas.Admin.Controllers
             }
 
             // Lấy tên người dùng từ session
-            string username = Session["Admin"] as string; // Lấy từ Session["Admin"] thay vì User.Identity.Name
+            string username = Session["Admin"] as string;
 
-            // Kiểm tra nếu tên người dùng có trong session hay không
             if (string.IsNullOrEmpty(username))
             {
                 hoaDon.NguoiTao = "Unknown (Not Logged In)";
-                Debug.WriteLine("Không có tên người dùng trong session.");
             }
             else
             {
-                // Tìm kiếm người dùng trong cơ sở dữ liệu
-                var nhanVien = db.NhanViens.FirstOrDefault(nv => nv.TenDN == username);
-
-                if (nhanVien != null)
-                {
-                    hoaDon.NguoiTao = nhanVien.TenNV;
-                    Debug.WriteLine("Người tạo là: " + nhanVien.TenNV); // In ra tên nhân viên
-                }
-                else
-                {
-                    hoaDon.NguoiTao = "Unknown (User Not Found)";
-                    Debug.WriteLine("Không tìm thấy người dùng: " + username); // Thông báo khi không tìm thấy người dùng
-                }
+                // Vì username chính là TenNV, gán trực tiếp
+                hoaDon.NguoiTao = username;
             }
-
 
 
             // Tạo mã hóa đơn tự động dạng HD001, HD002, ...

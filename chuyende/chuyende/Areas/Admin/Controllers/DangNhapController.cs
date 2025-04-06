@@ -36,8 +36,6 @@ namespace chuyende.Areas.Admin.Controllers
             Session["Admin"] = user.TenNV;
             Session["ChucVu"] = user.ChucVu?.TenCV?.Trim() ?? "Không xác định";
 
-            Debug.WriteLine("Đăng nhập thành công, Admin: " + Session["Admin"]);
-
 
             return RedirectToAction("Index", "HomeAdmin");
         }

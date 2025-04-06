@@ -31,25 +31,25 @@
                 <h3>Thông tin khách hàng</h3>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.TenKH)
+                    @Html.LabelFor(m => m.TenKH,"Tên Khách Hàng")
                     @Html.TextBoxFor(m => m.TenKH, new { @placeholder = "Nhập họ và tên", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.TenKH, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.DiaChi)
+                    @Html.LabelFor(m => m.DiaChi,"Địa Chỉ")
                     @Html.TextBoxFor(m => m.DiaChi, new { @placeholder = "Nhập địa chỉ", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email)
+                    @Html.LabelFor(m => m.Email,"Email")
                     @Html.TextBoxFor(m => m.Email, new { @placeholder = "Nhập email", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.SoDienThoai)
+                    @Html.LabelFor(m => m.SoDienThoai,"Số Điện Thoại")
                     @Html.TextBoxFor(m => m.SoDienThoai, new { @placeholder = "Nhập số điện thoại", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.SoDienThoai, "", new { @class = "text-danger" })
                 </div>
