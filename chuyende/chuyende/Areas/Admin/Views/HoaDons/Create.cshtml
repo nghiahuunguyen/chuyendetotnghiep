@@ -1,8 +1,11 @@
 ﻿@model chuyende.Models.HoaDon
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Tạo hóa đơn";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    // Serialize dữ liệu cho JavaScript
+    var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.SanPhamData);
 }
 
 
@@ -103,11 +106,12 @@
                     <div class="form-group">
                         <label>Sản phẩm</label>
                         <select class="form-control" id="productSelect">
-                            @foreach (var sp in ViewBag.SanPhams as List<chuyende.Models.SanPham>)
+                            @foreach (var sp in ViewBag.SanPhams as List<SelectListItem>)
                             {
-                                <option value="@sp.MaSP">@sp.TenSP</option>
+                                <option value="@sp.Value">@sp.Text</option>
                             }
                         </select>
+
                     </div>
                     <div class="form-group">
                         <label>Số lượng</label>
@@ -134,17 +138,76 @@
 
 <script>
     $(document).ready(function () {
-        // Khởi tạo Select2 cho productSelect
+        let productData = @Html.Raw(jsonData);
+
+        // Initialize Select2
         $('#productSelect').select2({
             placeholder: "Chọn sản phẩm",
             allowClear: true,
             dropdownParent: $('#addProductModal')
         });
 
-        // Khi modal được mở, xóa lựa chọn hiện tại và đặt số lượng về 1
         $('#addProductModal').on('shown.bs.modal', function () {
-            $('#productSelect').val(null).trigger('change'); // Xóa lựa chọn
-            $('#quantityInput').val(1); // Đặt số lượng về 1
+            $('#productSelect').val(null).trigger('change');
+            $('#quantityInput').val(1);
+        });
+
+        function formatCurrency(value) {
+            return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+
+        function updateTotalPrice() {
+            let total = 0;
+            $('#orderProducts tr').each(function () {
+                let thanhTien = parseFloat($(this).find('.thanh-tien').data('value'));
+                total += thanhTien;
+            });
+            $('#TotalPrice').val(formatCurrency(total));
+        }
+
+        $('#addProductConfirm').click(function () {
+            let productId = $('#productSelect').val();
+            let quantity = parseInt($('#quantityInput').val());
+
+            if (!productId || quantity <= 0) {
+                alert("Vui lòng chọn sản phẩm và số lượng hợp lệ.");
+                return;
+            }
+
+            let selectedProduct = productData.find(p => p.MaSP == productId);
+            if (!selectedProduct) {
+                alert("Không tìm thấy sản phẩm.");
+                return;
+            }
+
+            let price = selectedProduct.Gia;
+            let total = price * quantity;
+
+            let newRow = `
+                <tr>
+                    <td>
+                        <input type="hidden" name="MaSPs" value="${productId}" />
+                        ${selectedProduct.TenSP}
+                    </td>
+                    <td>
+                        <input type="hidden" name="SoLuongs" value="${quantity}" />
+                        ${quantity}
+                    </td>
+                    <td>${formatCurrency(price)}</td>
+                    <td class="thanh-tien" data-value="${total}">${formatCurrency(total)}</td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-product">Xóa</button></td>
+                </tr>
+            `;
+
+            $('#orderProducts').append(newRow);
+            $('#addProductModal').modal('hide');
+            updateTotalPrice();
+        });
+
+        $('#orderProducts').on('click', '.remove-product', function () {
+            $(this).closest('tr').remove();
+            updateTotalPrice();
         });
     });
 </script>
+
