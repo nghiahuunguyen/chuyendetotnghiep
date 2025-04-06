@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using chuyende.Models;
 
@@ -16,6 +13,28 @@ namespace chuyende.Areas.Admin.Controllers
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // GET: Admin/HoaDons
+        [HttpPost]
+        public ActionResult UpdateStatus(string id, int trangThai)
+        {
+            try
+            {
+                var hoaDon = db.HoaDons.FirstOrDefault(h => h.MaHD == id);
+                if (hoaDon == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy hóa đơn" });
+                }
+
+                hoaDon.TrangThai = trangThai;
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
         public ActionResult Index()
         {
             if (Session["Admin"] == null)
@@ -46,22 +65,6 @@ namespace chuyende.Areas.Admin.Controllers
             ViewBag.TongTienList = tongTienList; // Truyền danh sách tổng tiền vào View
 
             return View(hoaDons); // Truyền danh sách hóa đơn vào View
-        }
-
-
-        // GET: Admin/HoaDons/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            HoaDon hoaDon = db.HoaDons.Find(id);
-            if (hoaDon == null)
-            {
-                return HttpNotFound();
-            }
-            return View(hoaDon);
         }
 
         // GET: Admin/HoaDons/Create
@@ -96,7 +99,6 @@ namespace chuyende.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Nếu có lỗi, lấy lại danh sách sản phẩm như trên
                 var sanPhams = db.SanPhams
                     .Where(sp => sp.SoLuong > 0 && sp.Status == 1)
                     .Select(sp => new
@@ -109,82 +111,54 @@ namespace chuyende.Areas.Admin.Controllers
                 return View(hoaDon);
             }
 
-            // Lấy tên người dùng từ session
+            // Thêm thông tin người tạo
             string username = Session["Admin"] as string;
+            hoaDon.NguoiTao = string.IsNullOrEmpty(username) ? "Unknown" : username;
 
-            if (string.IsNullOrEmpty(username))
-            {
-                hoaDon.NguoiTao = "Unknown (Not Logged In)";
-            }
-            else
-            {
-                // Vì username chính là TenNV, gán trực tiếp
-                hoaDon.NguoiTao = username;
-            }
-
-
-            // Tạo mã hóa đơn tự động dạng HD001, HD002, ...
+            // Tạo mã hóa đơn mới
             string lastMaHD = db.HoaDons
                 .OrderByDescending(h => h.MaHD)
                 .Select(h => h.MaHD)
                 .FirstOrDefault();
-
             int nextNumber = 1;
-
             if (!string.IsNullOrEmpty(lastMaHD) && lastMaHD.Length >= 5 && lastMaHD.StartsWith("HD"))
             {
-                string numberPart = lastMaHD.Substring(2); // Bỏ "HD"
+                string numberPart = lastMaHD.Substring(2);
                 if (int.TryParse(numberPart, out int lastNumber))
                 {
                     nextNumber = lastNumber + 1;
                 }
             }
-
             hoaDon.MaHD = "HD" + nextNumber.ToString("D3");
             hoaDon.NgayTao = DateTime.Now;
             hoaDon.TrangThai = 0;
 
             db.HoaDons.Add(hoaDon);
+            db.SaveChanges();  // Lưu hóa đơn để có MaHD
 
-            // Tạo chi tiết hóa đơn
+            // Lưu các ChiTietHoaDon cho các sản phẩm trong hóa đơn
             for (int i = 0; i < MaSPs.Length; i++)
             {
                 if (SoLuongs[i] > 0)
                 {
-                    // Tìm mã CH cuối cùng (ID) trong ChiTietHoaDons
-                    string lastChiTietID = db.ChiTietHoaDons
-                        .OrderByDescending(ct => ct.ID)
-                        .Select(ct => ct.ID)
-                        .FirstOrDefault();
+                    // Tạo ID cho ChiTietHoaDon
+                    string chiTietID = "CTHD_" + hoaDon.MaHD + "_" + (i + 1).ToString("D2");
 
-                    int nextCTNumber = 1;
-
-                    if (!string.IsNullOrEmpty(lastChiTietID) && lastChiTietID.StartsWith("CH"))
+                    var chiTiet = new ChiTietHoaDon
                     {
-                        string numberPart = lastChiTietID.Substring(2);
-                        if (int.TryParse(numberPart, out int lastNumber))
-                        {
-                            nextCTNumber = lastNumber + 1;
-                        }
-                    }
-
-                    // Tạo ChiTietHoaDon mới
-                    string chiTietID = "CH" + nextCTNumber.ToString("D3");
-                    var cthd = new ChiTietHoaDon
-                    {
-                        ID = chiTietID,
+                        ID = chiTietID,  // ID duy nhất cho mỗi ChiTietHoaDon
                         MaHD = hoaDon.MaHD,
                         MaSP = MaSPs[i],
                         SoLuong = SoLuongs[i]
                     };
-
-                    db.ChiTietHoaDons.Add(cthd);
+                    db.ChiTietHoaDons.Add(chiTiet);
                 }
             }
 
-            db.SaveChanges();
+            db.SaveChanges();  // Lưu các chi tiết hóa đơn vào cơ sở dữ liệu
             return RedirectToAction("Index");
         }
+
 
         // GET: Admin/HoaDons/Edit/5
         public ActionResult Edit(string id)
@@ -198,22 +172,38 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.SanPhams = db.SanPhams
+                .Where(sp => sp.SoLuong > 0 && sp.Status == 1)
+                .Select(sp => new SelectListItem
+                {
+                    Value = sp.MaSP,
+                    Text = sp.TenSP
+                }).ToList();
+
             return View(hoaDon);
         }
 
         // POST: Admin/HoaDons/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaHD,TenKH,SoDienThoai,Email,DiaChi,PhuongThucThanhToan,TrangThai,NguoiTao,NgayTao")] HoaDon hoaDon)
+        public ActionResult Edit(HoaDon hoaDon, string[] MaSPs, int[] SoLuongs)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(hoaDon).State = EntityState.Modified;
+
+                // Cập nhật chi tiết hóa đơn
+                foreach (var chiTiet in hoaDon.ChiTietHoaDon)
+                {
+                    chiTiet.SoLuong = SoLuongs[Array.IndexOf(MaSPs, chiTiet.MaSP)];
+                    db.Entry(chiTiet).State = EntityState.Modified;
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(hoaDon);
         }
 
@@ -239,6 +229,14 @@ namespace chuyende.Areas.Admin.Controllers
         {
             HoaDon hoaDon = db.HoaDons.Find(id);
             db.HoaDons.Remove(hoaDon);
+
+            // Xóa chi tiết hóa đơn liên quan
+            var chiTietHoaDonList = db.ChiTietHoaDons.Where(ct => ct.MaHD == id).ToList();
+            foreach (var chiTiet in chiTietHoaDonList)
+            {
+                db.ChiTietHoaDons.Remove(chiTiet);
+            }
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -17,11 +17,13 @@
         <table class="table table-bordered table-hover">
             <tr>
                 <th>#</th>
+                <th>Mã hóa đơn</th>
                 <th>Tên khách hàng</th>
                 <th>Địa chỉ</th>
                 <th>Số điện thoại</th>
                 <th>Email</th>
                 <th>Tổng tiền</th>
+                <th>Trạng thái</th>
                 <th>Chức năng</th>
             </tr>
             <tbody>
@@ -30,16 +32,66 @@
                 {
                     <tr>
                         <td>@stt</td>
+                        <td>@item.MaHD</td>
                         <td>@Html.DisplayFor(modelItem => item.TenKH)</td>
                         <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
                         <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>
-                            @* Hiển thị tổng tiền từ ViewBag.TongTienList *@
                             @String.Format("{0:C0}", ViewBag.TongTienList[stt - 1])
                         </td>
+                        <td>
+                            <!-- Hiển thị trạng thái -->
+                            @{
+                                string statusText = "";
+                                string statusColor = "";
+                                switch (item.TrangThai)
+                                {
+                                    case 0:
+                                        statusText = "Đã thanh toán";
+                                        statusColor = "green";
+                                        break;
+                                    case 1:
+                                        statusText = "Đang xử lý";
+                                        statusColor = "red";
+                                        break;
+                                    case 2:
+                                        statusText = "Đang vận chuyển";
+                                        statusColor = "red";
+                                        break;
+                                    case 3:
+                                        statusText = "Đã giao và thanh toán";
+                                        statusColor = "green";
+                                        break;
+                                    default:
+                                        statusText = "Không xác định";
+                                        statusColor = "black";
+                                        break;
+                                }
+                            }
+                            <!-- Kiểm tra MaHD và đảm bảo sự kiện onclick hoạt động -->
+                            @if (item.MaHD != null)
+                            {
+                                <span style="color: @statusColor; cursor: pointer;" class="editable-status" onclick="showDropdown('@item.MaHD')">
+                                    @statusText
+                                </span>
+
+                                <!-- Dropdown để thay đổi trạng thái -->
+                                <select id="dropdown-@item.MaHD" style="display:none;" onchange="updateStatus('@item.MaHD', this.value)">
+                                    <option value="0" @(item.TrangThai == 0 ? "selected" : "")>Đã thanh toán</option>
+                                    <option value="1" @(item.TrangThai == 1 ? "selected" : "")>Đang xử lý</option>
+                                    <option value="2" @(item.TrangThai == 2 ? "selected" : "")>Đang vận chuyển</option>
+                                    <option value="3" @(item.TrangThai == 3 ? "selected" : "")>Đã giao và thanh toán</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <span style="color: @statusColor;">@statusText (Mã hóa đơn không hợp lệ)</span>
+                            }
+                        </td>
+
                         <td class="text-start">
-                            <a href="@Url.Action("Details", "ChucVus", new { id = item.MaHD })" class="btn btn-info btn-sm">
+                            <a href="@Url.Action("Details", "HoaDons", new { id = item.MaHD })" class="btn btn-info btn-sm">
                                 <i class="fas fa-eye"></i>
                             </a>
                         </td>
@@ -50,3 +102,93 @@
         </table>
     </div>
 </div>
+
+<script>
+    // Kiểm tra xem jQuery có được tải không
+    if (typeof jQuery === "undefined") {
+        console.error("jQuery không được tải. Vui lòng kiểm tra layout _LayoutAdmin.cshtml.");
+    } else {
+        console.log("jQuery đã được tải: " + jQuery.fn.jquery);
+    }
+
+    // Hiển thị dropdown khi người dùng nhấp vào trạng thái
+    function showDropdown(maHD) {
+        console.log("showDropdown called with maHD: " + maHD); // Debug
+        if (!maHD) {
+            console.error("Mã hóa đơn không hợp lệ: " + maHD);
+            return;
+        }
+
+        var dropdown = document.getElementById("dropdown-" + maHD);
+        var statusSpan = dropdown ? dropdown.previousElementSibling : null;
+
+        if (dropdown && statusSpan) {
+            console.log("Dropdown found, showing dropdown for maHD: " + maHD);
+            statusSpan.style.display = "none";  // Ẩn span trạng thái
+            dropdown.style.display = "block";  // Hiển thị dropdown
+        } else {
+            console.error("Không tìm thấy dropdown hoặc span cho mã hóa đơn: " + maHD);
+            // Debug: Kiểm tra xem dropdown có tồn tại trong DOM không
+            console.log("Dropdown element: ", document.getElementById("dropdown-" + maHD));
+        }
+    }
+
+    // Cập nhật trạng thái khi chọn trong dropdown
+    function updateStatus(maHD, newStatus) {
+        console.log("updateStatus called with maHD: " + maHD + ", newStatus: " + newStatus); // Debug
+        if (!maHD || newStatus === undefined) {
+            console.error("Dữ liệu không hợp lệ: maHD = " + maHD + ", newStatus = " + newStatus);
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("UpdateStatus", "HoaDons")',
+            type: 'POST',
+            data: { id: maHD, trangThai: newStatus },
+            success: function (response) {
+                console.log("AJAX success: ", response); // Debug
+                if (response.success) {
+                    // Ẩn dropdown và cập nhật lại trạng thái
+                    var dropdown = document.getElementById("dropdown-" + maHD);
+                    var statusSpan = dropdown.previousElementSibling;
+                    dropdown.style.display = "none";
+                    statusSpan.style.display = "inline";
+
+                    // Cập nhật văn bản và màu sắc của trạng thái
+                    var statusText = "";
+                    var statusColor = "";
+                    switch (parseInt(newStatus)) {
+                        case 0:
+                            statusText = "Đã thanh toán";
+                            statusColor = "green";
+                            break;
+                        case 1:
+                            statusText = "Đang xử lý";
+                            statusColor = "red";
+                            break;
+                        case 2:
+                            statusText = "Đang vận chuyển";
+                            statusColor = "red";
+                            break;
+                        case 3:
+                            statusText = "Đã giao và thanh toán";
+                            statusColor = "green";
+                            break;
+                        default:
+                            statusText = "Không xác định";
+                            statusColor = "black";
+                            break;
+                    }
+                    statusSpan.textContent = statusText;
+                    statusSpan.style.color = statusColor;
+                } else {
+                    alert("Cập nhật trạng thái thất bại: " + (response.message || "Lỗi không xác định"));
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX error: ", xhr, status, error); // Debug
+                alert("Có lỗi xảy ra khi cập nhật trạng thái!");
+            }
+        });
+    }
+</script>
