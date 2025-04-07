@@ -13,10 +13,15 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
-            name: "ByHang",
-            url: "{loaiAlias}/hang/{hangAlias}",
-            defaults: new { controller = "Module", action = "ByHang" },
-            constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", hangAlias = @"^[a-zA-Z0-9\-]+$" }
+                name: "User",
+                url: "User/{action}/{id}",
+                defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "ByHang",
+                url: "{loaiAlias}/hang/{hangAlias}",
+                defaults: new { controller = "Module", action = "ByHang" },
+                constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", hangAlias = @"^[a-zA-Z0-9\-]+$" }
             );
 
             routes.MapRoute(

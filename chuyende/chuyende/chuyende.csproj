@@ -202,6 +202,7 @@
       <DependentUpon>202504051432563_UpdateDatabasehd.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
     <Compile Include="Models\QuanLyBanDienTuContext.cs" />
@@ -217,6 +218,7 @@
     <Content Include="img\banner\2.jpg" />
     <Content Include="img\banner\4.jpg" />
     <Content Include="img\banner\Banner 1.png" />
+    <Content Include="img\logo\qr.jpg" />
     <Content Include="Public\css\Admin\hoadon.css" />
     <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Use\chitietsp.css" />
@@ -255,7 +257,7 @@
     <Content Include="Public\css\Admin\layoutadmin.css" />
     <Content Include="Public\css\Admin\dangnhap.css" />
     <Content Include="Public\css\Use\nhapky.css" />
-    <Content Include="Public\css\Use\giohang.css" />
+    <Content Include="Public\css\Use\cart.css" />
     <Content Include="Public\css\Use\_layoutuse.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
