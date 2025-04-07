@@ -217,7 +217,7 @@
     <Content Include="img\banner\2.jpg" />
     <Content Include="img\banner\4.jpg" />
     <Content Include="img\banner\Banner 1.png" />
-    <Content Include="Public\css\Admin\hoadonadmin.css" />
+    <Content Include="Public\css\Admin\hoadon.css" />
     <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Use\chitietsp.css" />
     <Content Include="Public\css\Use\sanpham.css" />
@@ -299,14 +299,12 @@
     <Content Include="Areas\Admin\Views\SanPhams\Create.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Trash.cshtml" />
     <Content Include="Areas\Admin\Views\HoaDons\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\HoaDons\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\HoaDons\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\HoaDons\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\HoaDons\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

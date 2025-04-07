@@ -34,6 +34,46 @@ namespace chuyende.Areas.Admin.Controllers
             }
         }
 
+        // GET: Admin/HoaDons/Details/HD001
+        public ActionResult Details(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var hoaDon = db.HoaDons
+                .Include(h => h.ChiTietHoaDon)
+                .FirstOrDefault(h => h.MaHD == id);
+
+            if (hoaDon == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Sử dụng ExpandoObject để tạo đối tượng động
+            var chiTietList = hoaDon.ChiTietHoaDon.Select(ct =>
+            {
+                dynamic expando = new System.Dynamic.ExpandoObject();
+                var sanPham = db.SanPhams.FirstOrDefault(sp => sp.MaSP == ct.MaSP);
+                expando.TenSP = sanPham?.TenSP ?? "Không rõ";
+                expando.SoLuong = ct.SoLuong;
+                expando.DonGia = sanPham?.GiaDau ?? 0;
+                expando.ThanhTien = (sanPham?.GiaDau ?? 0) * ct.SoLuong;
+
+                return expando;
+            }).ToList();
+
+            // Tính tổng tiền, xử lý với kiểu decimal
+            decimal tongTien = chiTietList.Sum(ct => (decimal)(ct.ThanhTien));
+
+            // Truyền danh sách chi tiết và tổng tiền vào ViewBag
+            ViewBag.ChiTietList = chiTietList;
+            ViewBag.TongTien = tongTien;
+
+            return View(hoaDon);
+        }
+
 
         public ActionResult Index()
         {
@@ -160,87 +200,7 @@ namespace chuyende.Areas.Admin.Controllers
         }
 
 
-        // GET: Admin/HoaDons/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            HoaDon hoaDon = db.HoaDons.Find(id);
-            if (hoaDon == null)
-            {
-                return HttpNotFound();
-            }
-
-            ViewBag.SanPhams = db.SanPhams
-                .Where(sp => sp.SoLuong > 0 && sp.Status == 1)
-                .Select(sp => new SelectListItem
-                {
-                    Value = sp.MaSP,
-                    Text = sp.TenSP
-                }).ToList();
-
-            return View(hoaDon);
-        }
-
-        // POST: Admin/HoaDons/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(HoaDon hoaDon, string[] MaSPs, int[] SoLuongs)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(hoaDon).State = EntityState.Modified;
-
-                // Cập nhật chi tiết hóa đơn
-                foreach (var chiTiet in hoaDon.ChiTietHoaDon)
-                {
-                    chiTiet.SoLuong = SoLuongs[Array.IndexOf(MaSPs, chiTiet.MaSP)];
-                    db.Entry(chiTiet).State = EntityState.Modified;
-                }
-
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(hoaDon);
-        }
-
-        // GET: Admin/HoaDons/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            HoaDon hoaDon = db.HoaDons.Find(id);
-            if (hoaDon == null)
-            {
-                return HttpNotFound();
-            }
-            return View(hoaDon);
-        }
-
-        // POST: Admin/HoaDons/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            HoaDon hoaDon = db.HoaDons.Find(id);
-            db.HoaDons.Remove(hoaDon);
-
-            // Xóa chi tiết hóa đơn liên quan
-            var chiTietHoaDonList = db.ChiTietHoaDons.Where(ct => ct.MaHD == id).ToList();
-            foreach (var chiTiet in chiTietHoaDonList)
-            {
-                db.ChiTietHoaDons.Remove(chiTiet);
-            }
-
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+       
         protected override void Dispose(bool disposing)
         {
             if (disposing)
