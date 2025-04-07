@@ -52,7 +52,7 @@ body {
 }
 
 .logo-img {
-    width: 75px; /* Kích thước logo */
+    width: 65px; /* Kích thước logo */
     height: auto; /* Giữ tỷ lệ */
     margin-right: 10px; /* Khoảng cách giữa logo và chữ */
 }
@@ -63,10 +63,7 @@ body {
     margin: 0; /* Xóa khoảng cách thừa */
 }
 
-.logo-img {
-    height: 30px;
-    width: auto;
-}
+
 
 /* Search styles */
 .search-container {

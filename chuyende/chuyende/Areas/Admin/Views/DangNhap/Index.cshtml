@@ -15,7 +15,7 @@
 
 
     <div class="login-container">
-        <img src="~/img/logo/logo.png" alt="" class="logo-img">
+        <img src="~/img/logo/logo.png" alt="" class="logo-img" style="height: 130px; width: auto;">
         <h3 class="logo-text">ELECTRONICS STORE</h3>
         <h2 class="login-title">Đăng nhập quản lý</h2>
 
@@ -30,12 +30,12 @@
         <form id="loginForm" method="post" action="@Url.Action("Index", "DangNhap", new { area = "Admin" })">
             <div class="input-group">
                 <i class="fas fa-user"></i>
-                <input type="text" name="TenDN" class="form-control" placeholder="Tên đăng nhập" >
+                <input type="text" name="TenDN" class="form-control" placeholder="Tên đăng nhập">
             </div>
 
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="MatKhau" class="form-control" placeholder="Mật khẩu" >
+                <input type="password" name="MatKhau" class="form-control" placeholder="Mật khẩu">
             </div>
 
             <button type="submit" class="login-button">Đăng nhập</button>

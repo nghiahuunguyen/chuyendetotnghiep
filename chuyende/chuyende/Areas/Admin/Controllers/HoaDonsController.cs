@@ -12,6 +12,49 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
+        public ActionResult Print(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var hoaDon = db.HoaDons
+                .Include(h => h.ChiTietHoaDon)
+                .FirstOrDefault(h => h.MaHD == id);
+
+            if (hoaDon == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Sử dụng ExpandoObject để tạo đối tượng động
+            var chiTietList = hoaDon.ChiTietHoaDon.Select(ct =>
+            {
+                dynamic expando = new System.Dynamic.ExpandoObject();
+                var sanPham = db.SanPhams.FirstOrDefault(sp => sp.MaSP == ct.MaSP);
+                expando.TenSP = sanPham?.TenSP ?? "Không rõ";
+                expando.SoLuong = ct.SoLuong;
+                expando.DonGia = sanPham?.GiaDau ?? 0;
+                expando.ThanhTien = (sanPham?.GiaDau ?? 0) * ct.SoLuong;
+
+                return expando;
+            }).ToList();
+
+            // Tính tổng tiền, xử lý với kiểu decimal
+            decimal tongTien = chiTietList.Sum(ct => (decimal)(ct.ThanhTien));
+
+            // Truyền danh sách chi tiết và tổng tiền vào ViewBag
+            ViewBag.ChiTietList = chiTietList;
+            ViewBag.TongTien = tongTien;
+
+            // Tương tự logic trong Details, có thể dùng lại ViewBag nếu cần
+            // hoặc truyền model cụ thể nếu dùng ViewModel riêng cho in hóa đơn
+
+            return View("Print", hoaDon); // View riêng cho in
+        }
+
+
         // GET: Admin/HoaDons
         [HttpPost]
         public ActionResult UpdateStatus(string id, int trangThai)

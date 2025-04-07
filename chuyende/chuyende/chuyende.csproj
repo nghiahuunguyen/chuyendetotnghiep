@@ -253,7 +253,7 @@
     <Content Include="Public\css\Admin\admin.css" />
     <Content Include="Public\css\Admin\Detailssp.css" />
     <Content Include="Public\css\Admin\layoutadmin.css" />
-    <Content Include="Public\css\Admin\login.css" />
+    <Content Include="Public\css\Admin\dangnhap.css" />
     <Content Include="Public\css\Use\nhapky.css" />
     <Content Include="Public\css\Use\giohang.css" />
     <Content Include="Public\css\Use\_layoutuse.css" />
@@ -305,6 +305,7 @@
     <Content Include="Areas\Admin\Views\HoaDons\Details.cshtml" />
     <Content Include="Areas\Admin\Views\HoaDons\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\HoaDons\Print.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

@@ -1,0 +1,111 @@
+﻿@model chuyende.Models.HoaDon
+@{
+    var chiTietList = ViewBag.ChiTietList as List<dynamic>;
+    decimal tongTien = ViewBag.TongTien ?? 0;
+
+    // Kiểm tra nếu chiTietList là null hoặc rỗng
+    if (chiTietList == null || !chiTietList.Any())
+    {
+        chiTietList = new List<dynamic>(); // Khởi tạo một danh sách trống nếu không có chi tiết
+    }
+}
+
+<style>
+    @{
+        // Output the CSS as a raw string
+        var css = @"
+        @page {
+            size: auto;
+            margin: 0;
+        }
+
+        @page {
+            @top-left { content: none; }
+            @top-center { content: none; }
+            @top-right { content: none; }
+            @bottom-left { content: none; }
+            @bottom-center { content: none; }
+            @bottom-right { content: none; }
+        }
+        ";
+        @Html.Raw(css)
+    }
+
+    body {
+        font-family: Arial;
+        font-size: 14px;
+        margin: 0;
+        padding: 10mm;
+    }
+
+    .invoice-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #eee;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .center-title {
+        text-align: center;
+    }
+</style>
+
+<body onload="window.print()">
+    <div class="invoice-box">
+        <div style="display: flex; flex-direction: column; align-items: center; text-align: center;" class="mb-4">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                <img src="~/img/logo/logo.png" alt="Logo Công Ty" style="height: 100px;" />
+                <div>
+                    <h3 style="margin: 0;">CỬA HÀNG BÁN ĐỒ ĐIỆN TỬ ELECTRONICS STORE</h3>
+                    <p style="margin: 2px;"> Diên Lạc, Diên Khánh, Khánh Hòa</p>
+                    <p style="margin: 2px;">SĐT: 0366 541 719</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="center-title">Hóa đơn bán hàng</h2>
+        <p>Tên Khách Hàng: @Model.TenKH</p>
+        <p>Địa chỉ: @Model.DiaChi</p>
+        <p>Số điện thoại: @Model.SoDienThoai</p>
+        <p>Email: @Model.Email</p>
+        <p>Ngày mua: @Model.NgayTao.ToString("dd/MM/yyyy")</p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (dynamic ct in ViewBag.ChiTietList)
+                {
+                    <tr>
+                        <td>@ct.TenSP</td> <!-- Hiển thị tên sản phẩm -->
+                        <td>@ct.SoLuong</td> <!-- Hiển thị số lượng -->
+                        <td>@string.Format("{0:N0} đ", ct.DonGia)</td> <!-- Hiển thị đơn giá -->
+                        <td>@string.Format("{0:N0} đ", ct.ThanhTien)</td> <!-- Hiển thị thành tiền -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p class="text-right"><strong>Tổng tiền: @string.Format("{0:N0} đ", tongTien)</strong></p>
+    </div>
+</body>
+</html>
