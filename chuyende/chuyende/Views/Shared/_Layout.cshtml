@@ -58,10 +58,13 @@
 
                 }
 
-                <a href="@Url.Action("Index","Cart")" class="tool-item">
+                <a href="@Url.Action("Index","Cart")" class="tool-item position-relative">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Giỏ hàng</span>
+                    @Html.Action("CartCount", "Cart")
                 </a>
+
+
             </div>
         </div>
     </header>

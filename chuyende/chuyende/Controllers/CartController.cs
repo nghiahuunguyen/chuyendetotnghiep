@@ -1,4 +1,5 @@
 ﻿using chuyende.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -9,87 +10,160 @@ namespace chuyende.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-        private List<CartItem> GetCart()
+        // Hàm lấy mã giỏ hàng từ người dùng đăng nhập
+        private string GetCartId()
         {
-            var cart = Session["Cart"] as List<CartItem>;
-            if (cart == null)
+            var user = Session["User"] as KhachHang;
+            if (user == null) return null;
+
+            var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == user.MaKH);
+            if (gioHang != null) return gioHang.MaGioHang;
+
+            // Nếu chưa có giỏ hàng, tạo mới
+            gioHang = new GioHang
             {
-                cart = new List<CartItem>();
-                Session["Cart"] = cart;
-            }
-            return cart;
+                MaGioHang = Guid.NewGuid().ToString(),
+                MaKH = user.MaKH
+            };
+            db.GioHangs.Add(gioHang);
+            db.SaveChanges();
+            return gioHang.MaGioHang;
         }
 
         public ActionResult Index()
         {
-            var cart = GetCart();
-            ViewBag.TongTien = cart.Sum(x => x.ThanhTien);
-            return View(cart);
+            if (Session["User"] == null)
+            {
+                TempData["Message"] = "Vui lòng đăng nhập để xem giỏ hàng.";
+                return RedirectToAction("Index", "Login");
+            }
+
+            string maKH = (Session["User"] as KhachHang).MaKH;
+            var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == maKH);
+
+            if (gioHang == null)
+                return View(new List<ChiTietGioHang>());
+
+            var chiTiets = db.ChiTietGioHangs
+                .Where(c => c.MaGioHang == gioHang.MaGioHang)
+                .ToList();
+
+            foreach (var item in chiTiets)
+                item.SanPham = db.SanPhams.Find(item.MaSP);
+
+            ViewBag.TongTien = chiTiets.Sum(c =>
+            {
+                var sp = c.SanPham;
+                decimal gia = (sp.GiaDau ?? 0) * (1 - (decimal)(sp.SoGiam ?? 0) / 100);
+                return gia * c.SoLuong;
+            });
+
+            return View(chiTiets);
         }
 
         public ActionResult AddToCart(string id)
         {
             if (Session["User"] == null)
             {
-                TempData["ErrorMessage"] = "Vui lòng đăng nhập để thêm vào giỏ hàng.";
+                TempData["Message"] = "Bạn cần đăng nhập để thêm sản phẩm.";
                 return RedirectToAction("Index", "Login");
             }
+
             var product = db.SanPhams.Find(id);
-            if (product == null)
-                return HttpNotFound();
+            if (product == null) return HttpNotFound();
 
-            var cart = GetCart();
-            var item = cart.FirstOrDefault(x => x.MaSP == id);
-            if (item == null)
+            string cartId = GetCartId();
+            var chiTiet = db.ChiTietGioHangs.FirstOrDefault(c => c.MaGioHang == cartId && c.MaSP == id);
+
+            if (chiTiet == null)
             {
-                decimal giaGoc = product.GiaDau ?? 0;
-                int soGiam = product.SoGiam ?? 0; // Nếu SoGiam có thể null
-                decimal donGia = giaGoc - (giaGoc * soGiam / 100);
-
-                cart.Add(new CartItem
+                chiTiet = new ChiTietGioHang
                 {
-                    MaSP = product.MaSP,
-                    TenSP = product.TenSP,
-                    HinhAnh = product.HinhAnh,
-                    GiaBan = donGia,
-                    Product =product,
+                    MaChiTiet = Guid.NewGuid().ToString(),
+                    MaGioHang = cartId,
+                    MaSP = id,
                     SoLuong = 1
-                });
+                };
+                db.ChiTietGioHangs.Add(chiTiet);
             }
             else
             {
-                item.SoLuong++;
+                chiTiet.SoLuong++;
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateQuantity(string id, string action)
+        {
+            string cartId = GetCartId();
+            var item = db.ChiTietGioHangs.FirstOrDefault(x => x.MaSP == id && x.MaGioHang == cartId);
+
+            if (item != null)
+            {
+                if (action == "increase")
+                {
+                    item.SoLuong++;
+                }
+                else if (action == "decrease")
+                {
+                    item.SoLuong--;
+                }
+
+                if (item.SoLuong <= 0)
+                {
+                    db.ChiTietGioHangs.Remove(item);
+                }
+
+                db.SaveChanges();
             }
 
             return RedirectToAction("Index");
         }
+
+
 
         public ActionResult RemoveFromCart(string id)
         {
-            var cart = GetCart();
-            var item = cart.FirstOrDefault(x => x.MaSP == id);
-            if (item != null)
-            {
-                cart.Remove(item);
-            }
-            return RedirectToAction("Index");
-        }
+            string cartId = GetCartId();
+            var chiTiet = db.ChiTietGioHangs.FirstOrDefault(c => c.MaSP == id && c.MaGioHang == cartId);
 
-        public ActionResult UpdateQuantity(string id, int quantity)
-        {
-            var cart = GetCart();
-            var item = cart.FirstOrDefault(x => x.MaSP == id);
-            if (item != null)
+            if (chiTiet != null)
             {
-                item.SoLuong = quantity;
+                db.ChiTietGioHangs.Remove(chiTiet);
+                db.SaveChanges();
             }
+
             return RedirectToAction("Index");
         }
 
         public ActionResult ClearCart()
         {
-            Session["Cart"] = null;
+            string cartId = GetCartId();
+            var chiTiets = db.ChiTietGioHangs.Where(c => c.MaGioHang == cartId);
+            db.ChiTietGioHangs.RemoveRange(chiTiets);
+            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
+        public PartialViewResult CartCount()
+        {
+            int cartCount = 0;
+            if (Session["User"] != null)
+            {
+                var user = (KhachHang)Session["User"];
+                var db = new QuanLyBanDienTuContext();
+
+                cartCount = db.ChiTietGioHangs
+                              .Where(x => x.MaGioHang == user.MaKH)
+                              .Sum(x => (int?)x.SoLuong) ?? 0;
+            }
+
+            ViewBag.CartCount = cartCount;
+            return PartialView("_CartCount");
+        }
+
     }
 }

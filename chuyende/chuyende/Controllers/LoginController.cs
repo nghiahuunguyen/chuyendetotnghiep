@@ -68,9 +68,18 @@ namespace chuyende.Controllers
 
         public ActionResult Logout()
         {
-            Session.Clear(); // Xóa thông tin đăng nhập
-            return RedirectToAction("Index");
+            // Giữ lại giỏ hàng
+            var cart = Session["Cart"];
+
+            // Chỉ xóa thông tin đăng nhập
+            Session.Remove("User");
+
+            // Khôi phục giỏ hàng
+            Session["Cart"] = cart;
+
+            return RedirectToAction("Index", "Home");
         }
+
         private string GenerateOTP()
         {
             Random random = new Random();

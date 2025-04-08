@@ -1,4 +1,4 @@
-﻿@model List<chuyende.Models.CartItem>
+﻿@model List<chuyende.Models.ChiTietGioHang>
 @{
     ViewBag.Title = "Giỏ hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,100 +7,90 @@
 
 @if (Model == null || !Model.Any())
 {
-    <!-- Giỏ hàng trống -->
-    <div class="cart-container" style="background-color: #f0f0f0; padding: 40px 0; min-height: 400px; display: flex; justify-content: center; align-items: center;">
-        <div style="background-color: white; border-radius: 10px; padding: 30px; text-align: center; max-width: 500px; width: 100%;">
-            <div style="margin-bottom: 20px;">
-                <img src="~/img/giohang/empty-cart.png" alt="Empty Cart" style="max-width: 100%;">
-            </div>
-            <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">Giỏ hàng trống</h2>
-            <p style="color: #666; margin-bottom: 25px;">Không có sản phẩm nào trong giỏ hàng</p>
-            <a href="@Url.Action("Index", "Home")" style="display: inline-block; background-color: #2f80ed; color: white; padding: 10px 30px; border-radius: 5px; text-decoration: none; font-weight: bold;">Về trang chủ</a>
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 400px; background-color: #f8f9fa;">
+        <div class="text-center bg-white p-4 rounded shadow" style="max-width: 500px;">
+            <img src="~/img/giohang/empty-cart.png" alt="Empty Cart" class="img-fluid mb-3" />
+            <h4 class="text-dark mb-2">Giỏ hàng trống</h4>
+            <p class="text-muted mb-4">Không có sản phẩm nào trong giỏ hàng</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Về trang chủ</a>
         </div>
     </div>
 }
 else
 {
-    <!-- Có sản phẩm -->
-    <div class="cart-container">
-        <div class="container">
-            <div class="row">
-                <!-- Cart Items - Chiếm 8 cột -->
-                <div class="col-lg-8">
-                    <div class="cart-content">
-                        <div class="cart-header">
-                            <div class="cart-title">Giỏ hàng của bạn (@Model.Count() sản phẩm)</div>
-                            <a href="#" class="continue-shopping">Mua thêm sản phẩm khác</a>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h4 class="mb-4">Giỏ hàng của bạn (@Model.Count sản phẩm)</h4>
+
+                @foreach (var item in Model)
+                {
+                    var sp = item.SanPham;
+                    var giaGoc = sp.GiaDau ?? 0;
+                    var soGiam = sp.SoGiam ?? 0;
+                    var donGia = giaGoc - (giaGoc * soGiam / 100);
+                    var thanhTien = donGia * item.SoLuong;
+
+                    <div class="border-bottom py-3 d-flex flex-wrap align-items-center">
+                        <div class="col-md-3 text-center mb-3 mb-md-0">
+                            <img src="~/img/sanpham/@sp.HinhAnh" alt="@sp.TenSP" class="img-fluid rounded shadow-sm" style="max-height: 120px;" />
                         </div>
 
-                        @foreach (var item in Model)
-                        {
-                            <div class="cart-item py-3 border-bottom">
-                                <div class="row align-items-center">
-                                    <!-- Ảnh sản phẩm -->
-                                    <div class="col-md-3 text-center">
-                                        <div class="cart-item-image">
-                                            <img src="~/img/sanpham/@item.HinhAnh" alt="@item.TenSP" class="img-fluid" style="max-height: 150px; object-fit: contain;">
-                                        </div>
-                                    </div>
-
-                                    <!-- Thông tin sản phẩm -->
-                                    <div class="col-md-6">
-                                        <!-- Tên sản phẩm đặt trên cùng -->
-                                        <div class="cart-item-name fw-bold mb-2" style="font-size: 1.1rem;">
-                                            @item.TenSP
-                                        </div>
-
-                                        <!-- Giá và số lượng -->
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <div class="cart-item-price me-4">
-                                                <span class="current-price text-danger fw-bold">@String.Format("{0:N0} đ", item.GiaBan)</span>
-                                                <span class="old-price text-muted text-decoration-line-through ms-2">@String.Format("{0:N0} đ", item.Product.GiaDau)</span>
-                                            </div>
-
-                                            <div class="cart-item-quantity d-flex align-items-center mt-2 mt-md-0">
-                                                <button class="btn btn-sm btn-outline-secondary">-</button>
-                                                <input type="text" class="form-control form-control-sm mx-1 text-center" value="@item.SoLuong" style="width: 50px;">
-                                                <button class="btn btn-sm btn-outline-secondary">+</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Tổng phụ và nút xoá -->
-                                    <div class="col-md-3 text-end d-flex flex-column justify-content-center align-items-end" style="height: 100%;">
-                                        <div class="item-subtotal fw-bold text-danger mb-2">@String.Format("{0:N0} đ", item.ThanhTien)</div>
-                                        <button class="btn btn-danger btn-sm">Xóa</button>
-                                    </div>
-                                </div>
+                        <div class="col-md-6 px-3">
+                            <h6 class="fw-bold">@sp.TenSP</h6>
+                            <div>
+                                <span class="text-danger fw-bold">@String.Format("{0:N0} đ", donGia)</span>
+                                @if (giaGoc > donGia)
+                                {
+                                    <small class="text-muted text-decoration-line-through ms-2">@String.Format("{0:N0} đ", giaGoc)</small>
+                                }
                             </div>
+                            @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Post, new { @class = "d-flex align-items-center mt-2" }))
+                            {
+                                <input type="hidden" name="id" value="@sp.MaSP" />
+
+                                <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary"
+                                        @(item.SoLuong <= 1 ? "disabled" : "")>
+                                    -
+                                </button>
+
+                                <input type="text" readonly class="form-control form-control-sm mx-2 text-center" value="@item.SoLuong" style="width: 50px;" />
+
+                                <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">+</button>
+                            }
 
 
-                        }
+                        </div>
+
+                        <div class="col-md-3 text-end">
+                            <div class="text-danger fw-bold mb-2">@String.Format("{0:N0} đ", thanhTien)</div>
+                            <a href="@Url.Action("RemoveFromCart", "Cart", new { id = sp.MaSP })" class="btn btn-sm btn-danger">Xoá</a>
+                        </div>
                     </div>
-                </div>
+                }
+            </div>
 
-                <!-- Cart Summary - Chiếm 4 cột -->
-                <div class="col-lg-4">
-                    <div class="cart-summary">
-                        <div class="summary-title">Tóm tắt đơn hàng</div>
-                        <div class="summary-row">
-                            <div class="summary-label">Tạm tính (@Model.Count() sản phẩm)</div>
-                            <div class="summary-value">@String.Format("{0:N0} đ", tongTien)</div>
-                        </div>
-                        <div class="summary-row">
-                            <div class="summary-label">Phí vận chuyển</div>
-                            <div class="summary-value">Miễn phí</div>
-                        </div>
-                        <div class="summary-total">
-                            <div class="total-label">Tổng cộng</div>
-                            <div class="total-value">@String.Format("{0:N0} đ", tongTien)</div>
-                        </div>
-                        <button class="checkout-btn btn btn-primary">Tiến hành thanh toán</button>
-                        <a href="#" class="continue-shopping">Tiếp tục mua sắm</a>
+            <div class="col-lg-4">
+                <div class="border p-4 rounded shadow-sm bg-light">
+                    <h5 class="mb-3">Tóm tắt đơn hàng</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tạm tính (@Model.Count sản phẩm)</span>
+                        <span>@String.Format("{0:N0} đ", tongTien)</span>
                     </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Phí vận chuyển</span>
+                        <span>Miễn phí</span>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between fw-bold mb-3">
+                        <span>Tổng cộng</span>
+                        <span>@String.Format("{0:N0} đ", tongTien)</span>
+                    </div>
+                    <button class="btn btn-primary w-100 mb-2">Tiến hành thanh toán</button>
+                    <a href="@Url.Action("Index", "Home")" class="text-decoration-none text-center d-block">Tiếp tục mua sắm</a>
+                    <a href="@Url.Action("ClearCart", "Cart")" class="text-danger small d-block mt-2 text-center">Xoá toàn bộ giỏ hàng</a>
                 </div>
             </div>
         </div>
     </div>
-
 }

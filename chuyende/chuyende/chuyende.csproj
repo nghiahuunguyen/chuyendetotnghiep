@@ -185,14 +185,23 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\SendMail.cs" />
-    <Compile Include="Migrations\202504080251598_UpdateDatabase.cs" />
-    <Compile Include="Migrations\202504080251598_UpdateDatabase.Designer.cs">
-      <DependentUpon>202504080251598_UpdateDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\202504080846290_UpdateDatabase.cs" />
+    <Compile Include="Migrations\202504080846290_UpdateDatabase.Designer.cs">
+      <DependentUpon>202504080846290_UpdateDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504080914152_UpdateDatabasegh.cs" />
+    <Compile Include="Migrations\202504080914152_UpdateDatabasegh.Designer.cs">
+      <DependentUpon>202504080914152_UpdateDatabasegh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504080920135_UpdateDatabaselai.cs" />
+    <Compile Include="Migrations\202504080920135_UpdateDatabaselai.Designer.cs">
+      <DependentUpon>202504080920135_UpdateDatabaselai.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\ChiTietGioHang.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
+    <Compile Include="Models\GioHang.cs" />
     <Compile Include="Models\QuanLyBanDienTuContext.cs" />
     <Compile Include="Models\Hang.cs" />
     <Compile Include="Models\HoaDon.cs" />
@@ -329,6 +338,7 @@
     <Content Include="Views\Module\ByLoai.cshtml" />
     <Content Include="Views\Module\ChiTiet.cshtml" />
     <Content Include="Views\Module\ByHang.cshtml" />
+    <Content Include="Views\Shared\_CartCount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -362,8 +372,14 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202504080251598_UpdateDatabase.resx">
-      <DependentUpon>202504080251598_UpdateDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504080846290_UpdateDatabase.resx">
+      <DependentUpon>202504080846290_UpdateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504080914152_UpdateDatabasegh.resx">
+      <DependentUpon>202504080914152_UpdateDatabasegh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504080920135_UpdateDatabaselai.resx">
+      <DependentUpon>202504080920135_UpdateDatabaselai.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
