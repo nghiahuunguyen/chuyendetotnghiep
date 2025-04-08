@@ -3,44 +3,28 @@
   "WorkspaceRootPath": "D:\\chuyendetotnghiep\\chuyende\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\controllers\\sanphamscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\controllers\\sanphamscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\controllers\\modulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\controllers\\modulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\hoadons\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\hoadons\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\controllers\\registercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\controllers\\registercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\hoadons\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\hoadons\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\public\\css\\admin\\hoadonadmin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\admin\\hoadonadmin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\public\\css\\use\\sanpham.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\public\\css\\use\\sanpham.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,93 +34,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Web.config",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Web.config",
-              "RelativeDocumentMoniker": "chuyende\\Web.config",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Web.config",
-              "RelativeToolTip": "chuyende\\Web.config",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAswFYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-04-08T01:19:52.686Z",
+              "DocumentIndex": 0,
+              "Title": "SanPhamsController.cs",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Controllers\\SanPhamsController.cs",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Controllers\\SanPhamsController.cs",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Controllers\\SanPhamsController.cs*",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Controllers\\SanPhamsController.cs*",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAwwJkAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T07:06:23.796Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Details.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Details.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Details.cshtml",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Details.cshtml",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAswIYAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-07T16:38:07.008Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAswIIAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-07T16:37:10.806Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "_LayoutAdmin.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-07T16:30:49.028Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "hoadonadmin.css",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Admin\\hoadonadmin.css",
-              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Admin\\hoadonadmin.css",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Admin\\hoadonadmin.css",
-              "RelativeToolTip": "chuyende\\Public\\css\\Admin\\hoadonadmin.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-04-07T16:29:18.384Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "sanpham.css",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\sanpham.css",
-              "RelativeDocumentMoniker": "chuyende\\Public\\css\\Use\\sanpham.css",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Public\\css\\Use\\sanpham.css",
-              "RelativeToolTip": "chuyende\\Public\\css\\Use\\sanpham.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-04-07T16:29:15.788Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ByHang.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByHang.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Module\\ByHang.cshtml",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-07T16:11:58.626Z",
+              "DocumentIndex": 3,
+              "Title": "RegisterController.cs",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\RegisterController.cs",
+              "RelativeDocumentMoniker": "chuyende\\Controllers\\RegisterController.cs",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\RegisterController.cs",
+              "RelativeToolTip": "chuyende\\Controllers\\RegisterController.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAIwIQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T06:47:21.647Z",
               "EditorCaption": ""
             },
             {
@@ -145,38 +68,49 @@
               "Title": "RouteConfig.cs",
               "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\App_Start\\RouteConfig.cs",
               "RelativeDocumentMoniker": "chuyende\\App_Start\\RouteConfig.cs",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\App_Start\\RouteConfig.cs*",
-              "RelativeToolTip": "chuyende\\App_Start\\RouteConfig.cs*",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAACEAAAAOAAAAAAAAAA==",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\App_Start\\RouteConfig.cs",
+              "RelativeToolTip": "chuyende\\App_Start\\RouteConfig.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAiwBIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:59:50.834Z",
+              "WhenOpened": "2025-04-08T02:59:56.602Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ModuleController.cs",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\ModuleController.cs",
-              "RelativeDocumentMoniker": "chuyende\\Controllers\\ModuleController.cs",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\ModuleController.cs",
-              "RelativeToolTip": "chuyende\\Controllers\\ModuleController.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAuwG0AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:51:52.526Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "ByLoai.cshtml",
               "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
               "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByLoai.cshtml",
               "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
               "RelativeToolTip": "chuyende\\Views\\Module\\ByLoai.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAB9AAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAmwFMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-07T15:49:02.446Z",
+              "WhenOpened": "2025-04-08T02:59:43.897Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ModuleController.cs",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\ModuleController.cs",
+              "RelativeDocumentMoniker": "chuyende\\Controllers\\ModuleController.cs",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\ModuleController.cs",
+              "RelativeToolTip": "chuyende\\Controllers\\ModuleController.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAqwDwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T02:57:41.443Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "chuyende\\Controllers\\CartController.cs",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\CartController.cs",
+              "RelativeToolTip": "chuyende\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwA0AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T02:57:37.958Z"
             }
           ]
         }

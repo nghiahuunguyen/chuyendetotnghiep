@@ -185,21 +185,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\SendMail.cs" />
-    <Compile Include="Migrations\202504020034315_InitialCreate.cs" />
-    <Compile Include="Migrations\202504020034315_InitialCreate.Designer.cs">
-      <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504050310275_UpdateDatabase1.cs" />
-    <Compile Include="Migrations\202504050310275_UpdateDatabase1.Designer.cs">
-      <DependentUpon>202504050310275_UpdateDatabase1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504050743397_UpdateDatabaseHang.cs" />
-    <Compile Include="Migrations\202504050743397_UpdateDatabaseHang.Designer.cs">
-      <DependentUpon>202504050743397_UpdateDatabaseHang.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202504051432563_UpdateDatabasehd.cs" />
-    <Compile Include="Migrations\202504051432563_UpdateDatabasehd.Designer.cs">
-      <DependentUpon>202504051432563_UpdateDatabasehd.cs</DependentUpon>
+    <Compile Include="Migrations\202504080251598_UpdateDatabase.cs" />
+    <Compile Include="Migrations\202504080251598_UpdateDatabase.Designer.cs">
+      <DependentUpon>202504080251598_UpdateDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -374,17 +362,8 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202504020034315_InitialCreate.resx">
-      <DependentUpon>202504020034315_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504050310275_UpdateDatabase1.resx">
-      <DependentUpon>202504050310275_UpdateDatabase1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504050743397_UpdateDatabaseHang.resx">
-      <DependentUpon>202504050743397_UpdateDatabaseHang.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504051432563_UpdateDatabasehd.resx">
-      <DependentUpon>202504051432563_UpdateDatabasehd.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504080251598_UpdateDatabase.resx">
+      <DependentUpon>202504080251598_UpdateDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

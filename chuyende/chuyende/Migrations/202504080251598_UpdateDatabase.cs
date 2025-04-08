@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class UpdateDatabase : DbMigration
     {
         public override void Up()
         {
@@ -27,15 +27,13 @@
                 c => new
                     {
                         MaHD = c.String(nullable: false, maxLength: 128),
-                        MaKH = c.String(nullable: false),
                         TenKH = c.String(nullable: false, maxLength: 255),
-                        NgaySinh = c.DateTime(nullable: false),
                         SoDienThoai = c.String(nullable: false, maxLength: 20),
                         Email = c.String(nullable: false),
                         DiaChi = c.String(nullable: false, maxLength: 500),
                         PhuongThucThanhToan = c.Int(nullable: false),
                         TrangThai = c.Int(nullable: false),
-                        NguoiTao = c.String(nullable: false),
+                        NguoiTao = c.String(),
                         NgayTao = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.MaHD);
@@ -52,11 +50,12 @@
                         SoLuong = c.Int(nullable: false),
                         KhuyenMai = c.String(),
                         TuKhoa = c.String(),
-                        GiaNhap = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        GiaDau = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        SoGiam = c.Int(nullable: false),
+                        GiaNhap = c.Decimal(precision: 18, scale: 2),
+                        GiaDau = c.Decimal(precision: 18, scale: 2),
+                        SoGiam = c.Int(),
                         MoTa = c.String(),
                         Status = c.Int(nullable: false),
+                        Link = c.String(),
                     })
                 .PrimaryKey(t => t.MaSP)
                 .ForeignKey("dbo.Hang", t => t.MaHang, cascadeDelete: true)
@@ -76,6 +75,7 @@
                         DiaChi = c.String(),
                         TuKhoa = c.String(),
                         Status = c.Int(nullable: false),
+                        Link = c.String(),
                     })
                 .PrimaryKey(t => t.MaHang);
             
@@ -85,6 +85,7 @@
                     {
                         MaLoaiSP = c.String(nullable: false, maxLength: 128),
                         TenLoaiSP = c.String(nullable: false, maxLength: 255),
+                        Link = c.String(),
                         Status = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.MaLoaiSP);

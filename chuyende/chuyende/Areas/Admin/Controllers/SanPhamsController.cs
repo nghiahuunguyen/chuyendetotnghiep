@@ -141,13 +141,16 @@ namespace chuyende.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Lấy mã NV lớn nhất hiện tại, nếu không có thì bắt đầu từ NV001
-                var lastSP = db.SanPhams.OrderByDescending(nv => nv.MaSP).FirstOrDefault();
-                int newId = (lastSP != null && lastSP.MaHang.StartsWith("SP"))
-                    ? int.Parse(lastSP.MaHang.Substring(2)) + 1
-                    : 1;
+                // Lấy mã sản phẩm lớn nhất
+                var lastSP = db.SanPhams.OrderByDescending(sp => sp.MaSP).FirstOrDefault();
+                int newId = 1;
 
-                // Gán mã mới với format NV001, NV002, ...
+                if (lastSP != null && lastSP.MaSP.StartsWith("SP"))
+                {
+                    int.TryParse(lastSP.MaSP.Substring(2), out newId);
+                    newId++;
+                }
+
                 sanPham.MaSP = $"SP{newId:D3}";
 
                 if (HinhAnh != null && HinhAnh.ContentLength > 0)

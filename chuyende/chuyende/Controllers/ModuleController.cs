@@ -70,7 +70,7 @@ namespace chuyende.Controllers
             return View("ByHang", sanPhams);
         }
 
-        public ActionResult ChiTiet(string loaiAlias, string alias, string version)
+        public ActionResult ChiTiet(string loaiAlias, string alias, string version = null)
         {
             if (string.IsNullOrEmpty(alias))
             {

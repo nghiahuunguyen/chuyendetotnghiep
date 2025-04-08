@@ -13,9 +13,26 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+               name: "Cart",
+               url: "Cart/{action}/{id}",
+               defaults: new { controller = "Cart", action = "Index", id = UrlParameter.Optional }
+           );
+            routes.MapRoute(
                 name: "User",
                 url: "User/{action}/{id}",
                 defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+              name: "Register",
+              url: "Register/{action}/{id}",
+              defaults: new { controller = "Register", action = "Index", id = UrlParameter.Optional }
+          );
+
+
+            routes.MapRoute(
+                name: "Login",
+                url: "Login/{action}/{id}",
+                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
             );
             // Route lọc theo hãng – đặt TRƯỚC
             routes.MapRoute(
@@ -32,27 +49,6 @@ namespace chuyende
                 defaults: new { controller = "Module", action = "ChiTiet" },
                 constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", alias = @"^[a-zA-Z0-9\-]+$" }
             );
-
-            routes.MapRoute(
-                name: "Cart",
-                url: "Cart/{action}/{id}",
-                defaults: new { controller = "Cart", action = "Index", id = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
-                name: "Register",
-                url: "Register/{action}/{id}",
-                defaults: new { controller = "Register", action = "Index", id = UrlParameter.Optional }
-            );
-
-
-            routes.MapRoute(
-                name: "Login",
-                url: "Login/{action}/{id}",
-                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
-            );
-            // Route chi tiết sản phẩm: /{loaiAlias}/{alias}
-          
 
 
             // Route loại sản phẩm: /{alias}
