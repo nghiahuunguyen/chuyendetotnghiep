@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,20 +13,25 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
-                name: "SanPhamTheoHang",
-                url: "{loaiAlias}/{hangAlias}",
-                defaults: new { controller = "Module", action = "ByHang" },
-                constraints: new { loaiAlias = @"[a-zA-Z0-9\-]+", hangAlias = @"[a-zA-Z0-9\-]+" }
-            );
-
-            routes.MapRoute(
                 name: "User",
                 url: "User/{action}/{id}",
                 defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
             );
-            
+            // Route lọc theo hãng – đặt TRƯỚC
+            routes.MapRoute(
+                name: "ByHang",
+                url: "{loaiAlias}/hang/{hangAlias}",
+                defaults: new { controller = "Module", action = "ByHang" },
+                constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", hangAlias = @"^[a-zA-Z0-9\-]+$" }
+            );
 
-
+            // Route chi tiết sản phẩm – đặt SAU
+            routes.MapRoute(
+                name: "ChiTietSanPham",
+                url: "{loaiAlias}/{alias}",
+                defaults: new { controller = "Module", action = "ChiTiet" },
+                constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", alias = @"^[a-zA-Z0-9\-]+$" }
+            );
 
             routes.MapRoute(
                 name: "Cart",
@@ -48,12 +52,8 @@ namespace chuyende
                 defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
             );
             // Route chi tiết sản phẩm: /{loaiAlias}/{alias}
-            routes.MapRoute(
-                name: "ChiTietSanPham",
-                url: "{loaiAlias}/{alias}",
-                defaults: new { controller = "Module", action = "ChiTiet" },
-                constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", alias = @"^[a-zA-Z0-9\-]+$" }
-            );
+          
+
 
             // Route loại sản phẩm: /{alias}
             routes.MapRoute(

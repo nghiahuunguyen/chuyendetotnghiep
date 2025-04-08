@@ -23,35 +23,51 @@ namespace chuyende.Controllers
         // Lọc sản phẩm theo loại
         public ActionResult ByLoai(string alias)
         {
-            // Kiểm tra alias nhận được
             if (string.IsNullOrEmpty(alias))
-            {
                 return HttpNotFound("Alias không hợp lệ.");
-            }
 
-            // Kiểm tra loại sản phẩm có status = 1
-            var loai = db.LoaiSanPhams
-                         .FirstOrDefault(l => l.Link.Trim().ToLower() == alias.Trim().ToLower() && l.Status == 1);
-
+            var loai = db.LoaiSanPhams.FirstOrDefault(l => l.Link.Trim().ToLower() == alias.Trim().ToLower() && l.Status == 1);
             if (loai == null)
-            {
                 return HttpNotFound("Không tìm thấy loại sản phẩm.");
-            }
 
-            // Lấy danh sách sản phẩm theo loại, chỉ lấy sản phẩm có status = 1 và hãng có status = 1
             var sanPhams = db.SanPhams
-                             .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.Status == 1)
-                             .Where(sp => sp.Hang.Status == 1) // Kiểm tra hãng có status = 1
+                             .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.Status == 1 && sp.Hang.Status == 1)
                              .ToList();
 
-            // Gán tên loại sản phẩm vào ViewBag
             ViewBag.TenLoaiSP = loai.TenLoaiSP;
-            ViewBag.Title = loai.TenLoaiSP; // Cập nhật ViewBag.Title với tên loại sản phẩm
-
-            // Truyền tất cả các hãng vào ViewBag để hiển thị logo của từng hãng, chỉ lấy hãng có status = 1
+            ViewBag.Title = loai.TenLoaiSP;
+            ViewBag.LoaiAlias = loai.Link;
             ViewBag.HangSanPhams = sanPhams.Select(sp => sp.Hang).Distinct().ToList();
 
-            return View(sanPhams);
+            return View("ByLoai", sanPhams);
+        }
+
+        public ActionResult ByHang(string loaiAlias, string hangAlias)
+        {
+            if (string.IsNullOrEmpty(loaiAlias) || string.IsNullOrEmpty(hangAlias))
+                return HttpNotFound("Alias không hợp lệ.");
+
+            var loai = db.LoaiSanPhams.FirstOrDefault(l => l.Link.Trim().ToLower() == loaiAlias.Trim().ToLower() && l.Status == 1);
+            if (loai == null)
+                return HttpNotFound("Không tìm thấy loại sản phẩm.");
+
+            var hang = db.Hangs.FirstOrDefault(h => h.Link.Trim().ToLower() == hangAlias.Trim().ToLower() && h.Status == 1);
+            if (hang == null)
+                return HttpNotFound("Không tìm thấy hãng sản phẩm.");
+
+            var sanPhams = db.SanPhams
+                             .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.MaHang == hang.MaHang && sp.Status == 1)
+                             .ToList();
+
+            ViewBag.TenLoaiSP = loai.TenLoaiSP;
+            ViewBag.Title = loai.TenLoaiSP;
+            ViewBag.LoaiAlias = loai.Link;
+            ViewBag.HangAlias = hang.Link;
+            ViewBag.HangSanPhams = db.Hangs
+                                     .Where(h => h.Status == 1 && h.SanPhams.Any(sp => sp.MaLoaiSP == loai.MaLoaiSP))
+                                     .ToList();
+
+            return View("ByHang", sanPhams);
         }
 
         public ActionResult ChiTiet(string loaiAlias, string alias, string version)
@@ -92,47 +108,5 @@ namespace chuyende.Controllers
 
             return View(sanPham);
         }
-        public ActionResult ByHang(string loaiAlias, string hangAlias)
-        {
-            if (string.IsNullOrEmpty(loaiAlias) || string.IsNullOrEmpty(hangAlias))
-            {
-                return HttpNotFound("Alias không hợp lệ.");
-            }
-
-            // Kiểm tra loại sản phẩm có status = 1
-            var loai = db.LoaiSanPhams
-                         .FirstOrDefault(l => l.Link.Trim().ToLower() == loaiAlias.Trim().ToLower() && l.Status == 1);
-
-            if (loai == null)
-            {
-                return HttpNotFound("Không tìm thấy loại sản phẩm.");
-            }
-
-            // Kiểm tra hãng sản phẩm
-            var hang = db.Hangs
-                         .FirstOrDefault(h => h.Link.Trim().ToLower() == hangAlias.Trim().ToLower() && h.Status == 1);
-
-            if (hang == null)
-            {
-                return HttpNotFound("Không tìm thấy hãng sản phẩm.");
-            }
-
-            // Lấy danh sách sản phẩm theo loại và hãng
-            var sanPhams = db.SanPhams
-                             .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.MaHang == hang.MaHang && sp.Status == 1)
-                             .ToList();
-
-            // Gán thông tin vào ViewBag
-            ViewBag.LoaiAlias = loai.Link;  // Truyền alias loại sản phẩm
-            ViewBag.TenLoaiSP = loai.TenLoaiSP;
-            ViewBag.TenHang = hang.TenHang;
-            ViewBag.Title = $"{loai.TenLoaiSP} - {hang.TenHang}";
-
-            // Truyền danh sách sản phẩm vào View
-            return View(sanPhams);
-        }
-
-
-
     }
 }
