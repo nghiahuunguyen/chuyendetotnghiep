@@ -197,3 +197,5 @@ D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatab
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.csproj.GenerateResource.cache
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabasegh.resources
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaselai.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaseKH.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaselai1.resources

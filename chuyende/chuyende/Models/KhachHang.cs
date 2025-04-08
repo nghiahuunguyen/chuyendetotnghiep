@@ -22,6 +22,7 @@ namespace chuyende.Models
         [EmailAddress]
         [StringLength(100)]
         public string Email { get; set; }
+        public string DiaChi { get; set; }
 
         [Required(ErrorMessage = "Mật khẩu không được để trống!")]
         [StringLength(255)]

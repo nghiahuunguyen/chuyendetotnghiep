@@ -1,6 +1,8 @@
 ﻿using chuyende.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -34,9 +36,11 @@ namespace chuyende.Controllers
         {
             if (Session["User"] == null)
             {
+                TempData["ReturnUrl"] = Url.Action("Index", "Login"); // 👈 Lưu đường dẫn muốn quay lại
                 TempData["Message"] = "Vui lòng đăng nhập để xem giỏ hàng.";
                 return RedirectToAction("Index", "Login");
             }
+
 
             string maKH = (Session["User"] as KhachHang).MaKH;
             var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == maKH);
@@ -148,22 +152,149 @@ namespace chuyende.Controllers
 
             return RedirectToAction("Index");
         }
-        public PartialViewResult CartCount()
-        {
-            int cartCount = 0;
-            if (Session["User"] != null)
-            {
-                var user = (KhachHang)Session["User"];
-                var db = new QuanLyBanDienTuContext();
 
-                cartCount = db.ChiTietGioHangs
-                              .Where(x => x.MaGioHang == user.MaKH)
-                              .Sum(x => (int?)x.SoLuong) ?? 0;
+        public ActionResult Checkout()
+        {
+            if (Session["User"] == null)
+            {
+                TempData["Message"] = "Vui lòng đăng nhập để thanh toán.";
+                return RedirectToAction("Index", "Login");
             }
 
-            ViewBag.CartCount = cartCount;
-            return PartialView("_CartCount");
+            var user = (KhachHang)Session["User"];
+            var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == user.MaKH);
+
+            if (gioHang == null)
+            {
+                TempData["Message"] = "Giỏ hàng của bạn trống.";
+                return RedirectToAction("Index", "Cart");
+            }
+
+            var chiTiets = db.ChiTietGioHangs
+                .Where(c => c.MaGioHang == gioHang.MaGioHang)
+                .ToList();
+
+            foreach (var ct in chiTiets)
+            {
+                ct.SanPham = db.SanPhams.Find(ct.MaSP);
+            }
+
+            var hoaDon = new HoaDon
+            {
+                MaHD = Guid.NewGuid().ToString(),
+                TenKH = user.TenKH,
+                SoDienThoai = user.SoDienThoai,
+                Email = user.Email,
+                DiaChi = user.DiaChi,
+                PhuongThucThanhToan = 1,
+                TrangThai = 1,
+                NguoiTao = user.MaKH,
+                NgayTao = DateTime.Now,
+                ChiTietHoaDon = chiTiets.Select(ct => new ChiTietHoaDon
+                {
+                    ID = Guid.NewGuid().ToString(),
+                    MaSP = ct.MaSP,
+                    SoLuong = ct.SoLuong,
+                    SanPham = ct.SanPham
+                }).ToList()
+            };
+
+            // Tính tổng tiền
+            ViewBag.TotalAmount = hoaDon.ChiTietHoaDon.Sum(ct => (ct.SanPham?.GiaDau ?? 0) * ct.SoLuong);
+
+            // Truyền model sang view Confirmation để xác nhận
+            return View("Confirmation", hoaDon);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CompletePayment(HoaDon hoaDon)
+        {
+            try
+            {
+                if (Session["User"] == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                var user = (KhachHang)Session["User"];
+
+                hoaDon.MaHD = Guid.NewGuid().ToString();
+                hoaDon.NguoiTao = user.MaKH;
+                hoaDon.NgayTao = DateTime.Now;
+                hoaDon.TrangThai = 1;
+
+                // Gán thông tin khách hàng vào hóa đơn
+                hoaDon.TenKH = user.TenKH;
+                hoaDon.SoDienThoai = user.SoDienThoai;
+                hoaDon.Email = user.Email;
+                hoaDon.DiaChi = user.DiaChi;
+
+                var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == user.MaKH);
+                var chiTiets = db.ChiTietGioHangs
+    .Include("SanPham")
+    .Where(c => c.MaGioHang == gioHang.MaGioHang)
+    .ToList();
+
+                hoaDon.ChiTietHoaDon = chiTiets.Select(ct => new ChiTietHoaDon
+                {
+                    ID = Guid.NewGuid().ToString(),
+                    MaHD = hoaDon.MaHD,
+                    MaSP = ct.MaSP,
+                    SoLuong = ct.SoLuong
+                }).ToList();
+
+                db.HoaDons.Add(hoaDon);
+                db.SaveChanges();
+
+                // Xóa giỏ hàng sau khi thanh toán
+                db.ChiTietGioHangs.RemoveRange(chiTiets);
+                db.GioHangs.Remove(gioHang);
+                db.SaveChanges();
+
+                TempData["Success"] = "Thanh toán thành công!";
+                return RedirectToAction("Index", "Home");
+
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    Debug.WriteLine("Entity of type \"{0}\" has validation errors:", eve.Entry.Entity.GetType().Name);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+
+                throw;
+            }
+        }
+
+        public ActionResult Confirmation(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["Message"] = "Mã hóa đơn không hợp lệ.";
+                return RedirectToAction("Index", "Cart");
+            }
+
+            var hoaDon = db.HoaDons
+                .Include("ChiTietHoaDon.SanPham")
+                .FirstOrDefault(h => h.MaHD == id);
+
+            if (hoaDon == null)
+            {
+                TempData["Message"] = "Hóa đơn không tồn tại.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.TotalAmount = hoaDon.ChiTietHoaDon.Sum(ct => (ct.SanPham?.GiaDau ?? 0) * ct.SoLuong);
+
+            return View(hoaDon);
+        }
+
+
 
     }
 }

@@ -12,13 +12,9 @@ namespace chuyende.Models
     {
         [Key]
         public string MaHD { get; set; }
-        [Required(ErrorMessage = "Tên khách hàng không được để trống"), StringLength(255)]
         public string TenKH { get; set; }
-        [Required(ErrorMessage = "Số điện thoại không được để trống"), StringLength(20)]
         public string SoDienThoai { get; set; }
-        [Required(ErrorMessage = "Email không hợp lệ"), EmailAddress]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Địa chỉ không được để trống"), StringLength(500)]
         public string DiaChi { get; set; }
         public int PhuongThucThanhToan { get; set; }
         public int TrangThai { get; set; }

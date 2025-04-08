@@ -43,6 +43,7 @@ namespace chuyende.Controllers
                     userDb.TenKH = updatedUser.TenKH;
                     userDb.SoDienThoai = updatedUser.SoDienThoai;
                     userDb.Email = updatedUser.Email;
+                    userDb.DiaChi = updatedUser.DiaChi;
 
                     db.Entry(userDb).State = EntityState.Modified;
                     db.SaveChanges();
