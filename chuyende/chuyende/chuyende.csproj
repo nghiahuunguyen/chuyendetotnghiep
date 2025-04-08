@@ -219,7 +219,7 @@
     <Content Include="img\banner\4.jpg" />
     <Content Include="img\banner\Banner 1.png" />
     <Content Include="img\logo\qr.jpg" />
-    <Content Include="Public\css\Admin\hoadon.css" />
+    <Content Include="Public\css\Admin\hoadonadmin.css" />
     <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Use\chitietsp.css" />
     <Content Include="Public\css\Use\sanpham.css" />

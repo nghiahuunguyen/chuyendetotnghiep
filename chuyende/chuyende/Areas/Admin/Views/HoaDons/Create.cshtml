@@ -31,25 +31,25 @@
                 <h3>Thông tin khách hàng</h3>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.TenKH,"Tên Khách Hàng")
+                    @Html.LabelFor(m => m.TenKH, "Tên Khách Hàng")
                     @Html.TextBoxFor(m => m.TenKH, new { @placeholder = "Nhập họ và tên", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.TenKH, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.DiaChi,"Địa Chỉ")
+                    @Html.LabelFor(m => m.DiaChi, "Địa Chỉ")
                     @Html.TextBoxFor(m => m.DiaChi, new { @placeholder = "Nhập địa chỉ", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email,"Email")
+                    @Html.LabelFor(m => m.Email, "Email")
                     @Html.TextBoxFor(m => m.Email, new { @placeholder = "Nhập email", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.SoDienThoai,"Số Điện Thoại")
+                    @Html.LabelFor(m => m.SoDienThoai, "Số Điện Thoại")
                     @Html.TextBoxFor(m => m.SoDienThoai, new { @placeholder = "Nhập số điện thoại", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.SoDienThoai, "", new { @class = "text-danger" })
                 </div>
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.PhuongThucThanhToan,"Phương thức thanh toán")
+                    @Html.LabelFor(m => m.PhuongThucThanhToan, "Phương thức thanh toán")
                     @Html.DropDownListFor(m => m.PhuongThucThanhToan, new SelectList(new[] {
                         new { Value = 1, Text = "Tiền mặt" },
                         new { Value = 2, Text = "Chuyển khoản" }
@@ -125,6 +125,10 @@
             </div>
         </div>
     </div>
+    <div class="form-actions">
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "HoaDons")'">Hủy</button>
+
+    </div>
 }
 
 <!-- Thêm jQuery -->
@@ -135,7 +139,45 @@
 
 <!-- Thêm Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<style>
+    .form-container {
+        display: flex;
+        width: 100%;
+        background: white;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+    }
 
+    .customer-info, .order-info {
+        flex: 1;
+        padding: 20px;
+    }
+
+        .customer-info h3, .order-info h3 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+    .form-group {
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+</style>
 <script>
     $(document).ready(function () {
         let productData = @Html.Raw(jsonData);

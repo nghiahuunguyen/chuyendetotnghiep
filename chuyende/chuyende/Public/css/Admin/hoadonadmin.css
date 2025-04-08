@@ -1,38 +1,4 @@
 ﻿
-/*Order Admin*/
-
-.form-container {
-    display: flex;
-    width: 100%;
-    background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    border-radius: 8px;
-}
-.customer-info, .order-info {
-    flex: 1;
-    padding: 20px;
-}
-.customer-info h3, .order-info h3 {
-    margin-bottom: 15px;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-}
-.form-group {
-    margin-top: 10px;
-    margin-bottom: 15px;
-}
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-}
-.form-group input, 
-.form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
 .avatar {
     width: 100px;
     height: 100px;
@@ -44,6 +10,7 @@
     margin: 0 auto 15px;
     position: relative;
 }
+
 .avatar-upload {
     position: absolute;
     bottom: 0;
@@ -58,29 +25,35 @@
     justify-content: center;
     cursor: pointer;
 }
+
 .gender-group {
     display: flex;
     gap: 15px;
 }
+
 .gender-option {
     display: flex;
     align-items: center;
 }
-.gender-option input {
-    margin-right: 5px;
-}
+
+    .gender-option input {
+        margin-right: 5px;
+    }
 .table-container {
     margin-bottom: 15px;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
 }
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
+
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
 .add-product-btn {
     width: 100%;
     padding: 10px;
@@ -90,6 +63,7 @@ table th, table td {
     border-radius: 4px;
     cursor: pointer;
 }
+
 .payment-btn {
     width: 100%;
     padding: 12px;
@@ -129,4 +103,3 @@ table th, table td {
     width: 100% !important;
     max-width: 500px; /* Tăng chiều rộng tối đa từ 300px lên 400px */
 }
-

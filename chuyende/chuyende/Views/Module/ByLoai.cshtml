@@ -13,13 +13,14 @@
                 <div class="brand-logo-container">
                     @if (hang != null && hang.Logo != null)
                     {
-                        <a href="@Url.Action("ByHang", "Module", new { loaiAlias = Request.Url.Segments[1].Trim('/'), hangAlias = hang.MaHang })">
+                        <a href="@Url.Action("ByHang", "Module", new { loaiAlias = ViewBag.LoaiAlias, hangAlias = hang.Link })">
                             <img src="@Url.Content("~/img/hang/" + hang.Logo)" alt="@hang.TenHang" class="brand-logo">
                         </a>
                     }
                 </div>
             }
         </div>
+
         <!-- Products grid -->
         <div class="products-grid">
             <!-- Lặp qua từng sản phẩm -->
@@ -27,7 +28,6 @@
             {
                 <div class="product-card">
                     <a href="@Url.Action("ChiTiet", "Module", new { loaiAlias = product.LoaiSanPham.Link, alias = product.Link })" class="product-link">
-
                         <div class="product-img-container">
                             <img src="@Url.Content("~/img/sanpham/" + product.HinhAnh)" alt="@product.TenSP">
                         </div>
@@ -80,5 +80,4 @@
         .brand-logo:hover {
             transform: scale(1.1); /* Zoom khi hover */
         }
-
 </style>

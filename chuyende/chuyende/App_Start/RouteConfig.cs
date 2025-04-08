@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,16 +14,20 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+                name: "SanPhamTheoHang",
+                url: "{loaiAlias}/{hangAlias}",
+                defaults: new { controller = "Module", action = "ByHang" },
+                constraints: new { loaiAlias = @"[a-zA-Z0-9\-]+", hangAlias = @"[a-zA-Z0-9\-]+" }
+            );
+
+            routes.MapRoute(
                 name: "User",
                 url: "User/{action}/{id}",
                 defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
             );
-            routes.MapRoute(
-                name: "ByHang",
-                url: "{loaiAlias}/hang/{hangAlias}",
-                defaults: new { controller = "Module", action = "ByHang" },
-                constraints: new { loaiAlias = @"^[a-zA-Z0-9\-]+$", hangAlias = @"^[a-zA-Z0-9\-]+$" }
-            );
+            
+
+
 
             routes.MapRoute(
                 name: "Cart",
