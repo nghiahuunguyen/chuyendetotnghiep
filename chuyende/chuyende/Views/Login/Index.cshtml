@@ -8,10 +8,32 @@
         <h1 class="login-title">Xin chào mừng đến với cửa hàng</h1>
     </div>
 
-    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        <div class="toast-success" id="toast">
+            <span>@TempData["SuccessMessage"]</span>
+            <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+        </div>
     }
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="toast-error" id="toast-message">
+            <span>@TempData["Message"]</span>
+            <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+        </div>
+    }
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="toast-error" id="toast-error">
+            <span>@ViewBag.ErrorMessage</span>
+            <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+        </div>
+    }
+
+
+
 
     <!-- Login Form -->
     <div id="loginForm" class="tab-content active">
@@ -41,6 +63,46 @@
         </div>
     </div>
 </div>
+<style>
+    .toast-error {
+        position: fixed;
+        top: 60px;
+        right: 20px;
+        background-color: #dc3545; /* đỏ Bootstrap */
+        color: white;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .toast-success {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .toast-close {
+        margin-left: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+</style>
+
 <script>
     document.querySelector(".toggle-password").addEventListener("click", function () {
         let passwordField = document.getElementById("password");

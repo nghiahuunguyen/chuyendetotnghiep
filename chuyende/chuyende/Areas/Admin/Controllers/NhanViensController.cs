@@ -53,23 +53,41 @@ namespace chuyende.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Lấy mã NV lớn nhất hiện tại, nếu không có thì bắt đầu từ NV001
-                var lastNhanVien = db.NhanViens.OrderByDescending(nv => nv.MaNV).FirstOrDefault();
-                int newId = (lastNhanVien != null && lastNhanVien.MaNV.StartsWith("NV"))
-                    ? int.Parse(lastNhanVien.MaNV.Substring(2)) + 1
-                    : 1;
+                // Lấy mã NV lớn nhất hiện tại (chỉ lấy mã đang hoạt động hoặc tất cả nếu cần)
+                var lastNhanVien = db.NhanViens
+                                     .OrderByDescending(nv => nv.MaNV)
+                                     .FirstOrDefault();
 
-                // Gán mã mới với format NV001, NV002, ...
-                nhanVien.MaNV = $"NV{newId:D3}";
-                nhanVien.Status = 1; // Đánh dấu nhân viên đang hoạt động
+                int newId = 1;
+                if (lastNhanVien != null && lastNhanVien.MaNV.StartsWith("NV"))
+                {
+                    if (int.TryParse(lastNhanVien.MaNV.Substring(2), out int parsedId))
+                    {
+                        newId = parsedId + 1;
+                    }
+                }
+
+                string newMaNV = $"NV{newId:D3}";
+
+                // Đảm bảo không trùng mã
+                while (db.NhanViens.Any(nv => nv.MaNV == newMaNV))
+                {
+                    newId++;
+                    newMaNV = $"NV{newId:D3}";
+                }
+
+                nhanVien.MaNV = newMaNV;
+                nhanVien.Status = 1;
 
                 db.NhanViens.Add(nhanVien);
                 db.SaveChanges();
+
                 TempData["SuccessMessage"] = "Thêm nhân viên thành công!";
                 return RedirectToAction("Index");
             }
 
             ViewBag.MaCV = new SelectList(db.ChucVus.Where(cv => cv.Status == 1), "MaCV", "TenCV", nhanVien.MaCV);
+            TempData["ErrorMessage"] = "Thêm nhân viên thất bại. Vui lòng kiểm tra lại dữ liệu.";
             return View(nhanVien);
         }
 
@@ -119,7 +137,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 nhanVien.Status = 0;
                 db.SaveChanges();
-                TempData["WarningMessage"] = "Nhân viên đã được chuyển vào thùng rác.";
+                TempData["SuccessMessage"] = "Nhân viên đã được chuyển vào thùng rác.";
             }
             return RedirectToAction("Index");
         }
@@ -141,7 +159,7 @@ namespace chuyende.Areas.Admin.Controllers
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Nhân viên đã được khôi phục!";
             }
-            return RedirectToAction("Trash");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -155,7 +173,7 @@ namespace chuyende.Areas.Admin.Controllers
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Nhân viên đã bị xóa vĩnh viễn.";
             }
-            return RedirectToAction("Trash");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

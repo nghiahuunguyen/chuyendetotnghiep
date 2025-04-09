@@ -94,7 +94,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 hang.Status = 2; // Đánh dấu là Không xuất bản
                 db.SaveChanges();
-                TempData["WarningMessage"] = "Hãng đã được chuyển sang trạng thái không xuất bản.";
+                TempData["SuccessMessage"] = "Hãng đã được chuyển sang trạng thái không xuất bản.";
             }
             return RedirectToAction("Index");
         }
@@ -224,7 +224,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 hang.Status = 0;
                 db.SaveChanges();
-                TempData["WarningMessage"] = "Hãng đã được chuyển vào thùng rác.";
+                TempData["SuccessMessage"] = "Hãng đã được chuyển vào thùng rác.";
             }
             return RedirectToAction("Index");
         }
@@ -249,22 +249,30 @@ namespace chuyende.Areas.Admin.Controllers
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Hãng đã được khôi phục!";
             }
-            return RedirectToAction("Trash");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteForever(string id)
         {
-            Hang hang = db.Hangs.Find(id);
-            if (hang != null)
+            try
             {
-                db.Hangs.Remove(hang);
-                db.SaveChanges();
-                TempData["SuccessMessage"] = "Hãng đã bị xóa vĩnh viễn!";
+                Hang hang = db.Hangs.Find(id);
+                if (hang != null)
+                {
+                    db.Hangs.Remove(hang);
+                    db.SaveChanges();
+                    TempData["SuccessMessage"] = "Hãng đã bị xóa vĩnh viễn!";
+                }
             }
-            return RedirectToAction("Trash");
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Không thể xóa hãng do có ràng buộc dữ liệu. Vui lòng kiểm tra lại!";
+            }
+            return RedirectToAction("Index");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -284,11 +292,19 @@ namespace chuyende.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAllForever()
         {
-            var deletedHangs = db.Hangs.Where(h => h.Status == 0).ToList();
-            db.Hangs.RemoveRange(deletedHangs);
-            db.SaveChanges();
-            TempData["SuccessMessage"] = "Tất cả hãng đã bị xóa vĩnh viễn!";
+            try
+            {
+                var deletedHangs = db.Hangs.Where(h => h.Status == 0).ToList();
+                db.Hangs.RemoveRange(deletedHangs);
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Tất cả hãng đã bị xóa vĩnh viễn!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Không thể xóa do một số hãng có ràng buộc dữ liệu. Vui lòng kiểm tra lại!";
+            }
             return RedirectToAction("Index");
         }
+
     }
 }

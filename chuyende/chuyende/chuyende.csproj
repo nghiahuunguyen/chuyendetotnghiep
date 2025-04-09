@@ -226,6 +226,7 @@
     <Content Include="img\logo\qr.jpg" />
     <Content Include="Public\css\Admin\hoadonadmin.css" />
     <Content Include="Public\css\Admin\phantrang.css" />
+    <Content Include="Public\css\Admin\thongbao.css" />
     <Content Include="Public\css\Use\chitietsp.css" />
     <Content Include="Public\css\Use\sanpham.css" />
     <Content Include="Public\css\Use\user.css" />

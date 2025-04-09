@@ -39,7 +39,7 @@
             {
                 <tr>
                     <td>@item.TenLoaiSP</td>
-                    <td>@Html.DisplayFor(model => model.Link)</td>
+                    <td>@item.Link</td>
                     <td>
                         <div class="d-flex gap-2">
                             @using (Html.BeginForm("Restore", "LoaiSanPhams", new { id = item.MaLoaiSP }, FormMethod.Post))

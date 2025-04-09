@@ -102,7 +102,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 sanPham.Status = 2; // Không xuất bản
                 db.SaveChanges();
-                TempData["WarningMessage"] = "Sản phẩm đã được chuyển sang trạng thái không xuất bản.";
+                TempData["SuccessMessage"] = "Sản phẩm đã được chuyển sang trạng thái không xuất bản.";
             }
             return RedirectToAction("Index");
         }
@@ -255,22 +255,33 @@ namespace chuyende.Areas.Admin.Controllers
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Sản phẩm đã được khôi phục!";
             }
-            return RedirectToAction("Trash");
+            return RedirectToAction("Index");
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteForever(string id)
         {
             var sanPham = db.SanPhams.Find(id);
-            if (sanPham != null)
+            if (sanPham == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy sản phẩm để xóa.";
+                return RedirectToAction("Index", new { status = "Deleted" });
+            }
+
+            try
             {
                 db.SanPhams.Remove(sanPham);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Sản phẩm đã bị xóa vĩnh viễn!";
             }
-            return RedirectToAction("Trash");
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Không thể xóa vì sản phẩm đang được sử dụng trong dữ liệu khác. Vui lòng kiểm tra lại!";
+            }
+
+            return RedirectToAction("Index", new { status = "Deleted" });
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -290,12 +301,21 @@ namespace chuyende.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAllForever()
         {
-            var deletedSanPhams = db.SanPhams.Where(sp => sp.Status == 0).ToList();
-            db.SanPhams.RemoveRange(deletedSanPhams);
-            db.SaveChanges();
-            TempData["SuccessMessage"] = "Tất cả sản phẩm đã bị xóa vĩnh viễn!";
-            return RedirectToAction("Index");
+            try
+            {
+                var deletedSanPhams = db.SanPhams.Where(sp => sp.Status == 0).ToList();
+                db.SanPhams.RemoveRange(deletedSanPhams);
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Tất cả sản phẩm đã bị xóa vĩnh viễn!";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Không thể xóa vì một số sản phẩm đang được sử dụng trong dữ liệu khác. Vui lòng kiểm tra lại!";
+            }
+
+            return RedirectToAction("Index", new { status = "Deleted" });
         }
+
 
         protected override void Dispose(bool disposing)
         {

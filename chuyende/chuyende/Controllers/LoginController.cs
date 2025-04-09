@@ -124,6 +124,7 @@ namespace chuyende.Controllers
 
             if (user == null)
             {
+                ViewBag.Email = email;
                 ViewBag.ErrorMessage = "Mã xác nhận không hợp lệ!";
                 return View();
             }
@@ -138,28 +139,39 @@ namespace chuyende.Controllers
         [HttpPost]
         public ActionResult NewPassword(string email, string newPassword, string confirmPassword)
         {
-            if (newPassword != confirmPassword)
+            ViewBag.Email = email; // giữ lại email cho form
+
+            // Kiểm tra rỗng
+            if (string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmPassword))
             {
-                ViewBag.ErrorMessage = "Mật khẩu xác nhận không khớp!";
+                ViewBag.ErrorMessage = "Vui lòng nhập đầy đủ mật khẩu!";
                 return View();
             }
 
-            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email);
+            // Kiểm tra xác nhận không trùng khớp
+            if (newPassword != confirmPassword)
+            {
+                ViewBag.ConfirmPasswordError = "Mật khẩu xác nhận không khớp!";
+                return View();
+            }
 
+            // Kiểm tra tồn tại người dùng
+            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email);
             if (user == null)
             {
                 ViewBag.ErrorMessage = "Email không hợp lệ!";
                 return View();
             }
 
-            // Cập nhật mật khẩu mới (đã băm)
+            // Cập nhật mật khẩu
             user.MatKhau = HashPassword(newPassword);
-            user.ActivationToken = null; // Xóa OTP sau khi đổi mật khẩu
+            user.ActivationToken = null;
             db.SaveChanges();
 
+            TempData["SuccessMessage"] = "Cập nhật mật khẩu thành công!";
             return RedirectToAction("Index", "Login");
+
         }
-    
 
     }
 }

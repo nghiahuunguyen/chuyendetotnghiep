@@ -7,22 +7,24 @@
 
 <div class="table-container">
     <h3>Danh sách chức vụ</h3>
-   
+
     <div>
         @if (TempData["SuccessMessage"] != null)
         {
-            <div class="custom-alert-success">
-                @TempData["SuccessMessage"]
+            <div class="alert-box success" id="success-alert">
+                <span class="icon">✔</span>
+                <span>@TempData["SuccessMessage"]</span>
+                <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
             </div>
         }
         @if (TempData["ErrorMessage"] != null)
         {
-            <div class="custom-alert-danger">
-                @TempData["ErrorMessage"]
+            <div class="alert-box error" id="error-alert">
+                <span class="icon">✖</span>
+                <span>@TempData["ErrorMessage"]</span>
+                <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
             </div>
         }
-
-
     </div>
 
     <div class="actions">
@@ -37,12 +39,12 @@
 
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
-                <tr>
-                    <th>#</th>
-                    <th>Mã chức vụ</th>
-                    <th>Tên chức vụ</th>
-                    <th>Chức năng</th>
-                </tr>
+            <tr>
+                <th>#</th>
+                <th>Mã chức vụ</th>
+                <th>Tên chức vụ</th>
+                <th>Chức năng</th>
+            </tr>
             <tbody>
                 @{ int stt = 1; }
                 @foreach (var item in Model)
@@ -72,6 +74,4 @@
             </tbody>
         </table>
     </div>
-    </div>
 </div>
-

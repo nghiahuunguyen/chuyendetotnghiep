@@ -178,7 +178,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 loaiSanPham.Status = 0;
                 db.SaveChanges();
-                TempData["WarningMessage"] = "Loại sản phẩm đã được chuyển vào thùng rác.";
+                TempData["SuccessMessage"] = "Loại sản phẩm đã được chuyển vào thùng rác.";
             }
             return RedirectToAction("Index");
         }
@@ -202,7 +202,7 @@ namespace chuyende.Areas.Admin.Controllers
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Loại sản phẩm đã được khôi phục!";
             }
-            return RedirectToAction("Trash");
+            return RedirectToAction("Index");
         }
 
         // Xóa vĩnh viễn một chức vụ
@@ -210,15 +210,28 @@ namespace chuyende.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteForever(string id)
         {
-            LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
-            if (loaiSanPham != null)
+            var loaiSanPham = db.LoaiSanPhams.Find(id);
+            if (loaiSanPham == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy loại sản phẩm cần xóa.";
+                return RedirectToAction("Index", new { status = "Deleted" });
+            }
+
+            try
             {
                 db.LoaiSanPhams.Remove(loaiSanPham);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Loại sản phẩm đã bị xóa vĩnh viễn!";
             }
-            return RedirectToAction("Trash");
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Không thể xóa vì loại sản phẩm đang được sử dụng trong dữ liệu khác. Vui lòng kiểm tra lại!";
+            }
+
+            return RedirectToAction("Index", new { status = "Deleted" });
         }
+
+
 
         // Khôi phục tất cả chức vụ từ thùng rác
         [HttpPost]
@@ -240,12 +253,21 @@ namespace chuyende.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAllForever()
         {
-            var deletedLoaiSanPhams = db.LoaiSanPhams.Where(m => m.Status == 0).ToList();
-            db.LoaiSanPhams.RemoveRange(deletedLoaiSanPhams);
-            db.SaveChanges();
-            TempData["SuccessMessage"] = "Tất cả loại sản phẩm đã bị xóa vĩnh viễn!";
+            try
+            {
+                var deletedLoaiSanPhams = db.LoaiSanPhams.Where(l => l.Status == 0).ToList();
+                db.LoaiSanPhams.RemoveRange(deletedLoaiSanPhams);
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Tất cả loại sản phẩm đã bị xóa vĩnh viễn!";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Không thể xóa do một số loại sản phẩm có ràng buộc dữ liệu. Vui lòng kiểm tra lại!";
+            }
+
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {

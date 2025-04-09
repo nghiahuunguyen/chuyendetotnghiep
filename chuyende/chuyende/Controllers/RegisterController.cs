@@ -12,6 +12,7 @@ namespace chuyende.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
@@ -21,49 +22,53 @@ namespace chuyende.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(KhachHang khachHang)
         {
-            // Kiểm tra Email đã tồn tại hay chưa
-            bool emailExists = db.KhachHangs.Any(k => k.Email == khachHang.Email && k.IsActive);
-            if (emailExists)
-            {
-                ViewBag.EmailError = "Email đã được sử dụng!";
-                return View(khachHang); // Trả về view và hiển thị thông báo lỗi
-            }
-
-            // Kiểm tra Số điện thoại đã tồn tại hay chưa
-            bool phoneExists = db.KhachHangs.Any(k => k.SoDienThoai == khachHang.SoDienThoai && k.IsActive);
-            if (phoneExists)
-            {
-                ViewBag.PhoneError = "Số điện thoại đã được sử dụng!";
-                return View(khachHang); // Trả về view và hiển thị thông báo lỗi
-            }
-
-
             string confirmPassword = Request.Form["ConfirmPassword"];
 
+            // Kiểm tra Email đã tồn tại
+            if (db.KhachHangs.Any(k => k.Email == khachHang.Email && k.IsActive))
+            {
+                ViewBag.ToastError = "Email đã được sử dụng!";
+                return View(khachHang);
+            }
+
+            // Kiểm tra SĐT đã tồn tại
+            if (db.KhachHangs.Any(k => k.SoDienThoai == khachHang.SoDienThoai && k.IsActive))
+            {
+                ViewBag.ToastError = "Số điện thoại đã được sử dụng!";
+                return View(khachHang);
+            }
+
+            // Kiểm tra mật khẩu xác nhận
             if (khachHang.MatKhau != confirmPassword)
             {
-                ViewBag.ConfirmPasswordError = "Mật khẩu xác nhận không khớp!";
+                ViewBag.ToastError = "Mật khẩu xác nhận không khớp!";
                 return View(khachHang);
             }
 
+            // Kiểm tra tính hợp lệ của Model
             if (!ModelState.IsValid)
             {
+                ViewBag.ToastError = "Vui lòng nhập đầy đủ thông tin!";
                 return View(khachHang);
             }
 
-            // Tạo mã khách hàng tự động
+            // Tạo khách hàng mới
             khachHang.MaKH = GenerateCustomerCode();
             khachHang.MatKhau = HashPassword(khachHang.MatKhau);
-            khachHang.IsActive = false; // Chưa kích hoạt
-            khachHang.ActivationToken = GenerateOTP(); // 🔹 Sử dụng mã OTP thay vì token
+            khachHang.IsActive = false;
+            khachHang.ActivationToken = GenerateOTP();
 
             db.KhachHangs.Add(khachHang);
             db.SaveChanges();
 
-            // Gửi email chứa mã OTP
-            string emailBody = $"<p>Chào {khachHang.TenKH},</p><p>Mã xác nhận của bạn là: <strong>{khachHang.ActivationToken}</strong>. Vui lòng không chia sẻ mã này bất kỳ ai.</p>";
-            SendMail sendMail = new SendMail();
-            sendMail.SendMailFunction(khachHang.Email, "Mã xác nhận đăng ký", emailBody);
+            // Gửi email xác nhận OTP
+            string emailBody = $@"
+                                <p>Chào {khachHang.TenKH},</p>
+                                <p>Mã xác nhận của bạn là: <strong>{khachHang.ActivationToken}</strong>.</p>
+                                <p>Vui lòng không chia sẻ mã này với bất kỳ ai.</p>";
+
+            SendMail sender = new SendMail();
+            sender.SendMailFunction(khachHang.Email, "Mã xác nhận đăng ký", emailBody);
 
             return RedirectToAction("ConfirmOTP", new { email = khachHang.Email });
         }
@@ -85,6 +90,7 @@ namespace chuyende.Controllers
                 user.IsActive = true;
                 user.ActivationToken = null; // Xóa OTP sau khi xác nhận
                 db.SaveChanges();
+                TempData["SuccessMessage"] = "Bạn đã đăng ký thành công!.";
                 return RedirectToAction("Index", "Login");
             }
             else
