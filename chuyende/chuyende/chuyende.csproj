@@ -348,6 +348,8 @@
     <Content Include="Views\Module\ChiTiet.cshtml" />
     <Content Include="Views\Module\ByHang.cshtml" />
     <Content Include="Views\Cart\Confirmation.cshtml" />
+    <Content Include="Views\User\ViewOrder.cshtml" />
+    <Content Include="Views\User\OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

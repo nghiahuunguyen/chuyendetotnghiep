@@ -37,7 +37,7 @@ namespace chuyende.Controllers
         {
             if (Session["User"] == null)
             {
-                TempData["ReturnUrl"] = Url.Action("Index", "Login"); // 👈 Lưu đường dẫn muốn quay lại
+                TempData["ReturnUrl"] = Url.Action("Index", "Login"); 
                 TempData["Message"] = "Vui lòng đăng nhập để xem giỏ hàng.";
                 return RedirectToAction("Index", "Login");
             }
@@ -211,8 +211,6 @@ namespace chuyende.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CompletePayment(HoaDon hoaDon)
         {
-            try
-            {
                 if (Session["User"] == null)
                 {
                     return RedirectToAction("Index", "Login");
@@ -220,12 +218,18 @@ namespace chuyende.Controllers
 
                 var user = (KhachHang)Session["User"];
 
+                // 👉 Kiểm tra địa chỉ
+                if (string.IsNullOrWhiteSpace(user.DiaChi))
+                {
+                    TempData["ErrorMessage"] = "Vui lòng cập nhật địa chỉ trước khi thanh toán.";
+                    return RedirectToAction("Index", "Cart"); // hoặc view giỏ hàng đang dùng
+                }
+
                 hoaDon.MaHD = Guid.NewGuid().ToString();
                 hoaDon.NguoiTao = user.MaKH;
                 hoaDon.NgayTao = DateTime.Now;
                 hoaDon.TrangThai = 1;
 
-                // Gán thông tin khách hàng vào hóa đơn
                 hoaDon.TenKH = user.TenKH;
                 hoaDon.SoDienThoai = user.SoDienThoai;
                 hoaDon.Email = user.Email;
@@ -233,9 +237,9 @@ namespace chuyende.Controllers
 
                 var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == user.MaKH);
                 var chiTiets = db.ChiTietGioHangs
-    .Include("SanPham")
-    .Where(c => c.MaGioHang == gioHang.MaGioHang)
-    .ToList();
+                    .Include("SanPham")
+                    .Where(c => c.MaGioHang == gioHang.MaGioHang)
+                    .ToList();
 
                 hoaDon.ChiTietHoaDon = chiTiets.Select(ct => new ChiTietHoaDon
                 {
@@ -248,11 +252,10 @@ namespace chuyende.Controllers
                 db.HoaDons.Add(hoaDon);
                 db.SaveChanges();
 
-                // Xóa giỏ hàng sau khi thanh toán
                 db.ChiTietGioHangs.RemoveRange(chiTiets);
                 db.GioHangs.Remove(gioHang);
                 db.SaveChanges();
-                // Gửi email xác nhận đơn hàng
+
                 string emailBody = $"<p>Chào {hoaDon.TenKH},</p>" +
                                    $"<p>Bạn đã đặt hàng thành công vào lúc {hoaDon.NgayTao:HH:mm:ss dd/MM/yyyy}.</p>" +
                                    $"<p>Mã đơn hàng của bạn là: <strong>{hoaDon.MaHD}</strong></p>" +
@@ -264,22 +267,9 @@ namespace chuyende.Controllers
 
                 TempData["Success"] = "Đặt hàng thành công!";
                 return RedirectToAction("Index", "Home");
-
-            }
-            catch (DbEntityValidationException ex)
-            {
-                foreach (var eve in ex.EntityValidationErrors)
-                {
-                    Debug.WriteLine("Entity of type \"{0}\" has validation errors:", eve.Entry.Entity.GetType().Name);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-
-                throw;
-            }
+            
         }
+
 
         public ActionResult Confirmation(string id)
         {
@@ -304,7 +294,6 @@ namespace chuyende.Controllers
             return View(hoaDon);
         }
 
-
-
+        
     }
 }

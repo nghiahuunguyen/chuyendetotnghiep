@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using chuyende.Helper;
 using chuyende.Models;
 
 namespace chuyende.Areas.Admin.Controllers
@@ -69,6 +70,19 @@ namespace chuyende.Areas.Admin.Controllers
 
                 hoaDon.TrangThai = trangThai;
                 db.SaveChanges();
+
+                // Nếu trạng thái là "Đang vận chuyển" thì gửi email cho khách hàng
+                if (trangThai == 2)
+                {
+                    string emailBody = $"<p>Chào {hoaDon.TenKH},</p>" +
+                                       $"<p>Đơn hàng của bạn (Mã đơn: <strong>{hoaDon.MaHD}</strong>) hiện đang được <strong>vận chuyển</strong>.</p>" +
+                                       "<p>Chúng tôi sẽ giao hàng đến bạn trong thời gian sớm nhất và hãy để chú ý điện thoại của bạn.</p>" +
+                                       "<p>Cảm ơn bạn đã mua sắm tại <strong>ELECTRONICS STORE</strong>.</p>";
+
+                    SendMail sendMail = new SendMail();
+                    sendMail.SendMailFunction(hoaDon.Email, "Đơn hàng đang được vận chuyển", emailBody);
+                }
+
                 return Json(new { success = true });
             }
             catch (Exception ex)
@@ -76,6 +90,7 @@ namespace chuyende.Areas.Admin.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
 
         // GET: Admin/HoaDons/Details/HD001
         public ActionResult Details(string id)

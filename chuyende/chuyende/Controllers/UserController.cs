@@ -122,5 +122,36 @@ namespace chuyende.Controllers
             Session.Clear();
             return RedirectToAction("Index", "Login");
         }
+
+        public ActionResult ViewOrder()
+        {
+            var user = Session["User"] as KhachHang;
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            // Lọc hóa đơn theo Email khách hàng
+            var donHangs = db.HoaDons
+                             .Where(h => h.Email == user.Email)
+                             .OrderByDescending(h => h.NgayTao)
+                             .ToList();
+
+            return View(donHangs);
+        }
+
+        public ActionResult OrderDetails(string id)
+        {
+            var hoaDon = db.HoaDons
+                           .Include("ChiTietHoaDon.SanPham")
+                           .FirstOrDefault(h => h.MaHD == id);
+
+            if (hoaDon == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(hoaDon);
+        }
     }
 }

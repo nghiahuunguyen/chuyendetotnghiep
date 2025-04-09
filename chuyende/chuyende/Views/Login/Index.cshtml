@@ -11,6 +11,7 @@
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="toast-success" id="toast">
+            <span class="icon">✔</span>
             <span>@TempData["SuccessMessage"]</span>
             <span class="toast-close" onclick="this.parentElement.remove()">×</span>
         </div>
@@ -19,6 +20,7 @@
     @if (TempData["Message"] != null)
     {
         <div class="toast-error" id="toast-message">
+            <span class="icon">✖</span>
             <span>@TempData["Message"]</span>
             <span class="toast-close" onclick="this.parentElement.remove()">×</span>
         </div>
@@ -64,6 +66,10 @@
     </div>
 </div>
 <style>
+    .icon {
+        font-weight: bold;
+        font-size: 18px;
+    }
     .toast-error {
         position: fixed;
         top: 60px;

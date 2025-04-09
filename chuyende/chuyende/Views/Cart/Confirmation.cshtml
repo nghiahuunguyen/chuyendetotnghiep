@@ -11,6 +11,7 @@
         <ul>
             @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
             {
+                <span class="icon">✖</span>
                 <li>@error.ErrorMessage</li>
             }
         </ul>
@@ -111,7 +112,10 @@
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         border-radius: 8px;
     }
-
+    .icon {
+        font-weight: bold;
+        font-size: 18px;
+    }
     .customer-info, .order-info {
         flex: 1;
         padding: 20px;

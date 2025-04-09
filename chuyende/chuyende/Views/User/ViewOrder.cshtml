@@ -1,0 +1,101 @@
+﻿@model IEnumerable<chuyende.Models.HoaDon>
+@{
+    ViewBag.Title = "Đơn hàng đã mua";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="account-container">
+
+    <div class="account-sidebar">
+        <div> @((Session["User"] as chuyende.Models.KhachHang)?.TenKH) </div>
+        <a href="@Url.Action("Index", "User")" class="account-sidebar-item active">
+            <i class="fas fa-address-book"></i>
+            Thông tin tài khoản
+        </a>
+
+        <a href="@Url.Action("ViewOrder", "User")" class="account-sidebar-item active">
+            <i class="fas fa-shopping-bag"></i>
+            Đơn hàng đã mua
+        </a>
+
+        <a href="@Url.Action("Logout", "User")" class="logout">
+            <button class="account-sidebar-logout">Đăng Xuất</button>
+        </a>
+
+    </div>
+
+    <div class="main-content">
+        <div class="personal-info">
+            <h2>THÔNG TIN ĐƠN HÀNG</h2>
+
+            @if (!Model.Any())
+            {
+                <p>Bạn chưa có đơn hàng nào.</p>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Ngày tạo</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.MaHD</td>
+                                <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @String.Format("{0:C0}", item.ChiTietHoaDon.Sum(c => c.SoLuong * (c.SanPham.GiaDau - c.SanPham.SoGiam)))
+                                </td>
+                                <td>
+                                    @{
+                                        string trangThai = "";
+                                        string mau = "";
+                                        switch (item.TrangThai)
+                                        {
+                                            case 0:
+                                                trangThai = "Đã thanh toán";
+                                                mau = "green";
+                                                break;
+                                            case 1:
+                                                trangThai = "Đang xử lý";
+                                                mau = "red";
+                                                break;
+                                            case 2:
+                                                trangThai = "Đang vận chuyển";
+                                                mau = "red";
+                                                break;
+                                            case 3:
+                                                trangThai = "Đã giao và thanh toán";
+                                                mau = "green";
+                                                break;
+                                            default:
+                                                trangThai = "Không xác định";
+                                                mau = "black";
+                                                break;
+                                        }
+                                    }
+                                    <span style="color:@mau">@trangThai</span>
+
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("OrderDetails", "User", new { id = item.MaHD })" class="btn btn-info btn-sm">Xem</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+
+
+        </div>
+        
+    </div>
+</div>
