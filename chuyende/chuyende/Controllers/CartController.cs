@@ -1,4 +1,5 @@
-﻿using chuyende.Models;
+﻿using chuyende.Helper;
+using chuyende.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -186,7 +187,7 @@ namespace chuyende.Controllers
                 SoDienThoai = user.SoDienThoai,
                 Email = user.Email,
                 DiaChi = user.DiaChi,
-                PhuongThucThanhToan = 1,
+                PhuongThucThanhToan = 3,
                 TrangThai = 1,
                 NguoiTao = user.MaKH,
                 NgayTao = DateTime.Now,
@@ -251,8 +252,17 @@ namespace chuyende.Controllers
                 db.ChiTietGioHangs.RemoveRange(chiTiets);
                 db.GioHangs.Remove(gioHang);
                 db.SaveChanges();
+                // Gửi email xác nhận đơn hàng
+                string emailBody = $"<p>Chào {hoaDon.TenKH},</p>" +
+                                   $"<p>Bạn đã đặt hàng thành công vào lúc {hoaDon.NgayTao:HH:mm:ss dd/MM/yyyy}.</p>" +
+                                   $"<p>Mã đơn hàng của bạn là: <strong>{hoaDon.MaHD}</strong></p>" +
+                                   "<p>Chúng tôi sẽ sớm liên hệ với bạn để xác nhận đơn hàng và giao hàng trong thời gian sớm nhất.</p>" +
+                                   "<p>Trân trọng,";
 
-                TempData["Success"] = "Thanh toán thành công!";
+                SendMail sendMail = new SendMail();
+                sendMail.SendMailFunction(hoaDon.Email, "Xác nhận đơn hàng ELECTRONICS STORE", emailBody);
+
+                TempData["Success"] = "Đặt hàng thành công!";
                 return RedirectToAction("Index", "Home");
 
             }

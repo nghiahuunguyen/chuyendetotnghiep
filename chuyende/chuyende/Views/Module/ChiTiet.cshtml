@@ -46,9 +46,6 @@
         </div>
 
         <div class="product-actions">
-            <button class="buy-now">
-                <i class="fas fa-shopping-cart"></i> Mua ngay
-            </button>
             <form action="@Url.Action("AddToCart", "Cart")" method="get" style="display:inline;">
                 <input type="hidden" name="id" value="@Model.MaSP" />
                 <button type="submit" class="add-to-cart btn btn-primary">
