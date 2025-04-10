@@ -1,0 +1,44 @@
+﻿@model chuyende.Models.BaiViet
+
+@{
+    ViewBag.Title = "xem chi tiết bài viết";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="table-container">
+    <h3>Xem chi tiết loại bài viết</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên bài viết</th>
+                <th>Hình ảnh<</th>
+                <th>Nội dung</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenBV)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                    {
+                        <img src="@Url.Content("~/img/baiviet/" + Model.HinhAnh)" alt="Logo" style="max-width: 100px; max-height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>Không có hình ảnh</span>
+                    }
+                 </td>
+                <td>@Html.Raw(Model.NoiDung?.Replace("\n", "<br />") ?? "Không có nội dung")</td>
+                <td>@Html.DisplayFor(model => model.Link)</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-actions">
+        <button type="button" class="save-btn btn btn-warning" onclick="window.location.href='@Url.Action("Edit", "BaiViets", new { id = Model.MaBV })'">Chỉnh sửa</button>
+        <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "BaiViets")'">Hủy</button>
+
+    </div>
+</div>
