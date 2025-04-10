@@ -98,6 +98,12 @@
                 </a>
             </li>
 
+            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "ThongKe" ? "active" : "")">
+                <a href="@Url.Action("Index", "ThongKe")">
+                    <i class="fas fa-chart-bar"></i> Thống kê
+                </a>
+            </li>
+
             <li class="has-submenu @(new[] { "BaiViets", "LoaiBaiViets" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
                 <div class="menu-item">
                     <span><i class="fas fa-newspaper"></i> Bài viết</span>

@@ -202,3 +202,11 @@ D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatab
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabasesp.resources
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaseloaibv.resources
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabasenodunbv.resources
+D:\chuyendetotnghiep\chuyende\chuyende\bin\EPPlus.dll
+D:\chuyendetotnghiep\chuyende\chuyende\bin\EPPlus.Interfaces.dll
+D:\chuyendetotnghiep\chuyende\chuyende\bin\Microsoft.IO.RecyclableMemoryStream.dll
+D:\chuyendetotnghiep\chuyende\chuyende\bin\System.ComponentModel.Annotations.dll
+D:\chuyendetotnghiep\chuyende\chuyende\bin\System.Security.Cryptography.Xml.dll
+D:\chuyendetotnghiep\chuyende\chuyende\bin\EPPlus.xml
+D:\chuyendetotnghiep\chuyende\chuyende\bin\Microsoft.IO.RecyclableMemoryStream.xml
+D:\chuyendetotnghiep\chuyende\chuyende\bin\System.Security.Cryptography.Xml.xml

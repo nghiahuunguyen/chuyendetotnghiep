@@ -1,6 +1,79 @@
-﻿
+﻿@model chuyende.Models.ThongKeAdmin
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Trang chủ admin";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+
+
+<div class="row">
+    <!-- Đơn chờ xử lý -->
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3 text-center shadow-sm" style="transition: 0.3s;">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-clock me-2"></i>Đơn chờ xử lý</h5>
+                <p class="card-text display-6">@Model.DonHangChoXuLy</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Đơn đang vận chuyển -->
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3 text-center shadow-sm" style="transition: 0.3s;">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-shipping-fast me-2"></i>Đơn đang vận chuyển</h5>
+                <p class="card-text display-6">@Model.DonHangDangVanChuyen</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Đơn đã hoàn thành -->
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3 text-center shadow-sm" style="transition: 0.3s;">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-check-circle me-2"></i>Đơn đã hoàn thành</h5>
+                <p class="card-text display-6">@Model.DonHangDaHoanThanh</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4 shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <i class="fas fa-scroll me-2"></i> Nội quy làm việc tại ELECTRONICS STORE
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <strong>1. Thời gian làm việc:</strong> Có mặt trước 8h00 sáng, ra về sau khi hoàn tất bàn giao và kiểm kê cuối ngày.
+            </li>
+            <li class="list-group-item">
+                <strong>2. Tác phong:</strong> Ăn mặc gọn gàng, đeo thẻ nhân viên đầy đủ, luôn tươi cười và lịch sự với khách hàng.
+            </li>
+            <li class="list-group-item">
+                <strong>3. Kiến thức sản phẩm:</strong> Phải nắm rõ thông tin về các dòng điện thoại, phụ kiện, chương trình khuyến mãi và chính sách bảo hành.
+            </li>
+            <li class="list-group-item">
+                <strong>4. Chăm sóc khách hàng:</strong> Không được tranh giành khách, tư vấn trung thực, hỗ trợ khách kể cả khi không mua hàng.
+            </li>
+            <li class="list-group-item">
+                <strong>5. Quản lý hàng hóa:</strong> Kiểm tra số lượng, tình trạng sản phẩm trước khi giao cho khách. Báo cáo ngay nếu phát hiện thiếu hụt hoặc lỗi.
+            </li>
+            <li class="list-group-item">
+                <strong>6. Xử lý đơn hàng:</strong> Mọi đơn đặt hàng và giao hàng phải được nhập đúng hệ thống, tránh nhầm lẫn – không được xử lý "ngoài sổ sách".
+            </li>
+            <li class="list-group-item">
+                <strong>7. An ninh và bảo mật:</strong> Không tiết lộ thông tin khách hàng, mã giảm giá nội bộ, thông tin tồn kho hoặc giá vốn.
+            </li>
+            <li class="list-group-item">
+                <strong>8. Sử dụng thiết bị:</strong> Không tự ý cài đặt phần mềm, rút linh kiện, hoặc sử dụng máy demo làm tài sản cá nhân.
+            </li>
+            <li class="list-group-item">
+                <strong>9. Giao tiếp nội bộ:</strong> Giữ thái độ tôn trọng đồng nghiệp, không nói xấu, không gây xích mích nội bộ.
+            </li>
+            <li class="list-group-item">
+                <strong>10. Xử phạt:</strong> Mọi hành vi vi phạm nội quy sẽ bị xử lý từ nhắc nhở đến kỷ luật hoặc đuổi việc tùy theo mức độ nghiêm trọng.
+            </li>
+        </ul>
+    </div>
+</div>

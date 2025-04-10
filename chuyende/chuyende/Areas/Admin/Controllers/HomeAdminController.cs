@@ -1,4 +1,5 @@
-﻿using System;
+﻿using chuyende.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace chuyende.Areas.Admin.Controllers
 {
     public class HomeAdminController : Controller
     {
+        private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
         // GET: Admin/HomeAdmin
         public ActionResult Index()
         {
@@ -15,8 +17,13 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "DangNhap");
             }
-
-            return View();
+            var model = new ThongKeAdmin
+            {
+                DonHangChoXuLy = db.HoaDons.Count(hd => hd.TrangThai == 1),
+                DonHangDangVanChuyen = db.HoaDons.Count(hd => hd.TrangThai == 2),
+                DonHangDaHoanThanh = db.HoaDons.Count(hd => hd.TrangThai == 3)
+            };
+            return View(model);
         }
     }
 }

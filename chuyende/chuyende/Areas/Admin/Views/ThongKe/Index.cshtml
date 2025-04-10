@@ -1,0 +1,122 @@
+﻿@model List<chuyende.Models.ThongKeDoanhThu>
+@{
+    ViewBag.Title = "Thống kê doanh thu";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    var loai = Request["loai"] ?? "ngay";
+}
+
+<h2 class="mt-3">Thống kê doanh thu</h2>
+
+<div class="d-flex align-items-end gap-3 mb-3">
+    <form method="get" action="@Url.Action("Index", "ThongKe", new { area = "Admin" })" class="d-flex align-items-end gap-2">
+        <div>
+            <label><strong>Loại thống kê:</strong></label>
+            @Html.DropDownList("loai", (SelectList)ViewBag.LoaiThongKe, new { onchange = "this.form.submit()", @class = "form-control" })
+        </div>
+    </form>
+
+    <form action="@Url.Action("ExportToExcel", "ThongKe", new { area = "Admin", loai = ViewBag.LoaiThongKe?.SelectedValue })" method="get">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-file-excel"></i> Xuất Excel
+        </button>
+    </form>
+</div>
+
+<!-- Bảng thống kê -->
+<table class="table table-bordered mt-4">
+    <thead class="table-primary">
+        <tr>
+            <th>Thời gian</th>
+            <th>Số lượng đơn hàng</th>
+            <th>Tổng tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (loai == "ngay")
+                    {
+                        @($"{item.Ngay}/{item.Thang}/{item.Nam}")
+                    }
+                    else if (loai == "thang")
+                    {
+                        @($"Tháng {item.Thang}/{item.Nam}")
+                    }
+                    else
+                    {
+                        @($"Năm {item.Nam}")
+                    }
+                </td>
+                <td>@item.SoLuong</td>
+                <td>@item.TongTien.ToString("#,##0") VNĐ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Biểu đồ cột -->
+<canvas id="doanhThuChart" width="100%" height="50"></canvas>
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Dữ liệu cho biểu đồ -->
+<script>
+    var labels = [];
+    var data = [];
+
+    @foreach (var item in Model)
+    {
+        if (loai == "ngay")
+        {
+            @:labels.push("@(item.Ngay + "/" + item.Thang + "/" + item.Nam)");
+        }
+        else if (loai == "thang")
+        {
+            @:labels.push("Tháng @(item.Thang)/@(item.Nam)");
+        }
+        else
+        {
+            @:labels.push("Năm @(item.Nam)");
+        }
+        @:data.push(@item.TongTien);
+    }
+
+    const ctx = document.getElementById('doanhThuChart').getContext('2d');
+    const doanhThuChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Tổng doanh thu (VNĐ)',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString('vi-VN') + ' VNĐ';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw.toLocaleString('vi-VN') + ' VNĐ';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
