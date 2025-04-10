@@ -244,6 +244,7 @@
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
     <Compile Include="Models\GioHang.cs" />
+    <Compile Include="Models\KhachHangViewModel.cs" />
     <Compile Include="Models\LoaiBaiViet.cs" />
     <Compile Include="Models\QuanLyBanDienTuContext.cs" />
     <Compile Include="Models\Hang.cs" />
@@ -318,11 +319,6 @@
     <Content Include="Areas\Admin\Views\ChucVus\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ChucVus\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DangNhap\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\KhachHangs\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\KhachHangs\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\KhachHangs\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\KhachHangs\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\KhachHangs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\LoaiSanPhams\Create.cshtml" />
     <Content Include="Areas\Admin\Views\LoaiSanPhams\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\LoaiSanPhams\Details.cshtml" />
@@ -365,6 +361,7 @@
     <Content Include="Areas\Admin\Views\LoaiBaiViets\Trash.cshtml" />
     <Content Include="Areas\Admin\Views\BaiViets\Trash.cshtml" />
     <Content Include="Areas\Admin\Views\ThongKe\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHangs\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

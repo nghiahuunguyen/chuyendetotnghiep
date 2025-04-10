@@ -1,5 +1,4 @@
-﻿@model IEnumerable<chuyende.Models.KhachHang>
-
+﻿@model IEnumerable<chuyende.Models.KhachHangViewModel>
 @{
     ViewBag.Title = "Danh sách khách hàng";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -7,74 +6,28 @@
 
 <div class="table-container">
     <h3>Danh sách khách hàng</h3>
-
-    <div>
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="custom-alert-success">
-                @TempData["SuccessMessage"]
-            </div>
-        }
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="custom-alert-danger">
-                @TempData["ErrorMessage"]
-            </div>
-        }
-
-
-    </div>
-
-    <div class="header-actions">
-
-        @using (Html.BeginForm("Search", "KhachHangs", FormMethod.Get, new { @class = "search-form" }))
-        {
-            <input type="text" name="keyword" class="search-input" placeholder="Tìm kiếm khách hàng...">
-            <button type="submit" class="search-btn">
-                <i class="fas fa-search"></i> Tìm kiếm
-            </button>
-        }
-
-        <div class="actions">
-            <a href="@Url.Action("Create", "KhachHangs")" class="add-btn">Thêm mới</a>
-        </div>
-    </div>
-
-    <table>
+    <table >
         <thead>
             <tr>
-                <th>#</th>
-                <th>Mã khách hàng</th>
                 <th>Tên khách hàng</th>
+                <th>Email</th>
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
-                <th>Chức năng</th>
+                <th>Số lần mua</th>
             </tr>
         </thead>
         <tbody>
-            @{ int stt = 1; }
-            @foreach (var item in Model)
+            @foreach (var kh in Model)
             {
                 <tr>
-                    <td>@stt</td>
-                    <td>@Html.DisplayFor(modelItem => item.MaKH)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TenKH)</td>
-                    <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
-                    <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
-                    <td class="action-icons">
-                        <a href="@Url.Action("Edit","KhachHangs", new { id = item.MaKH })">
-                            <i class="fas fa-edit edit"></i>
-                        </a>
-                        <a href="@Url.Action("Details","KhachHangs", new { id = item.MaKH })">
-                            <i class="fas fa-eye view"></i>
-                        </a>
-                        <a href="@Url.Action("Delete","KhachHangs", new { id = item.MaKH })">
-                            <i class="fas fa-trash delete"></i>
-                        </a>
-                    </td>
+                    <td>@kh.TenKH</td>
+                    <td>@kh.Email</td>
+                    <td>@kh.SoDienThoai</td>
+                    <td>@kh.DiaChi</td>
+                    <td>@kh.SoLanMua</td> <!-- Hiển thị số lần mua -->
                 </tr>
-                stt++;
             }
         </tbody>
     </table>
 </div>
+    
