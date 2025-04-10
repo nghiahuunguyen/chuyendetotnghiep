@@ -60,7 +60,7 @@ namespace chuyende.Controllers
                              .ToList();
 
             ViewBag.TenLoaiSP = loai.TenLoaiSP;
-            ViewBag.Title = loai.TenLoaiSP;
+            ViewBag.Title = hang.TenHang; 
             ViewBag.LoaiAlias = loai.Link;
             ViewBag.HangAlias = hang.Link;
             ViewBag.HangSanPhams = db.Hangs
@@ -69,6 +69,7 @@ namespace chuyende.Controllers
 
             return View("ByHang", sanPhams);
         }
+
 
         public ActionResult ChiTiet(string loaiAlias, string alias, string version = null)
         {

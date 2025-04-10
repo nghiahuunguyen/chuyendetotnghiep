@@ -13,6 +13,12 @@ namespace chuyende
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+                name: "ArticleDetail",
+                url: "bai-viet/{link}",
+                defaults: new { controller = "Home", action = "Article" }
+            );
+
+            routes.MapRoute(
                 name: "SearchVN",
                 url: "search/{action}/{id}",
                 defaults: new { controller = "Search", action = "Index", id = UrlParameter.Optional }
