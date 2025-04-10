@@ -1,0 +1,34 @@
+﻿@model chuyende.Models.LoaiBaiViet
+
+@{
+    ViewBag.Title = "Chi tiết loại bài viết";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Xem chi tiết loại bài viết</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên loại bài viết</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenLoaiBV)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-actions">
+        <button type="button" class="save-btn btn btn-warning"
+                onclick="window.location.href='@Url.Action("Edit", "LoaiBaiViets", new { id = Model.MaLoaiBV })'">
+            Chỉnh sửa
+        </button>
+        <button type="button" class="cancel-btn btn btn-secondary"
+                onclick="window.location.href='@Url.Action("Index", "LoaiBaiViets")'">
+            Hủy
+        </button>
+    </div>
+</div>

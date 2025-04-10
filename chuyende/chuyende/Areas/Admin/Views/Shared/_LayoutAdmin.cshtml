@@ -97,6 +97,26 @@
                     <i class="fas fa-file-invoice"></i> Đơn hàng
                 </a>
             </li>
+
+            <li class="has-submenu @(new[] { "BaiViets", "LoaiBaiViets" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
+                <div class="menu-item">
+                    <span><i class="fas fa-newspaper"></i> Bài viết</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "BaiViets" ? "active" : "")">
+                        <a href="@Url.Action("Index", "BaiViets")">
+                            <i class="fas fa-file-alt"></i> Bài viết
+                        </a>
+                    </li>
+                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "LoaiBaiViets" ? "active" : "")">
+                        <a href="@Url.Action("Index", "LoaiBaiViets")">
+                            <i class="fas fa-folder"></i> Loại bài viết
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
 
         <a href="@Url.Action("Logout", "DangNhap", new { area = "Admin" })" class="logout">

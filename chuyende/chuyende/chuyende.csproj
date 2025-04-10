@@ -166,12 +166,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaiVietsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChucVusController.cs" />
     <Compile Include="Areas\Admin\Controllers\DangNhapController.cs" />
     <Compile Include="Areas\Admin\Controllers\HangsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HoaDonsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LoaiBaiVietsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanViensController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamsController.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,11 +208,25 @@
     <Compile Include="Migrations\202504081542564_UpdateDatabaselai1.Designer.cs">
       <DependentUpon>202504081542564_UpdateDatabaselai1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504100149489_UpdateDatabasesp.cs" />
+    <Compile Include="Migrations\202504100149489_UpdateDatabasesp.Designer.cs">
+      <DependentUpon>202504100149489_UpdateDatabasesp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504100358011_UpdateDatabaseloaibv.cs" />
+    <Compile Include="Migrations\202504100358011_UpdateDatabaseloaibv.Designer.cs">
+      <DependentUpon>202504100358011_UpdateDatabaseloaibv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202504100404256_UpdateDatabasenodunbv.cs" />
+    <Compile Include="Migrations\202504100404256_UpdateDatabasenodunbv.Designer.cs">
+      <DependentUpon>202504100404256_UpdateDatabasenodunbv.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BaiViet.cs" />
     <Compile Include="Models\ChiTietGioHang.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
     <Compile Include="Models\GioHang.cs" />
+    <Compile Include="Models\LoaiBaiViet.cs" />
     <Compile Include="Models\QuanLyBanDienTuContext.cs" />
     <Compile Include="Models\Hang.cs" />
     <Compile Include="Models\HoaDon.cs" />
@@ -228,6 +245,7 @@
     <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Admin\thongbao.css" />
     <Content Include="Public\css\Use\chitietsp.css" />
+    <Content Include="Public\css\Use\goiy.css" />
     <Content Include="Public\css\Use\sanpham.css" />
     <Content Include="Public\css\Use\user.css" />
     <Content Include="Public\css\Use\xacnhanmk.css" />
@@ -264,7 +282,7 @@
     <Content Include="Public\css\Admin\dangnhap.css" />
     <Content Include="Public\css\Use\nhapky.css" />
     <Content Include="Public\css\Use\giohang.css" />
-    <Content Include="Public\css\Use\_layoutuse.css" />
+    <Content Include="Public\css\Use\_layout.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -314,6 +332,18 @@
     <Content Include="Areas\Admin\Views\HoaDons\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\HoaDons\Print.cshtml" />
+    <Content Include="Areas\Admin\Views\BaiViets\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\BaiViets\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\BaiViets\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\BaiViets\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\BaiViets\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiBaiViets\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiBaiViets\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiBaiViets\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiBaiViets\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiBaiViets\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LoaiBaiViets\Trash.cshtml" />
+    <Content Include="Areas\Admin\Views\BaiViets\Trash.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -350,10 +380,12 @@
     <Content Include="Views\Cart\Confirmation.cshtml" />
     <Content Include="Views\User\ViewOrder.cshtml" />
     <Content Include="Views\User\OrderDetails.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="img\baiviet\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -397,6 +429,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504081542564_UpdateDatabaselai1.resx">
       <DependentUpon>202504081542564_UpdateDatabaselai1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504100149489_UpdateDatabasesp.resx">
+      <DependentUpon>202504100149489_UpdateDatabasesp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504100358011_UpdateDatabaseloaibv.resx">
+      <DependentUpon>202504100358011_UpdateDatabaseloaibv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504100404256_UpdateDatabasenodunbv.resx">
+      <DependentUpon>202504100404256_UpdateDatabasenodunbv.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

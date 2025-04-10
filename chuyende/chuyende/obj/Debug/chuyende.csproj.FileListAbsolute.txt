@@ -199,3 +199,6 @@ D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatab
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaselai.resources
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaseKH.resources
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaselai1.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabasesp.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabaseloaibv.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.UpdateDatabasenodunbv.resources

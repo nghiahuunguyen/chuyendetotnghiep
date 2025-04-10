@@ -1,39 +1,40 @@
 ﻿@model PagedList.IPagedList<chuyende.Models.SanPham>
 @using PagedList.Mvc
 
-
 @{
     ViewBag.Title = "Danh sách sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<!-- Thêm AntiForgeryToken ẩn -->
+<div style="display:none">
+    @Html.AntiForgeryToken()
+</div>
+
 <div class="table-container">
     <h3>Danh sách sản phẩm</h3>
-    <div>
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert-box success" id="success-alert">
-                <span class="icon">✔</span>
-                <span>@TempData["SuccessMessage"]</span>
-                <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
-            </div>
-        }
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert-box error" id="error-alert">
-                <span class="icon">✖</span>
-                <span>@TempData["ErrorMessage"]</span>
-                <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
-            </div>
-        }
 
-    </div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-box success" id="success-alert">
+            <span class="icon">✔</span>
+            <span>@TempData["SuccessMessage"]</span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-box error" id="error-alert">
+            <span class="icon">✖</span>
+            <span>@TempData["ErrorMessage"]</span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+        </div>
+    }
 
     <div class="header-actions">
-
         @using (Html.BeginForm("Search", "SanPhams", FormMethod.Get, new { @class = "search-form" }))
         {
-            <input type="text" name="keyword" class="search-input" placeholder="Tìm kiếm sản phẩm...">
+            <input type="text" name="keyword" class="search-input" placeholder="Tìm kiếm sản phẩm..." />
             <button type="submit" class="search-btn">
                 <i class="fas fa-search"></i> Tìm kiếm
             </button>
@@ -46,29 +47,32 @@
                 <i class="fas fa-trash"></i> Thùng rác
             </a>
         </div>
-
     </div>
-
 
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
-            <tr>
-                <th>#</th>
-                <th>Mã sản phẩm</th>
-                <th>Tên sản phẩm</th>
-                <th>Hình ảnh</th>
-                <th>Số lượng</th>
-                <th>Giá bán</th>
-                <th>Chức năng</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                    <th>Giá bán</th>
+                    <th>Bán chạy</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
             <tbody>
-                @{ int stt = 1; }
+                @{
+                    int stt = 1;
+                }
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>@stt</td>
-                        <td>@Html.DisplayFor(modelItem => item.MaSP)</td>
-                        <td>@Html.DisplayFor(modelItem => item.TenSP)</td>
+                        <td>@item.MaSP</td>
+                        <td>@item.TenSP</td>
                         <td>
                             @if (!string.IsNullOrEmpty(item.HinhAnh))
                             {
@@ -79,16 +83,20 @@
                                 <span>Không có hình ảnh</span>
                             }
                         </td>
-                        <td>@Html.DisplayFor(modelItem => item.SoLuong)</td>
+                        <td>@item.SoLuong</td>
                         <td>
                             @if (item.GiaDau > 0 && item.SoGiam >= 0)
-
                             {
                                 var giaBan = item.GiaDau - (item.GiaDau * item.SoGiam / 100);
                                 @String.Format("{0:N0} VND", giaBan)
                             }
                         </td>
-                        <td class="text-start">
+                        <td>
+                            <a href="" class="toggle-star" data-id="@item.MaSP">
+                                <i class="fa fa-star @(item.BanChay == 1 ? "fa-solid text-warning" : "fa-regular text-secondary")" style="font-size: 20px;"></i>
+                            </a>
+                        </td>
+                        <td>
                             <button class="btn status-toggle @(item.Status == 1 ? "btn-success" : "btn-danger")"
                                     data-id="@item.MaSP">
                                 <i class="fa @(item.Status == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
@@ -96,7 +104,7 @@
                             <a href="@Url.Action("Edit", "SanPhams", new { id = item.MaSP })" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="@Url.Action("Details","SanPhams", new { id = item.MaSP })" class="btn btn-info btn-sm">
+                            <a href="@Url.Action("Details", "SanPhams", new { id = item.MaSP })" class="btn btn-info btn-sm">
                                 <i class="fas fa-eye"></i>
                             </a>
                             @using (Html.BeginForm("MoveToTrash", "SanPhams", new { id = item.MaSP }, FormMethod.Post, new { @class = "d-inline" }))
@@ -106,7 +114,6 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             }
-
                         </td>
                     </tr>
                     stt++;
@@ -114,48 +121,81 @@
             </tbody>
         </table>
     </div>
+
     <div class="pagination-container text-end">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, keyword = Request.QueryString["keyword"], status = Request.QueryString["status"] }),
-            new PagedListRenderOptions
-            {
-                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
-                DisplayLinkToLastPage = PagedListDisplayMode.Always,
-                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-                DisplayLinkToNextPage = PagedListDisplayMode.Always,
-                MaximumPageNumbersToDisplay = 5,
-                Display = PagedListDisplayMode.IfNeeded
-            })
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            page,
+            keyword = Request.QueryString["keyword"],
+            status = Request.QueryString["status"]
+        }),
+        new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+            DisplayLinkToLastPage = PagedListDisplayMode.Always,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5,
+            Display = PagedListDisplayMode.IfNeeded
+        })
     </div>
-
-
 </div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 <script>
     $(document).ready(function () {
-    $(".status-toggle").click(function () {
-        var button = $(this);
-        var id = button.data("id");
-        var token = $('input[name="__RequestVerificationToken"]').val();
+        $(".status-toggle").click(function () {
+            var button = $(this);
+            var id = button.data("id");
+            var token = $('input[name="__RequestVerificationToken"]').val();
 
-        $.ajax({
-            url: '@Url.Action("ToggleStatus", "SanPhams")',
-            type: "POST",
-            data: { id: id, __RequestVerificationToken: token },
-            success: function (response) {
-                if (response.success) {
-                    if (response.status === 1) {
-                        button.removeClass("btn-danger").addClass("btn-success");
-                        button.html('<i class="fa fa-toggle-on"></i>');
+            $.ajax({
+                url: '@Url.Action("ToggleStatus", "SanPhams")',
+                type: "POST",
+                data: { id: id, __RequestVerificationToken: token },
+                success: function (response) {
+                    if (response.success) {
+                        if (response.status === 1) {
+                            button.removeClass("btn-danger").addClass("btn-success");
+                            button.html('<i class="fa fa-toggle-on"></i>');
+                        } else {
+                            button.removeClass("btn-success").addClass("btn-danger");
+                            button.html('<i class="fa fa-toggle-off"></i>');
+                        }
                     } else {
-                        button.removeClass("btn-success").addClass("btn-danger");
-                        button.html('<i class="fa fa-toggle-off"></i>');
+                        alert("Cập nhật trạng thái thất bại!");
                     }
-                } else {
-                    alert("Cập nhật trạng thái thất bại!");
                 }
-            }
+            });
+        });
+
+        $(".toggle-star").click(function (e) {
+            e.preventDefault();
+            var link = $(this);
+            var icon = link.find("i");
+            var id = link.data("id");
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: '@Url.Action("ToggleBanChay", "SanPhams")',
+                type: "POST",
+                data: { id: id, __RequestVerificationToken: token },
+                success: function (res) {
+                    if (res.success) {
+                        if (res.status === 1) {
+                            icon.removeClass("fa-regular text-secondary").addClass("fa-solid text-warning");
+                        } else {
+                            icon.removeClass("fa-solid text-warning").addClass("fa-regular text-secondary");
+                        }
+                    } else {
+                        alert("Lỗi cập nhật trạng thái bán chạy");
+                    }
+                },
+                error: function () {
+                    alert("Đã xảy ra lỗi khi gửi yêu cầu.");
+                }
+            });
         });
     });
-});
-
 </script>

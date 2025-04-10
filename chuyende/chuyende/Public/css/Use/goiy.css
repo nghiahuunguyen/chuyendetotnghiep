@@ -1,0 +1,25 @@
+﻿.suggestion-box {
+	position: absolute;
+	background: white;
+	border: 1px solid #ccc;
+	border-top: none; 
+	z-index: 999;
+	width: 85%;
+	max-height: 200px;
+	overflow-y: auto;
+	margin-left: 25px;
+}
+
+	.suggestion-box div {
+		padding: 8px 10px;
+		cursor: pointer;
+	}
+
+		.suggestion-box div:hover {
+			background-color: #f0f0f0;
+		}
+
+.search-container {
+	position: relative;
+}
+

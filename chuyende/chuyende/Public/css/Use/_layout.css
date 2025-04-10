@@ -80,6 +80,7 @@ body {
     border-radius: 20px;
     font-size: 14px;
     outline: none;
+    border-bottom: 2px solid white;
 }
 
 .search-button {

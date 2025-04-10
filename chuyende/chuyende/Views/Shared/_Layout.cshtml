@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <link rel="icon" type="image/png" href="~/img/logo/logo.png">
-    <link rel="stylesheet" href="~/Public/css/Use/_layoutuse.css">
+    <link rel="stylesheet" href="~/Public/css/Use/_layout.css">
     <link rel="stylesheet" href="~/Public/css/Use/nhapky.css">
     <link rel="stylesheet" href="~/Public/css/Use/xacnhanmk.css">
     <link rel="stylesheet" href="~/Public/css/Use/user.css">
     <link rel="stylesheet" href="~/Public/css/Use/sanpham.css">
     <link rel="stylesheet" href="~/Public/css/Use/chitietsp.css">
     <link rel="stylesheet" href="~/Public/css/Use/cart.css">
+    <link rel="stylesheet" href="~/Public/css/Use/goiy.css">
     <link rel="stylesheet" href="~/Public/css/Admin/hoadonadmin.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -30,12 +31,14 @@
             </a>
 
             <!-- Search bar -->
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Bạn tìm gì...">
-                <button class="search-button">
+            <form class="search-container" method="get" action="/Search/Index">
+                <input type="text" id="search-input" name="query" class="search-input" placeholder="Bạn tìm gì..." autocomplete="off" />
+                <div id="suggestions" class="suggestion-box"></div>
+                <button type="submit" class="search-button">
                     <i class="fas fa-search"></i>
                 </button>
-            </div>
+            </form>
+
 
             <!-- User tools -->
             <div class="user-tools">
@@ -63,7 +66,7 @@
                 <a href="@Url.Action("Index","Cart")" class="tool-item position-relative">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Giỏ hàng</span>
-                   
+
                 </a>
 
 
@@ -75,7 +78,7 @@
     @Html.Action("Menu", "Module")
 
 
-    
+
 
     <!-- Main Content -->
     <div class="main-content">
@@ -103,6 +106,8 @@
                     </ul>
                 </div>
 
+                     
+
                 <div class="footer-column">
                     <h3 class="footer-title">Kết nối với chúng tôi</h3>
                     <div class="social-links">
@@ -126,5 +131,41 @@
             });
         });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#search-input').keyup(function () {
+                var query = $(this).val();
+                if (query.length >= 2) {
+                    $.ajax({
+                        url: '/Search/Suggest',
+                        type: 'GET',
+                        data: { term: query },
+                        success: function (data) {
+                            var suggestionBox = $('#suggestions');
+                            suggestionBox.empty();
+
+                            if (data.length > 0) {
+                                data.forEach(function (item) {
+                                    suggestionBox.append('<div>' + item.label + '</div>');
+                                });
+
+                                // Gắn sự kiện khi click vào gợi ý
+                                suggestionBox.find('div').on('click', function () {
+                                    $('#search-input').val($(this).text());
+                                    suggestionBox.empty();
+                                });
+                            } else {
+                                suggestionBox.empty();
+                            }
+                        }
+                    });
+                } else {
+                    $('#suggestions').empty();
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
