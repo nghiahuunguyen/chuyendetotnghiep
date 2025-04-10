@@ -18,6 +18,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
+@{
+    var maChucVu = (Session["MaChucVu"] ?? "").ToString().Trim().ToLower();
+    var tenChucVu = (Session["TenChucVu"] ?? "").ToString();
+}
+
 <body>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Sidebar -->
@@ -26,8 +31,9 @@
 
         <div class="profile">
             <h4>@Session["Admin"]</h4>
-            <p>Chức vụ: @Session["ChucVu"]</p>
+            <p>Chức vụ: @tenChucVu</p>
         </div>
+
 
         <ul>
             <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "HomeAdmin" ? "active" : "")">
@@ -35,95 +41,99 @@
                     <i class="fas fa-home"></i> Trang chủ
                 </a>
             </li>
+
+
             <li>
                 <a href="@Url.Action("Index", "Home", new { area = "" })">
                     <i class="fas fa-chart-line"></i> Trang bán hàng
                 </a>
             </li>
 
-            <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
-                <div class="menu-item">
-                    <span><i class="fas fa-users"></i> Nhân sự</span>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </div>
-                <ul class="submenu">
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "NhanViens" ? "active" : "")">
-                        <a href="@Url.Action("Index", "NhanViens")">
-                            <i class="fas fa-user"></i> Nhân Viên
-                        </a>
-                    </li>
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "ChucVus" ? "active" : "")">
-                        <a href="@Url.Action("Index", "ChucVus")">
-                            <i class="fas fa-user-shield"></i> Chức vụ
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            @if (maChucVu == "ql")
+            {
+                <li class="has-submenu">
+                    <div class="menu-item">
+                        <span><i class="fas fa-users"></i> Nhân sự</span>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li>
+                            <a href="@Url.Action("Index", "NhanViens")"><i class="fas fa-user"></i> Nhân Viên</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "ChucVus")"><i class="fas fa-user-shield"></i> Chức vụ</a>
+                        </li>
+                    </ul>
+                </li>
+            }
 
-            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "Hangs" ? "active" : "")">
-                <a href="@Url.Action("Index", "Hangs")">
-                    <i class="fas fa-truck"></i> Hãng
-                </a>
-            </li>
+            @if (maChucVu == "ql")
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Hangs")">
+                        <i class="fas fa-truck"></i> Hãng
+                    </a>
+                </li>
+            }
 
-            <li class="has-submenu @(new[] { "LoaiSanPhams", "SanPhams" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
-                <div class="menu-item">
-                    <span><i class="fas fa-box"></i> Sản phẩm</span>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </div>
-                <ul class="submenu">
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "LoaiSanPhams" ? "active" : "")">
-                        <a href="@Url.Action("Index", "LoaiSanPhams")">
-                            <i class="fas fa-tags"></i> Loại sản phẩm
-                        </a>
-                    </li>
+            @if (new[] { "ql", "nv", "kt", "tk" }.Contains(maChucVu))
+            {
+                <li class="has-submenu">
+                    <div class="menu-item">
+                        <span><i class="fas fa-box"></i> Sản phẩm</span>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "LoaiSanPhams")"><i class="fas fa-tags"></i> Loại sản phẩm</a></li>
+                        <li><a href="@Url.Action("Index", "SanPhams")"><i class="fas fa-box"></i> Sản phẩm</a></li>
+                    </ul>
+                </li>
+            }
 
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "SanPhams" ? "active" : "")">
-                        <a href="@Url.Action("Index", "SanPhams")">
-                            <i class="fas fa-box"></i> Sản phẩm
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            @if (new[] { "ql", "nv", "kt", "tk" }.Contains(maChucVu))
+            {
+                <li>
+                    <a href="@Url.Action("Index", "KhachHangs")">
+                        <i class="fas fa-user"></i> Khách hàng
+                    </a>
+                </li>
+            }
 
-            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "KhachHangs" ? "active" : "")">
-                <a href="@Url.Action("Index", "KhachHangs")">
-                    <i class="fas fa-user"></i> Khách hàng
-                </a>
-            </li>
+            @if (new[] { "ql", "nv", "kt", "tk" }.Contains(maChucVu))
+            {
+                <li>
+                    <a href="@Url.Action("Index", "HoaDons")">
+                        <i class="fas fa-file-invoice"></i> Đơn hàng
+                    </a>
+                </li>
+            }
 
-            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "HoaDons" ? "active" : "")">
-                <a href="@Url.Action("Index", "HoaDons")">
-                    <i class="fas fa-file-invoice"></i> Đơn hàng
-                </a>
-            </li>
+            @if (new[] { "ql", "kt", "tk" }.Contains(maChucVu))
+            {
+                <li>
+                    <a href="@Url.Action("Index", "ThongKe")">
+                        <i class="fas fa-chart-bar"></i> Thống kê
+                    </a>
+                </li>
+            }
 
-            <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "ThongKe" ? "active" : "")">
-                <a href="@Url.Action("Index", "ThongKe")">
-                    <i class="fas fa-chart-bar"></i> Thống kê
-                </a>
-            </li>
-
-            <li class="has-submenu @(new[] { "BaiViets", "LoaiBaiViets" }.Contains(Request.RequestContext.RouteData.Values["controller"].ToString()) ? "active" : "")">
-                <div class="menu-item">
-                    <span><i class="fas fa-newspaper"></i> Bài viết</span>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </div>
-                <ul class="submenu">
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "BaiViets" ? "active" : "")">
-                        <a href="@Url.Action("Index", "BaiViets")">
-                            <i class="fas fa-file-alt"></i> Bài viết
-                        </a>
-                    </li>
-                    <li class="@(Request.RequestContext.RouteData.Values["controller"].ToString() == "LoaiBaiViets" ? "active" : "")">
-                        <a href="@Url.Action("Index", "LoaiBaiViets")">
-                            <i class="fas fa-folder"></i> Loại bài viết
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            @if (new[] { "ql", "kt", "tk" }.Contains(maChucVu))
+            {
+                <li class="has-submenu">
+                    <div class="menu-item">
+                        <span><i class="fas fa-newspaper"></i> Bài viết</span>
+                        <i class="fas fa-chevron-right arrow"></i>
+                    </div>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "BaiViets")"><i class="fas fa-file-alt"></i> Bài viết</a></li>
+                        <li><a href="@Url.Action("Index", "LoaiBaiViets")"><i class="fas fa-folder"></i> Loại bài viết</a></li>
+                    </ul>
+                </li>
+            }
 
         </ul>
+
+
 
         <a href="@Url.Action("Logout", "DangNhap", new { area = "Admin" })" class="logout">
             <i class="fas fa-sign-out-alt"></i> Đăng xuất

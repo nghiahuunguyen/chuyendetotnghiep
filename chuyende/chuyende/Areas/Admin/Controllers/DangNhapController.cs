@@ -34,7 +34,9 @@ namespace chuyende.Areas.Admin.Controllers
             }
 
             Session["Admin"] = user.TenNV;
-            Session["ChucVu"] = user.ChucVu?.TenCV?.Trim() ?? "Không xác định";
+            Session["MaChucVu"] = user.ChucVu?.MaCV?.Trim();      // Dùng để phân quyền
+            Session["TenChucVu"] = user.ChucVu?.TenCV?.Trim();    // Dùng để hiển thị
+
 
 
             return RedirectToAction("Index", "HomeAdmin");

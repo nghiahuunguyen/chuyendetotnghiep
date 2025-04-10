@@ -21,7 +21,7 @@ namespace chuyende.Areas.Admin.Controllers
             {
                 DonHangChoXuLy = db.HoaDons.Count(hd => hd.TrangThai == 1),
                 DonHangDangVanChuyen = db.HoaDons.Count(hd => hd.TrangThai == 2),
-                DonHangDaHoanThanh = db.HoaDons.Count(hd => hd.TrangThai == 3)
+                DonHangDaHoanThanh = db.HoaDons.Count(hd => hd.TrangThai == 3 || hd.TrangThai == 0)
             };
             return View(model);
         }

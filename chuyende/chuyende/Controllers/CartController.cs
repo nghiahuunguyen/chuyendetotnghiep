@@ -249,7 +249,19 @@ namespace chuyende.Controllers
                     SoLuong = ct.SoLuong
                 }).ToList();
 
-                db.HoaDons.Add(hoaDon);
+            foreach (var ct in chiTiets)
+            {
+                var sanPham = db.SanPhams.FirstOrDefault(sp => sp.MaSP == ct.MaSP);
+                if (sanPham != null)
+                {
+                    sanPham.SoLuong -= ct.SoLuong;
+                    if (sanPham.SoLuong < 0) sanPham.SoLuong = 0;
+                }
+            }
+
+
+
+            db.HoaDons.Add(hoaDon);
                 db.SaveChanges();
 
                 db.ChiTietGioHangs.RemoveRange(chiTiets);

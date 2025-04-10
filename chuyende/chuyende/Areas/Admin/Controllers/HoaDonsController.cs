@@ -237,28 +237,43 @@ namespace chuyende.Areas.Admin.Controllers
             // Lưu các ChiTietHoaDon cho các sản phẩm trong hóa đơn
             for (int i = 0; i < MaSPs.Length; i++)
             {
-                if (SoLuongs[i] > 0)
+                int soLuong = SoLuongs[i];
+                string maSP = MaSPs[i];
+
+                if (soLuong > 0)
                 {
-                    // Tạo ID cho ChiTietHoaDon
                     string chiTietID = "CTHD_" + hoaDon.MaHD + "_" + (i + 1).ToString("D2");
 
                     var chiTiet = new ChiTietHoaDon
                     {
-                        ID = chiTietID,  // ID duy nhất cho mỗi ChiTietHoaDon
+                        ID = chiTietID,
                         MaHD = hoaDon.MaHD,
-                        MaSP = MaSPs[i],
-                        SoLuong = SoLuongs[i]
+                        MaSP = maSP,
+                        SoLuong = soLuong
                     };
                     db.ChiTietHoaDons.Add(chiTiet);
+
+                    // Tách biến ra để tránh lỗi LINQ to Entities
+                    var sanPham = db.SanPhams.FirstOrDefault(sp => sp.MaSP == maSP);
+                    if (sanPham != null && sanPham.SoLuong >= soLuong)
+                    {
+                        sanPham.SoLuong -= soLuong;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"Sản phẩm {sanPham?.TenSP ?? maSP} không đủ số lượng tồn kho.");
+                        return View(hoaDon);
+                    }
                 }
             }
 
-            db.SaveChanges();  // Lưu các chi tiết hóa đơn vào cơ sở dữ liệu
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
 
-       
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

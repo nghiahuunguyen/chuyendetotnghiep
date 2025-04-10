@@ -125,6 +125,7 @@ namespace chuyende.Areas.Admin.Controllers
                 }
                 return RedirectToAction("Index");
             }
+            ViewBag.MaCV = new SelectList(db.ChucVus, "MaCV", "TenCV", nhanVien.MaCV);
             return View(nhanVien);
         }
 
