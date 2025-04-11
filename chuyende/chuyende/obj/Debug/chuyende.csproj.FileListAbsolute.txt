@@ -211,3 +211,4 @@ D:\chuyendetotnghiep\chuyende\chuyende\bin\EPPlus.xml
 D:\chuyendetotnghiep\chuyende\chuyende\bin\Microsoft.IO.RecyclableMemoryStream.xml
 D:\chuyendetotnghiep\chuyende\chuyende\bin\System.Security.Cryptography.Xml.xml
 D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.TenMigrationMoi.resources
+D:\chuyendetotnghiep\chuyende\chuyende\obj\Debug\chuyende.Migrations.InitialCreateLienHe.resources

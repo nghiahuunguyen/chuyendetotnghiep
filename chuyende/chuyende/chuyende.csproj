@@ -189,6 +189,7 @@
     <Compile Include="Areas\Admin\Controllers\HoaDonsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LienHesController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanViensController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamsController.cs" />
@@ -240,12 +241,17 @@
     <Compile Include="Migrations\202504110908223_TenMigrationMoi.Designer.cs">
       <DependentUpon>202504110908223_TenMigrationMoi.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504111445039_InitialCreateLienHe.cs" />
+    <Compile Include="Migrations\202504111445039_InitialCreateLienHe.Designer.cs">
+      <DependentUpon>202504111445039_InitialCreateLienHe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChiTietGioHang.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
     <Compile Include="Models\GioHang.cs" />
     <Compile Include="Models\KhachHangViewModel.cs" />
+    <Compile Include="Models\LienHe.cs" />
     <Compile Include="Models\QuanLyBanDienTuContext.cs" />
     <Compile Include="Models\Hang.cs" />
     <Compile Include="Models\HoaDon.cs" />
@@ -303,7 +309,7 @@
     <Content Include="Public\css\Admin\dangnhap.css" />
     <Content Include="Public\css\Use\nhapky.css" />
     <Content Include="Public\css\Use\giohang.css" />
-    <Content Include="Public\css\Use\_layout.css" />
+    <Content Include="Public\css\Use\layout.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -350,6 +356,7 @@
     <Content Include="Areas\Admin\Views\HoaDons\Print.cshtml" />
     <Content Include="Areas\Admin\Views\ThongKe\Index.cshtml" />
     <Content Include="Areas\Admin\Views\KhachHangs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LienHes\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -388,6 +395,8 @@
     <Content Include="Views\User\OrderDetails.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Home\Info.cshtml" />
+    <Content Include="Views\Home\Recruitment.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -449,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504110908223_TenMigrationMoi.resx">
       <DependentUpon>202504110908223_TenMigrationMoi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504111445039_InitialCreateLienHe.resx">
+      <DependentUpon>202504111445039_InitialCreateLienHe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

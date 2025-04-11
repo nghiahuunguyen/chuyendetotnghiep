@@ -1,0 +1,90 @@
+﻿@model chuyende.Models.LienHe
+@{
+    ViewBag.Title = "Liên hệ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container py-5">
+    <div class="row g-4">
+        <!-- Cột trái: Form liên hệ -->
+        <div class="col-md-8">
+            <div class="p-4 shadow-sm border rounded h-100">
+                <h5 class="fw-bold mb-3">Gửi Thông Tin Liên Hệ</h5>
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+                        <div class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body">
+                                    <span class="icon">✔</span> @TempData["Success"]
+                                </div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Họ Tên</label>
+                            @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control", required = "required" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", required = "required" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Số Điện Thoại</label>
+                            @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control", required = "required" })
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tiêu Đề</label>
+                            @Html.TextBoxFor(m => m.TieuDe, new { @class = "form-control", required = "required" })
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Nội Dung</label>
+                            @Html.TextAreaFor(m => m.NoiDung, new { @class = "form-control", rows = 5, required = "required" })
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Gửi liên hệ</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Cột phải: Thông tin cửa hàng (giữ nguyên) -->
+        <div class="col-md-4">
+            <h4 class="fw-bold mb-3 text-center">Vị Trí Cửa Hàng</h4>
+            <div class="ratio ratio-16x9 mb-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.9723972500556!2d109.0598457!3d12.2578596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31705b9f9a3a0f89%3A0x23f62767af2d2c5c!2zRGlqw6puIExhw6tjLCBEacOqbiBLaMOhbmgsIEtow6FuaCBIw7JhLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1712822341790!5m2!1svi!2s"
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+
+            <div class="bg-light p-3 rounded shadow-sm">
+                <h5 class="fw-bold mb-3">Liên Hệ</h5>
+                <p class="mb-2"><strong>Số điện thoại:</strong> 0366 541 719</p>
+                <p class="mb-2">
+                    <strong>Email:</strong>
+                    storeelectronics457@gmail.com
+                </p>
+                <p class="mb-2 d-flex gap-3">
+                    <a href="https://www.facebook.com/nguyenhuunghia1607" class="social-link text-dark fs-4" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/nguyenhuunghia1607/" class="social-link text-dark fs-4" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </p>
+
+            </div>
+        </div>
+        </div>
+    </div>
+</section>

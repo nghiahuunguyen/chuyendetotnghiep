@@ -18,6 +18,7 @@ public class QuanLyBanDienTuContext : DbContext
     public DbSet<ChiTietHoaDon> ChiTietHoaDons { get; set; }
     public DbSet<GioHang> GioHangs { get; set; }
     public DbSet<ChiTietGioHang> ChiTietGioHangs { get; set; }
+    public DbSet<LienHe> LienHes { get; set; }
    
 
 }

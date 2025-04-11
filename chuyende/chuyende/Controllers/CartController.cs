@@ -268,13 +268,61 @@ namespace chuyende.Controllers
                 db.GioHangs.Remove(gioHang);
                 db.SaveChanges();
 
-                string emailBody = $"<p>Chào {hoaDon.TenKH},</p>" +
-                                   $"<p>Bạn đã đặt hàng thành công vào lúc {hoaDon.NgayTao:HH:mm:ss dd/MM/yyyy}.</p>" +
-                                   $"<p>Mã đơn hàng của bạn là: <strong>{hoaDon.MaHD}</strong></p>" +
-                                   "<p>Chúng tôi sẽ sớm liên hệ với bạn để xác nhận đơn hàng và giao hàng trong thời gian sớm nhất.</p>" +
-                                   "<p>Trân trọng,";
+            string emailBody = $"<div style='color: black;'>" +
+    $"<p>Chào {hoaDon.TenKH},</p>" +
+    $"<p>Bạn đã đặt hàng thành công vào lúc {hoaDon.NgayTao:HH:mm:ss dd/MM/yyyy}.</p>" +
+    $"<p>Mã đơn hàng của bạn là: <strong>{hoaDon.MaHD}</strong></p>" +
+    "<p>Chi tiết đơn hàng:</p>" +
+    "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>" +
+    "<thead>" +
+    "<tr>" +
+    "<th style='text-align:left;'>Tên sản phẩm</th>" +
+    "<th>Số lượng</th>" +
+    "<th>Đơn giá</th>" +
+    "<th>Thành tiền</th>" +
+    "</tr>" +
+    "</thead><tbody>";
 
-                SendMail sendMail = new SendMail();
+            foreach (var ct in hoaDon.ChiTietHoaDon)
+            {
+                var sp = db.SanPhams.Find(ct.MaSP);
+                if (sp != null)
+                {
+                    decimal donGia = (sp.GiaDau ?? 0) * (1 - (decimal)(sp.SoGiam ?? 0) / 100);
+                    decimal thanhTien = donGia * ct.SoLuong;
+
+                    emailBody += $"<tr>" +
+                                 $"<td>{sp.TenSP}</td>" +
+                                 $"<td style='text-align:center;'>{ct.SoLuong}</td>" +
+                                 $"<td style='text-align:right;'>{donGia:N0}₫</td>" +
+                                 $"<td style='text-align:right;'>{thanhTien:N0}₫</td>" +
+                                 "</tr>";
+                }
+            }
+
+            decimal tongTien = hoaDon.ChiTietHoaDon.Sum(ct =>
+            {
+                var sp = db.SanPhams.Find(ct.MaSP);
+                decimal gia = (sp?.GiaDau ?? 0) * (1 - (decimal)(sp?.SoGiam ?? 0) / 100);
+                return gia * ct.SoLuong;
+            });
+
+            emailBody += $"<tr>" +
+                         $"<td colspan='3' style='text-align:right; font-weight:bold;'>Tổng cộng:</td>" +
+                         $"<td style='text-align:right; font-weight:bold;'>{tongTien:N0}₫</td>" +
+                         "</tr>";
+
+            emailBody += "</tbody></table>" +
+                         "<p><strong>Cảm ơn quý khách đã tin tưởng dịch vụ và mua sắm tại cửa hàng!</strong></p>" +
+                         "<p>Gọi mua hàng: <strong>0366 541 719</strong> (7:30 - 22:00)<br/>" +
+                         "Bảo hành: <strong>0366 541 718</strong> (8:00 - 21:00)</p>" +
+                         "<p>Chúng tôi sẽ sớm liên hệ với bạn để xác nhận đơn hàng và giao hàng trong thời gian sớm nhất.</p>" +
+                         "<p><em>Trân trọng,</em><br/>ELECTRONICS STORE</p>" +
+                         "</div>";
+
+
+
+            SendMail sendMail = new SendMail();
                 sendMail.SendMailFunction(hoaDon.Email, "Xác nhận đơn hàng ELECTRONICS STORE", emailBody);
 
                 TempData["Success"] = "Đặt hàng thành công!";

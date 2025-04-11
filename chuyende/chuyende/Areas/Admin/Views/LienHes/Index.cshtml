@@ -1,0 +1,56 @@
+﻿@model IEnumerable<chuyende.Models.LienHe>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-container">
+    <h3>Danh sách liên hệ</h3>
+
+    
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>#</th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Tiêu đề</th>
+                <th>Nội dung</th>
+                <th>Ngày gửi</th>
+                <th>Trạng thái</th>
+            </tr>
+            <tbody>
+                @{ int stt = 1; }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@stt</td>
+                        <td>@Html.DisplayFor(modelItem => item.HoTen)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TieuDe)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
+                        <td>@item.NgayGui.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <a href="@Url.Action("ToggleTrangThai", "LienHes", new { id = item.MaLH })">
+                                @if (item.TrangThai == 1)
+                                {
+                                    <span class="text-success fw-bold">✔</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger fw-bold">✘</span>
+                                }
+                            </a>
+                        </td>
+
+                    </tr>
+                    stt++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
