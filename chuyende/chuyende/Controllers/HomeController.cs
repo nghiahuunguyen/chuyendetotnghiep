@@ -22,31 +22,12 @@ namespace chuyende.Controllers
             return View(sanPhams);
         }
 
-        // GET: Article/Footer
-        public ActionResult Footer()
+        public ActionResult Info()
         {
-            var loaiBaiViets = db.LoaiBaiViets
-                .Include(l => l.BaiViets)
-                .Where(l => l.BaiViets.Any(bv => bv.Status == 1))
-                .ToList();
-
-            return PartialView("_FooterArticles", loaiBaiViets);
+            return View();
         }
-        public ActionResult Article(string link)
-        {
-            if (string.IsNullOrEmpty(link))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var baiViet = db.BaiViets.FirstOrDefault(b => b.Link == link && b.Status == 1);
-            if (baiViet == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(baiViet);
-        }
+        
+       
 
     }
 

@@ -183,14 +183,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\BaiVietsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChucVusController.cs" />
     <Compile Include="Areas\Admin\Controllers\DangNhapController.cs" />
     <Compile Include="Areas\Admin\Controllers\HangsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HoaDonsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\LoaiBaiVietsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSanPhamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanViensController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamsController.cs" />
@@ -238,14 +236,16 @@
     <Compile Include="Migrations\202504100404256_UpdateDatabasenodunbv.Designer.cs">
       <DependentUpon>202504100404256_UpdateDatabasenodunbv.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504110908223_TenMigrationMoi.cs" />
+    <Compile Include="Migrations\202504110908223_TenMigrationMoi.Designer.cs">
+      <DependentUpon>202504110908223_TenMigrationMoi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\BaiViet.cs" />
     <Compile Include="Models\ChiTietGioHang.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChucVu.cs" />
     <Compile Include="Models\GioHang.cs" />
     <Compile Include="Models\KhachHangViewModel.cs" />
-    <Compile Include="Models\LoaiBaiViet.cs" />
     <Compile Include="Models\QuanLyBanDienTuContext.cs" />
     <Compile Include="Models\Hang.cs" />
     <Compile Include="Models\HoaDon.cs" />
@@ -348,18 +348,6 @@
     <Content Include="Areas\Admin\Views\HoaDons\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SanPhams\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\HoaDons\Print.cshtml" />
-    <Content Include="Areas\Admin\Views\BaiViets\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\BaiViets\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\BaiViets\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\BaiViets\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\BaiViets\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\LoaiBaiViets\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\LoaiBaiViets\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\LoaiBaiViets\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\LoaiBaiViets\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\LoaiBaiViets\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\LoaiBaiViets\Trash.cshtml" />
-    <Content Include="Areas\Admin\Views\BaiViets\Trash.cshtml" />
     <Content Include="Areas\Admin\Views\ThongKe\Index.cshtml" />
     <Content Include="Areas\Admin\Views\KhachHangs\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
@@ -399,8 +387,7 @@
     <Content Include="Views\User\ViewOrder.cshtml" />
     <Content Include="Views\User\OrderDetails.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
-    <Content Include="Views\Shared\_FooterArticles.cshtml" />
-    <Content Include="Views\Home\Article.cshtml" />
+    <Content Include="Views\Home\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -459,6 +446,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504100404256_UpdateDatabasenodunbv.resx">
       <DependentUpon>202504100404256_UpdateDatabasenodunbv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504110908223_TenMigrationMoi.resx">
+      <DependentUpon>202504110908223_TenMigrationMoi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

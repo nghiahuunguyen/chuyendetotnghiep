@@ -117,20 +117,7 @@
                 </li>
             }
 
-            @if (new[] { "ql", "kt", "tk" }.Contains(maChucVu))
-            {
-                <li class="has-submenu">
-                    <div class="menu-item">
-                        <span><i class="fas fa-newspaper"></i> Bài viết</span>
-                        <i class="fas fa-chevron-right arrow"></i>
-                    </div>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "BaiViets")"><i class="fas fa-file-alt"></i> Bài viết</a></li>
-                        <li><a href="@Url.Action("Index", "LoaiBaiViets")"><i class="fas fa-folder"></i> Loại bài viết</a></li>
-                    </ul>
-                </li>
-            }
-
+            
         </ul>
 
 

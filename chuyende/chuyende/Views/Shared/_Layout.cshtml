@@ -87,9 +87,26 @@
     <!-- Footer section -->
     <footer class="main-footer">
         <div class="container">
-            @Html.Action("Footer", "Home")
-
             <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="footer-title">Hỗ trợ khách hàng</h3>
+                    <ul class="footer-links">
+                        <li><a >Gọi mua hàng: 0366 541 719 (7:30 - 22:00)</a></li>
+                        <li><a >Bảo hành: 0366 541 718 (8:00 - 21:00)</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-title">Thông tin cửa hàng</h3>
+                    <ul class="footer-links">
+                        <li><a href="@Url.Action("Info","Home")">Giới thiệu cửa hàng</a></li>
+                        <li><a href="/careers">Tuyển dụng</a></li>
+                        <li><a href="/terms">Điều khoản sử dụng</a></li>
+                        <li><a href="/privacy">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+
+
 
                 <div class="footer-column">
                     <h3 class="footer-title">Kết nối với chúng tôi</h3>
