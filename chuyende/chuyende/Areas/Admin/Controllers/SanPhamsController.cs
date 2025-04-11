@@ -219,39 +219,55 @@ public class SanPhamsController : Controller
         return View(sanPham);
     }
 
-    // POST: Admin/SanPhams/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit([Bind(Include = "MaSP,MaLoaiSP,MaHang,TenSP,SoLuong,Link,KhuyenMai,TuKhoa,GiaNhap,GiaDau,SoGiam,MoTa")] SanPham sanPham, HttpPostedFileBase HinhAnh)
-    {
-        if (ModelState.IsValid)
+        // POST: Admin/SanPhams/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "MaSP,MaLoaiSP,MaHang,TenSP,SoLuong,Link,KhuyenMai,TuKhoa,GiaNhap,GiaDau,SoGiam,MoTa,HinhAnh")] SanPham sanPham, HttpPostedFileBase HinhAnh)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (HinhAnh != null && HinhAnh.ContentLength > 0)
+                try
                 {
-                    var fileName = Path.GetFileName(HinhAnh.FileName);
-                    var path = Path.Combine(Server.MapPath("~/img/sanpham"), fileName);
-                    HinhAnh.SaveAs(path);
-                    sanPham.HinhAnh = fileName;
-                }
-                sanPham.Status = 1;
-                db.Entry(sanPham).State = EntityState.Modified;
-                db.SaveChanges();
-                TempData["SuccessMessage"] = "Cập nhật sản phẩm thành công!";
-                return RedirectToAction("Index");
-            }
-            catch (Exception)
-            {
-                TempData["ErrorMessage"] = "Có lỗi xảy ra khi cập nhật sản phẩm!";
-            }
-        }
-        ViewBag.MaHang = new SelectList(db.Hangs, "MaHang", "TenHang", sanPham.MaHang);
-        ViewBag.MaLoaiSP = new SelectList(db.LoaiSanPhams, "MaLoaiSP", "TenLoaiSP", sanPham.MaLoaiSP);
-        return View(sanPham);
-    }
+                    var sanPhamCu = db.SanPhams.AsNoTracking().FirstOrDefault(sp => sp.MaSP == sanPham.MaSP);
 
-    [HttpPost]
+                    if (sanPhamCu == null)
+                    {
+                        TempData["ErrorMessage"] = "Không tìm thấy sản phẩm!";
+                        return RedirectToAction("Index");
+                    }
+
+                    if (HinhAnh != null && HinhAnh.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(HinhAnh.FileName);
+                        var path = Path.Combine(Server.MapPath("~/img/sanpham"), fileName);
+                        HinhAnh.SaveAs(path);
+                        sanPham.HinhAnh = fileName;
+                    }
+                    else
+                    {
+                        // Giữ lại hình ảnh cũ nếu không upload hình mới
+                        sanPham.HinhAnh = sanPhamCu.HinhAnh;
+                    }
+
+                    sanPham.Status = 1;
+                    db.Entry(sanPham).State = EntityState.Modified;
+                    db.SaveChanges();
+                    TempData["SuccessMessage"] = "Cập nhật sản phẩm thành công!";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+                    TempData["ErrorMessage"] = "Có lỗi xảy ra khi cập nhật sản phẩm!";
+                }
+            }
+
+            ViewBag.MaHang = new SelectList(db.Hangs, "MaHang", "TenHang", sanPham.MaHang);
+            ViewBag.MaLoaiSP = new SelectList(db.LoaiSanPhams, "MaLoaiSP", "TenLoaiSP", sanPham.MaLoaiSP);
+            return View(sanPham);
+        }
+
+
+        [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult MoveToTrash(string id)
     {
