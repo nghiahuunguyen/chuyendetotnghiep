@@ -10,5 +10,6 @@ namespace chuyende.Models
         public int DonHangChoXuLy { get; set; }
         public int DonHangDangVanChuyen { get; set; }
         public int DonHangDaHoanThanh { get; set; }
+        public int LienHeChuaXem { get; set; }
     }
 }

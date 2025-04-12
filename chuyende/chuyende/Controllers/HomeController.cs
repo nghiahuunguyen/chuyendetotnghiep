@@ -50,7 +50,7 @@ namespace chuyende.Controllers
                 db.LienHes.Add(lienHe);
                 db.SaveChanges();
 
-                TempData["Success"] = "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất!";
+                TempData["Success"] = "Cảm ơn bạn đã góp ý. Chúng tôi sẽ phản hồi sớm nhất!";
                 return RedirectToAction("Contact");
             }
 
