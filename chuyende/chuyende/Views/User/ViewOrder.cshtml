@@ -5,36 +5,32 @@
 }
 
 <div class="account-container">
-
     <div class="account-sidebar">
-        <div> @((Session["User"] as chuyende.Models.KhachHang)?.TenKH) </div>
-        <a href="@Url.Action("Index", "User")" class="account-sidebar-item active">
+        <div>@((Session["User"] as chuyende.Models.KhachHang)?.TenKH)</div>
+        <a href="@Url.Action("Index", "User")" class="account-sidebar-item">
             <i class="fas fa-address-book"></i>
             Thông tin tài khoản
         </a>
-
         <a href="@Url.Action("ViewOrder", "User")" class="account-sidebar-item active">
             <i class="fas fa-shopping-bag"></i>
             Đơn hàng đã mua
         </a>
-
         <a href="@Url.Action("Logout", "User")" class="logout">
             <button class="account-sidebar-logout">Đăng Xuất</button>
         </a>
-
     </div>
 
-    <div class="main-content">
-        <div class="personal-info">
+    <div class="account-main-content">
+        <div class="account-personal-info">
             <h2>THÔNG TIN ĐƠN HÀNG</h2>
 
             @if (!Model.Any())
             {
-                <p>Bạn chưa có đơn hàng nào.</p>
+                <p class="account-no-order">Bạn chưa có đơn hàng nào.</p>
             }
             else
             {
-                <table class="table table-bordered">
+                <table class="account-order-table">
                     <thead>
                         <tr>
                             <th>Mã đơn</th>
@@ -82,20 +78,89 @@
                                         }
                                     }
                                     <span style="color:@mau">@trangThai</span>
-
                                 </td>
                                 <td>
-                                    <a href="@Url.Action("OrderDetails", "User", new { id = item.MaHD })" class="btn btn-info btn-sm">Xem</a>
+                                    <a href="@Url.Action("OrderDetails", "User", new { id = item.MaHD })" class="account-view-btn">Xem</a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             }
-
-
-
         </div>
-        
     </div>
 </div>
+
+<style>
+
+    /* Nội dung chính (cột bên phải) */
+    .account-main-content {
+        flex: 1;
+        max-width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Phần thông tin cá nhân */
+    .account-personal-info {
+        margin-bottom: 30px;
+    }
+
+        .account-personal-info h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+    /* Thông báo không có đơn hàng */
+    .account-no-order {
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+    }
+
+    /* Bảng danh sách đơn hàng */
+    .account-order-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #333;
+    }
+
+        .account-order-table th,
+        .account-order-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .account-order-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .account-order-table td {
+            color: #555;
+        }
+
+    /* Nút "Xem" chi tiết đơn hàng */
+    .account-view-btn {
+        display: inline-block;
+        background-color: #42A5F5;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .account-view-btn:hover {
+            background-color: #42A5F5;
+        }
+</style>

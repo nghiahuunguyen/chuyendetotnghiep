@@ -21,103 +21,89 @@
         <span class="toast-close" onclick="this.parentElement.remove()">×</span>
     </div>
 }
-<div class="account-container">
 
+<div class="account-container">
     <div class="account-sidebar">
-        <div> @Model.TenKH</div>
+        <div>@Model.TenKH</div>
         <a href="@Url.Action("Index", "User")" class="account-sidebar-item active">
             <i class="fas fa-address-book"></i>
             Thông tin tài khoản
         </a>
-
-        <a href="@Url.Action("ViewOrder", "User")" class="account-sidebar-item active">
+        <a href="@Url.Action("ViewOrder", "User")" class="account-sidebar-item">
             <i class="fas fa-shopping-bag"></i>
             Đơn hàng đã mua
         </a>
-
         <a href="@Url.Action("Logout", "User")" class="logout">
             <button class="account-sidebar-logout">Đăng Xuất</button>
         </a>
-
     </div>
 
-    <div class="main-content">
-        <div class="personal-info">
+    <div class="account-main-content">
+        <div class="account-personal-info">
             <h2>THÔNG TIN TÀI KHOẢN</h2>
-
             <form id="updateForm" method="post" action="@Url.Action("UpdateUser", "User")">
-                <div class="info-row">
+                <div class="account-info-row">
                     <label>Họ và tên:</label>
-                    <span class="text-display">@Model.TenKH</span>
-                    <input type="text" name="TenKH" class="edit-input" value="@Model.TenKH" style="display: none;">
-                    <a href="#" class="edit-btn"><i class="fas fa-edit"></i></a>
+                    <span class="account-text-display">@Model.TenKH</span>
+                    <input type="text" name="TenKH" class="account-edit-input" value="@Model.TenKH" style="display: none;">
+                    <a href="#" class="account-edit-btn"><i class="fas fa-edit"></i></a>
                 </div>
-
-                <div class="info-row">
+                <div class="account-info-row">
                     <label>Số điện thoại:</label>
-                    <span class="text-display">@Model.SoDienThoai</span>
-                    <input type="text" name="SoDienThoai" class="edit-input" value="@Model.SoDienThoai" style="display: none;">
-                    <a href="#" class="edit-btn"><i class="fas fa-edit"></i></a>
+                    <span class="account-text-display">@Model.SoDienThoai</span>
+                    <input type="text" name="SoDienThoai" class="account-edit-input" value="@Model.SoDienThoai" style="display: none;">
+                    <a href="#" class="account-edit-btn"><i class="fas fa-edit"></i></a>
                 </div>
-
-                <div class="info-row">
+                <div class="account-info-row">
                     <label>Email:</label>
-                    <span class="text-display">@Model.Email</span>
-                    <input type="email" name="Email" class="edit-input" value="@Model.Email" style="display: none;">
-                    <a href="#" class="edit-btn"><i class="fas fa-edit"></i></a>
+                    <span class="account-text-display">@Model.Email</span>
+                    <input type="email" name="Email" class="account-edit-input" value="@Model.Email" style="display: none;">
+                    <a href="#" class="account-edit-btn"><i class="fas fa-edit"></i></a>
                 </div>
-
-                <div class="info-row">
-                    <label>Địa  Chỉ:</label>
-                    <span class="text-display">@Model.DiaChi</span>
-                    <input type="text" name="DiaChi" class="edit-input" value="@Model.DiaChi" style="display: none;">
-                    <a href="#" class="edit-btn"><i class="fas fa-edit"></i></a>
+                <div class="account-info-row">
+                    <label>Địa Chỉ:</label>
+                    <span class="account-text-display">@Model.DiaChi</span>
+                    <input type="text" name="DiaChi" class="account-edit-input" value="@Model.DiaChi" style="display: none;">
+                    <a href="#" class="account-edit-btn"><i class="fas fa-edit"></i></a>
                 </div>
-
-
-                <div class="address-form">
-                    <button type="submit" class="update-button">CẬP NHẬT</button>
+                <div class="account-form-action">
+                    <button type="submit" class="account-update-button">CẬP NHẬT</button>
                 </div>
-
             </form>
-
-
         </div>
-        <div class="personal-info">
+
+        <div class="account-personal-info">
             <h2>ĐỔI MẬT KHẨU</h2>
             <form id="changePasswordForm" method="post" action="@Url.Action("ChangePassword", "User")">
-                <div class="info-row">
+                <div class="account-info-row">
                     <label>Mật khẩu hiện tại:</label>
-                    <div class="password-wrapper">
+                    <div class="account-password-wrapper">
                         <input type="password" name="CurrentPassword">
-                        <span class="toggle-password" onclick="togglePassword('CurrentPassword')">
+                        <span class="account-toggle-password" onclick="togglePassword('CurrentPassword')">
                             <i class="fas fa-eye-slash"></i>
                         </span>
                     </div>
                 </div>
-
-                <div class="info-row">
+                <div class="account-info-row">
                     <label>Mật khẩu mới:</label>
-                    <div class="password-wrapper">
+                    <div class="account-password-wrapper">
                         <input type="password" name="NewPassword" required>
-                        <span class="toggle-password" onclick="togglePassword('NewPassword')">
+                        <span class="account-toggle-password" onclick="togglePassword('NewPassword')">
                             <i class="fas fa-eye-slash"></i>
                         </span>
                     </div>
                 </div>
-
-                <div class="info-row">
+                <div class="account-info-row">
                     <label>Nhập lại mật khẩu mới:</label>
-                    <div class="password-wrapper">
+                    <div class="account-password-wrapper">
                         <input type="password" name="ConfirmNewPassword" required>
-                        <span class="toggle-password" onclick="togglePassword('ConfirmNewPassword')">
+                        <span class="account-toggle-password" onclick="togglePassword('ConfirmNewPassword')">
                             <i class="fas fa-eye-slash"></i>
                         </span>
                     </div>
                 </div>
-
-                <div class="address-form">
-                    <button type="submit" class="update-button">ĐỔI MẬT KHẨU</button>
+                <div class="account-form-action">
+                    <button type="submit" class="account-update-button">ĐỔI MẬT KHẨU</button>
                 </div>
             </form>
         </div>
@@ -127,16 +113,15 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        $(".edit-btn").click(function (e) {
+        $(".account-edit-btn").click(function (e) {
             e.preventDefault();
-            var parent = $(this).closest(".info-row");
-            parent.find(".text-display").hide();
-            parent.find(".edit-input").show().focus();
+            var parent = $(this).closest(".account-info-row");
+            parent.find(".account-text-display").hide();
+            parent.find(".account-edit-input").show().focus();
             $(this).hide();
         });
     });
-</script>
-<script>
+
     function togglePassword(fieldName) {
         var input = document.getElementsByName(fieldName)[0];
         var icon = input.nextElementSibling.querySelector("i");
@@ -151,40 +136,116 @@
         }
     }
 </script>
-
 <style>
-    .password-wrapper {
+    /* Nội dung chính (cột bên phải) */
+    .account-main-content {
+        flex: 1;
+        max-width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Phần thông tin cá nhân */
+    .account-personal-info {
+        margin-bottom: 30px;
+    }
+
+        .account-personal-info h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+    /* Dòng thông tin */
+    .account-info-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+        .account-info-row label {
+            width: 150px;
+            font-size: 14px;
+            color: #333;
+        }
+
+    .account-text-display {
+        flex: 1;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .account-edit-input {
+        flex: 1;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    /* Nút chỉnh sửa */
+    .account-edit-btn {
+        margin-left: 10px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .account-edit-btn i {
+            font-size: 14px;
+        }
+
+    /* Phần đổi mật khẩu */
+    .account-password-wrapper {
         display: flex;
         align-items: center;
         position: relative;
         width: 100%;
     }
 
-        .password-wrapper input {
+        .account-password-wrapper input {
             flex: 1;
+            padding: 5px;
             padding-right: 30px;
-            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
         }
 
-    .toggle-password {
+    .account-toggle-password {
         position: absolute;
         right: 10px;
         cursor: pointer;
+        color: #666;
     }
 
-    .wide-input {
+        .account-toggle-password i {
+            font-size: 14px;
+        }
+
+    /* Phần form và nút cập nhật */
+    .account-form-action {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .account-update-button {
+        background-color: #42A5F5;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
         width: 100%;
     }
 
-    .custom-alert-success, .custom-alert-danger {
-        text-align: center;
-        padding: 10px;
-        margin: 20px auto;
-        width: 50%;
-        border-radius: 5px;
-        font-weight: bold;
-    }
-
+        .account-update-button:hover {
+            background-color: #42A5F5;
+        }
     .icon {
         font-weight: bold;
         font-size: 18px;

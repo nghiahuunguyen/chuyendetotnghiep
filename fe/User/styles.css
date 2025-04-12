@@ -1,12 +1,5 @@
-﻿html, body {
+html, body {
     height: 100%;
-    margin: 0;
-    padding: 0;
-}
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Chiều cao tối thiểu là toàn bộ viewport */
 }
 
 .wrapper {
@@ -44,46 +37,40 @@ body {
 
 /* Top header styles */
 .top-header {
-    background-color: #42A5F5;
+    background-color: #88b6f3;
     padding: 10px 15px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
 }
 
     .top-header .container {
-        display: flex;
         justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
     }
 
 .logo {
     display: flex;
-    align-items: center;
+    align-items: center; /* Căn giữa theo chiều dọc */
     text-decoration: none;
 }
 
 .logo-img {
-    width: 80px;
-    height: auto;
-    margin-right: 10px;
+    width: 65px; /* Kích thước logo */
+    height: auto; /* Giữ tỷ lệ */
+    margin-right: 10px; /* Khoảng cách giữa logo và chữ */
 }
 
 .logo-text {
-    font-size: 20px;
-    color: #ffffff;
-    margin: 0;
+    font-size: 18px; /* Kích thước chữ vừa phải */
+    color: white; /* Chỉnh màu chữ nếu cần */
+    margin: 0; /* Xóa khoảng cách thừa */
 }
+
+
 
 /* Search styles */
 .search-container {
     position: relative;
     flex-grow: 1;
     max-width: 500px;
-    margin: 15px 20px 0; /* Tăng margin-top từ 10px lên 15px để đẩy xuống thêm */
+    margin: 0 20px;
 }
 
 .search-input {
@@ -93,9 +80,7 @@ body {
     border-radius: 20px;
     font-size: 14px;
     outline: none;
-    border-bottom: 2px solid #ffffff;
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #333;
+    border-bottom: 2px solid white;
 }
 
 .search-button {
@@ -105,8 +90,14 @@ body {
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #333;
+    color: #666;
     cursor: pointer;
+}
+
+/* User tools styles */
+.user-tools {
+    display: flex;
+    align-items: center;
 }
 
 /* User tools styles */
@@ -120,17 +111,60 @@ body {
     align-items: center;
     margin-left: 20px;
     text-decoration: none;
-    color: #ffffff;
+    color: #f8f3f3;
     font-size: 14px;
 }
 
     .tool-item i {
         margin-right: 5px;
         font-size: 16px;
-        color: #ffffff;
+    }
+
+
+/* Main navigation styles */
+.main-nav {
+    background-color: #88b6f3;
+    padding: 0 15px 10px;
+}
+
+    .main-nav .container {
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #f8f3f3;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+    .nav-item i:first-child {
+        margin-right: 5px;
+        font-size: 16px;
+    }
+
+    .nav-item .fa-chevron-down {
+        font-size: 10px;
+        margin-left: 3px;
+        opacity: 0.7;
     }
 
 /* Responsiveness */
+@media (max-width: 992px) {
+    .main-nav .container {
+        justify-content: flex-start;
+    }
+
+    .nav-item {
+        flex-shrink: 0;
+    }
+}
+
 @media (max-width: 768px) {
     .top-header .container {
         flex-wrap: wrap;
@@ -138,7 +172,7 @@ body {
 
     .search-container {
         order: 3;
-        margin: 15px 0 0; /* Giữ margin-top trên mobile */
+        margin: 10px 0 0;
         max-width: 100%;
     }
 
@@ -148,14 +182,6 @@ body {
 
     .tool-item {
         margin-left: 10px;
-    }
-
-    .logo-img {
-        width: 60px;
-    }
-
-    .logo-text {
-        font-size: 16px;
     }
 }
 
@@ -168,197 +194,141 @@ body {
         margin-right: 0;
         font-size: 18px;
     }
-
-    .logo-img {
-        width: 50px;
-    }
-
-    .logo-text {
-        font-size: 14px;
-    }
 }
-
-/* Main navigation styles */
-.main-nav {
-    background-color: #42A5F5; /* Màu xanh nhạt đồng bộ với header */
-    padding: 0 15px 10px;
-    position: fixed;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    z-index: 999;
-}
-
-    .main-nav .container {
-        display: flex;
-        justify-content: space-between; /* Phân bổ đều khoảng cách giữa các mục */
-        align-items: center;
-        flex-wrap: nowrap;
-        overflow-x: auto; /* Cho phép cuộn ngang trên màn hình nhỏ */
-        margin-top: 40px;
-        padding: 0; /* Loại bỏ padding thừa */
-    }
-
-.nav-item {
-    flex: 1; /* Mỗi mục chiếm đều không gian */
-    display: flex;
-    justify-content: center; /* Căn giữa nội dung trong mỗi mục */
-    align-items: center;
-    padding: 8px 12px; /* Điều chỉnh padding để khoảng cách hợp lý */
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 14px;
-    white-space: nowrap;
-    text-align: center; /* Đảm bảo chữ căn giữa */
-    transition: background-color 0.3s; /* Hiệu ứng hover mượt mà */
-}
-
-    .nav-item:hover {
-        background-color: #2196F3; /* Hiệu ứng hover với màu xanh đậm hơn */
-    }
-
-    .nav-item i:first-child {
-        margin-right: 5px;
-        font-size: 16px;
-        color: #ffffff;
-    }
-
-    .nav-item .fa-chevron-down {
-        font-size: 10px;
-        margin-left: 3px;
-        opacity: 0.7;
-        color: #ffffff;
-    }
-
-/* Responsiveness */
-@media (max-width: 992px) {
-    .main-nav .container {
-        justify-content: flex-start; /* Chuyển sang căn trái để cuộn ngang */
-    }
-
-    .nav-item {
-        flex: none; /* Trên màn hình nhỏ, không ép chiếm đều không gian */
-        margin-right: 10px; /* Khoảng cách giữa các mục khi cuộn ngang */
-    }
-}
-
-@media (max-width: 768px) {
-    .main-nav .container {
-        margin-top: 30px; /* Giảm margin-top trên mobile */
-    }
-
-    .nav-item {
-        padding: 6px 10px; /* Giảm padding trên mobile */
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 576px) {
-    .nav-item {
-        padding: 5px 8px;
-        font-size: 12px;
-    }
-}
-
-.main-content {
-    margin-top: 200px; /* Tổng chiều cao của top-header và main-nav, điều chỉnh nếu cần */
-}
-
 /* Footer Styles */
+footer {
+    display: flex;
+    justify-content: space-between; /* Căn đều từ trái sang phải */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 10px 50px; /* Tùy chỉnh khoảng cách */
+    font-size: 14px; /* Giảm kích thước chữ nếu cần */
+}
+
+.footer-section {
+    flex: 1; /* Chia đều không gian giữa các cột */
+    text-align: center; /* Căn giữa nội dung trong từng cột */
+}
+
 .main-footer {
     background-color: #fff;
-    padding: 15px 0; /* Giảm từ 20px xuống 15px */
+    padding: 10px 0; /* Giảm padding để footer nhỏ lại */
     border-top: 1px solid #e0e0e0;
-    width: 100%;
+    margin-top: 20px;
+    max-width: 100%; /* Footer trải rộng toàn bộ trang */
 }
 
-/* Thu gọn container trong footer */
 .footer-content {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 10px; /* Giảm từ 15px xuống 10px */
-    padding: 0 10px; /* Giảm từ 15px xuống 10px */
+    justify-content: space-between; /* Căn đều các cột */
+    align-items: flex-start;
+    max-width: 1200px; /* Điều chỉnh chiều rộng để không bị quá rộng */
+    margin: auto;
+    padding: 10px 20px;
 }
 
-/* Thu gọn các cột trong footer */
 .footer-column {
     flex: 1;
-    min-width: 120px; /* Giảm từ 150px xuống 120px */
-    margin-bottom: 10px; /* Giảm từ 15px xuống 10px */
-    padding-right: 5px; /* Giảm từ 10px xuống 5px */
+    min-width: 200px; /* Đảm bảo không bị quá hẹp */
+    text-align: left;
+    padding-right: 20px;
 }
 
-/* Thu gọn tiêu đề footer */
 .footer-title {
-    font-size: 12px; /* Giảm từ 14px xuống 12px */
+    font-size: 16px;
     color: #333;
-    margin-bottom: 8px; /* Giảm từ 10px xuống 8px */
+    margin-bottom: 15px;
     font-weight: bold;
+    align-self: flex-start;
 }
 
-/* Thu gọn danh sách liên kết */
 .footer-links {
     list-style: none;
     padding: 0;
+    margin: 0; /* Reset any default margins */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.footer-links li {
-    margin-bottom: 6px; /* Giảm từ 8px xuống 6px */
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+        .footer-links a:hover {
+            color: #88b6f3;
+        }
+
+.payment-methods img {
+    max-width: 100%;
+    height: auto;
 }
 
-.footer-links a {
-    color: #666;
-    text-decoration: none;
-    font-size: 11px; /* Giảm từ 12px xuống 11px */
-}
-
-.footer-links a:hover {
-    color: #2c59c1;
-}
-
-/* Thu gọn liên kết mạng xã hội */
 .social-links {
     display: flex;
-    gap: 6px; /* Giảm từ 10px xuống 6px */
-    margin-bottom: 8px; /* Giảm từ 15px xuống 8px */
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px; /* Giảm từ 32px xuống 24px */
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background-color: #f0f0f0;
     border-radius: 50%;
     color: #666;
     text-decoration: none;
-    font-size: 12px; /* Giảm kích thước icon nếu cần */
 }
 
-.social-link:hover {
-    background-color: #2c59c1;
-    color: #fff;
+    .social-link:hover {
+        background-color: #88b6f3;
+        color: #fff;
+    }
+
+.app-download h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
 }
 
-/* Thu gọn footer-bottom */
+.app-links {
+    display: flex;
+    gap: 10px;
+}
+
+.app-link img {
+    height: 32px;
+    width: auto;
+}
+
 .footer-bottom {
     border-top: 1px solid #e0e0e0;
-    padding-top: 10px; /* Giảm từ 20px xuống 10px */
-    font-size: 10px; /* Giảm từ 12px xuống 10px */
+    padding-top: 20px;
+    font-size: 12px;
     color: #666;
-    text-align: center; /* Căn giữa để tiết kiệm không gian */
 }
 
 .copyright, .address {
-    margin-bottom: 6px; /* Giảm từ 10px xuống 6px */
+    margin-bottom: 10px;
 }
 
-/* Xóa hoặc ẩn các phần không cần thiết nếu có */
-.payment-methods, .app-download, .app-links, .certification {
-    display: none; /* Ẩn các phần này để footer nhỏ hơn, bật lại nếu cần */
+.certification {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
 }
+
+    .certification img {
+        height: 40px;
+        width: auto;
+    }
 
 /* Main Banner Styles */
 .main-banner {
@@ -552,7 +522,7 @@ body {
     }
 
         .footer-links a:hover {
-            color: #2c59c1;
+            color: #2f80ed;
         }
 
 .payment-methods img {
@@ -579,7 +549,7 @@ body {
 }
 
     .social-link:hover {
-        background-color: #2c59c1;
+        background-color: #88b6f3;
         color: #fff;
     }
 

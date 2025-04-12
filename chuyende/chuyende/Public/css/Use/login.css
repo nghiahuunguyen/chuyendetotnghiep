@@ -44,7 +44,7 @@
 }
 
     .form-control:focus {
-        border-color: #2f80ed;
+        border-color: #42A5F5; /* Viền xanh dương nhạt khi focus */
         outline: none;
     }
 
@@ -52,7 +52,7 @@
     display: block;
     text-align: right;
     font-size: 13px;
-    color: #2f80ed;
+    color: #42A5F5; /* Liên kết quên mật khẩu màu xanh nhạt */
     text-decoration: none;
     margin-bottom: 20px;
 }
@@ -61,7 +61,7 @@
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #2f80ed;
+    background-color: #42A5F5; /* Nút đăng nhập màu xanh nhạt */
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -72,7 +72,7 @@
 }
 
     .btn-login:hover {
-        background-color: #2f80ed;
+        background-color: #2196F3; /* Hiệu ứng hover đậm hơn một chút */
     }
 
 .social-login {
@@ -127,17 +127,17 @@
 }
 
     .social-btn.facebook:hover {
-        background-color: #3b5998;
+        background-color: #42A5F5; /* Đồng bộ màu xanh nhạt khi hover */
         color: white;
     }
 
     .social-btn.google:hover {
-        background-color: #dd4b39;
+        background-color: #42A5F5; /* Đồng bộ màu xanh nhạt khi hover */
         color: white;
     }
 
     .social-btn.apple:hover {
-        background-color: #000;
+        background-color: #42A5F5; /* Đồng bộ màu xanh nhạt khi hover */
         color: white;
     }
 
@@ -149,7 +149,7 @@
 }
 
     .register-link a {
-        color: #2f80ed;
+        color: #42A5F5; /* Liên kết đăng ký màu xanh nhạt */
         text-decoration: none;
         font-weight: bold;
     }
@@ -163,7 +163,7 @@
 }
 
     .password-wrapper input {
-        padding-right: 40px; /* Chừa khoảng trống cho icon */
+        padding-right: 40px;
     }
 
     .password-wrapper .toggle-password {
@@ -174,4 +174,5 @@
         background: none;
         border: none;
         cursor: pointer;
+        color: #666; /* Icon toggle password màu xám để dễ nhìn */
     }

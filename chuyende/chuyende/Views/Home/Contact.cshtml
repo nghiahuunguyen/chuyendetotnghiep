@@ -9,7 +9,7 @@
         <!-- Cột trái: Form liên hệ -->
         <div class="col-md-8">
             <div class="p-4 shadow-sm border rounded h-100">
-                <h5 class="fw-bold mb-3">Gửi Thông Tin Liên Hệ</h5>
+                <h5 class="fw-bold mb-3">Gửi Liên Hệ, Góp Ý và Khiếu Nại Về Cửa Hàng</h5>
 
                 @if (TempData["Success"] != null)
                 {
@@ -32,23 +32,23 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Họ Tên</label>
-                            @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control" })
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Email</label>
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", required = "required" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email" })
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Số Điện Thoại</label>
-                            @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Tiêu Đề</label>
-                            @Html.TextBoxFor(m => m.TieuDe, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(m => m.TieuDe, new { @class = "form-control" })
                         </div>
                         <div class="col-12 mb-3">
                             <label class="form-label">Nội Dung</label>
-                            @Html.TextAreaFor(m => m.NoiDung, new { @class = "form-control", rows = 5, required = "required" })
+                            @Html.TextAreaFor(m => m.NoiDung, new { @class = "form-control", rows = 10 })
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary">Gửi liên hệ</button>
@@ -88,3 +88,22 @@
         </div>
     </div>
 </section>
+
+<style>
+    /* Button styles */
+    .btn.btn-primary {
+        background-color: #42A5F5; /* Màu xanh dương nhạt */
+        color: #ffffff; /* Chữ trắng để tương phản */
+        border: none; /* Bỏ viền mặc định */
+        padding: 10px 20px; /* Khoảng cách bên trong nút */
+        font-size: 16px; /* Kích thước chữ */
+        font-weight: bold; /* Chữ đậm để nổi bật */
+        border-radius: 6px; /* Bo góc */
+        cursor: pointer;
+        transition: background-color 0.3s; /* Hiệu ứng chuyển màu mượt mà */
+    }
+
+        .btn.btn-primary:hover {
+            background-color: #2196F3; /* Màu xanh đậm hơn một chút khi hover */
+        }
+</style>

@@ -1,5 +1,8 @@
 ﻿.main-content {
-    flex-grow: 1;
+    flex-grow: 1; /* Chiếm toàn bộ không gian còn lại để đẩy footer xuống */
+    margin-top: 120px; /* Bù cho header cố định */
+    padding: 20px;
+    background-color: #f0f0f0;
 }
 
 .personal-info {

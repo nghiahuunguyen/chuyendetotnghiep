@@ -5,29 +5,26 @@
 }
 
 <div class="account-container">
-
     <div class="account-sidebar">
-        <div> @((Session["User"] as chuyende.Models.KhachHang)?.TenKH) </div>
-        <a href="@Url.Action("Index", "User")" class="account-sidebar-item active">
+        <div>@((Session["User"] as chuyende.Models.KhachHang)?.TenKH)</div>
+        <a href="@Url.Action("Index", "User")" class="account-sidebar-item">
             <i class="fas fa-address-book"></i>
             Thông tin tài khoản
         </a>
-
         <a href="@Url.Action("ViewOrder", "User")" class="account-sidebar-item active">
             <i class="fas fa-shopping-bag"></i>
             Đơn hàng đã mua
         </a>
-
         <a href="@Url.Action("Logout", "User")" class="logout">
             <button class="account-sidebar-logout">Đăng Xuất</button>
         </a>
-
     </div>
 
-    <div class="main-content">
-        <div class="personal-info">
+    <div class="account-main-content">
+        <div class="account-personal-info">
             <h2>
-                CHI TIẾT ĐƠN HÀNG - @Model.MaHD -@{
+                CHI TIẾT ĐƠN HÀNG - @Model.MaHD
+                @{
                     string tt = "";
                     string color = "";
                     switch (Model.TrangThai)
@@ -55,9 +52,9 @@
                     }
                 }
                 <span style="color: @color; font-weight: bold;">@tt</span>
-
             </h2>
-            <table class="table table-bordered">
+
+            <table class="account-order-table">
                 <thead>
                     <tr>
                         <th>Sản phẩm</th>
@@ -74,7 +71,7 @@
                         <tr>
                             <td>@ct.SanPham.TenSP</td>
                             <td>
-                                <img src="@Url.Content("~/img/sanpham/" + ct.SanPham.HinhAnh)" alt="@ct.SanPham.TenSP" width="80" />
+                                <img src="@Url.Content("~/img/sanpham/" + ct.SanPham.HinhAnh)" alt="@ct.SanPham.TenSP" class="account-product-image" />
                             </td>
                             <td>@String.Format("{0:C0}", ct.SanPham.GiaDau)</td>
                             <td>@ct.SoLuong</td>
@@ -87,7 +84,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5" class="text-end">Tổng cộng:</th>
+                        <th colspan="5" class="account-table-total-label">Tổng cộng:</th>
                         <th>
                             @String.Format("{0:C0}", Model.ChiTietHoaDon.Sum(c => c.SoLuong * (c.SanPham.GiaDau - c.SanPham.SoGiam)))
                         </th>
@@ -95,14 +92,97 @@
                 </tfoot>
             </table>
 
-
-            <div class="text-center mt-4">
-                <a href="@Url.Action("ViewOrder", "User")" class="btn btn-primary" style="background-color: #2f80ed; border-color: #007BFF;">
+            <div class="account-form-action">
+                <a href="@Url.Action("ViewOrder", "User")" class="account-update-button">
                     Về trang danh sách hóa đơn
                 </a>
             </div>
-
         </div>
-
     </div>
 </div>
+<style>
+
+    /* Nội dung chính (cột bên phải) */
+    .account-main-content {
+        flex: 1;
+        max-width: 100%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Phần thông tin cá nhân */
+    .account-personal-info {
+        margin-bottom: 30px;
+    }
+
+        .account-personal-info h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+    /* Bảng chi tiết đơn hàng */
+    .account-order-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #333;
+    }
+
+        .account-order-table th,
+        .account-order-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .account-order-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .account-order-table td {
+            color: #555;
+        }
+
+    /* Hình ảnh sản phẩm */
+    .account-product-image {
+        width: 80px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    /* Dòng tổng cộng */
+    .account-table-total-label {
+        text-align: right;
+        font-weight: bold;
+    }
+
+    /* Phần nút quay lại */
+    .account-form-action {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .account-update-button {
+        display: inline-block;
+        background-color: #42A5F5;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        text-decoration: none;
+    }
+
+        .account-update-button:hover {
+            background-color: #42A5F5;
+        }
+</style>
