@@ -187,6 +187,22 @@ namespace chuyende.Areas.Admin.Controllers
                     Gia = sp.GiaDau ?? 0
                 }).ToList();
 
+            // Tạo MaHD tạm thời
+            string lastMaHD = db.HoaDons
+                .OrderByDescending(h => h.MaHD)
+                .Select(h => h.MaHD)
+                .FirstOrDefault();
+            int nextNumber = 1;
+            if (!string.IsNullOrEmpty(lastMaHD) && lastMaHD.Length >= 5 && lastMaHD.StartsWith("HD"))
+            {
+                string numberPart = lastMaHD.Substring(2);
+                if (int.TryParse(numberPart, out int lastNumber))
+                {
+                    nextNumber = lastNumber + 1;
+                }
+            }
+            ViewBag.MaHD = "HD" + nextNumber.ToString("D3"); // Truyền MaHD tạm vào ViewBag
+
             return View();
         }
 

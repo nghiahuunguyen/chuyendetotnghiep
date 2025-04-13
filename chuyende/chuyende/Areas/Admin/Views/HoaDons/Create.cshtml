@@ -87,6 +87,10 @@
                         new { Value = 1, Text = "Tiền mặt" },
                         new { Value = 2, Text = "Chuyển khoản" }
                     }, "Value", "Text"), new { @class = "form-control" })
+                    <div id="qr-container" style="margin-top: 15px; display: none;">
+                        <p><strong>Vui lòng quét mã để chuyển khoản:</strong></p>
+                        <img id="qrImage" style="max-width: 300px; border: 1px solid #ccc;" />
+                    </div>
                 </div>
 
                 <button class="payment-btn" type="submit">Thanh toán</button>
@@ -251,5 +255,34 @@
             updateTotalPrice();
         });
     });
+    // Thông tin ngân hàng
+    const bankId = "VCB"; // Mã ngân hàng: VCB = Vietcombank
+    const accountNumber = "1046391454"; // Số tài khoản nhận
+    const accountName = "NGUYEN HUU NGHIA"; // Tên người nhận
+
+    function parseCurrencyToNumber(currencyStr) {
+        return Number(currencyStr.replace(/[^\d]/g, ""));
+    }
+
+    function generateQR(amount) {
+    let maHD = '@ViewBag.MaHD' || 'Unknown'; // Lấy MaHD từ ViewBag, hoặc giá trị mặc định
+    let addInfo = `Thanh toan hoa don ${maHD}`;
+    // Sử dụng compact.png để chỉ hiển thị mã QR
+    let qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNumber}-compact.png?amount=${amount}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+    $('#qrImage').attr('src', qrUrl);
+    $('#qr-container').show();
+}
+
+    $('#PhuongThucThanhToan').change(function () {
+        let selectedValue = $(this).val();
+        if (selectedValue === "2") {
+            let totalStr = $('#TotalPrice').val();
+            let amount = parseCurrencyToNumber(totalStr);
+            generateQR(amount);
+        } else {
+            $('#qr-container').hide();
+        }
+    });
+
 </script>
 
