@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -11,12 +13,16 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
         // GET: Admin/KhachHangs
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             if (Session["Admin"] == null)
             {
                 return RedirectToAction("Index", "DangNhap");
             }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
             var danhSachKhachHang = db.HoaDons
                 .GroupBy(h => new { h.SoDienThoai, h.Email })
                 .Select(g => new KhachHangViewModel
@@ -25,9 +31,10 @@ namespace chuyende.Areas.Admin.Controllers
                     Email = g.Key.Email,
                     SoDienThoai = g.Key.SoDienThoai,
                     DiaChi = g.FirstOrDefault().DiaChi,
-                    SoLanMua = g.Count() // Tổng số đơn hàng của khách
+                    SoLanMua = g.Count()
                 })
-                .ToList();
+                .OrderByDescending(kh => kh.SoLanMua) // sắp xếp theo số lần mua nếu muốn
+                .ToPagedList(pageNumber, pageSize);
 
             return View(danhSachKhachHang);
         }

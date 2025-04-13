@@ -357,6 +357,7 @@
     <Content Include="Areas\Admin\Views\ThongKe\Index.cshtml" />
     <Content Include="Areas\Admin\Views\KhachHangs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\LienHes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LienHes\Details.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

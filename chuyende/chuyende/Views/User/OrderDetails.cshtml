@@ -61,7 +61,6 @@
                         <th>Hình ảnh</th>
                         <th>Đơn giá</th>
                         <th>Số lượng</th>
-                        <th>Giảm</th>
                         <th>Thành tiền</th>
                     </tr>
                 </thead>
@@ -75,7 +74,6 @@
                             </td>
                             <td>@String.Format("{0:C0}", ct.SanPham.GiaDau)</td>
                             <td>@ct.SoLuong</td>
-                            <td>@String.Format("{0:C0}", ct.SanPham.SoGiam)</td>
                             <td>
                                 @String.Format("{0:C0}", ct.SoLuong * (ct.SanPham.GiaDau - ct.SanPham.SoGiam))
                             </td>
@@ -84,7 +82,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5" class="account-table-total-label">Tổng cộng:</th>
+                        <th colspan="4" class="account-table-total-label">Tổng cộng:</th>
                         <th>
                             @String.Format("{0:C0}", Model.ChiTietHoaDon.Sum(c => c.SoLuong * (c.SanPham.GiaDau - c.SanPham.SoGiam)))
                         </th>

@@ -21,7 +21,7 @@ namespace chuyende.Controllers
         }
 
         // Lọc sản phẩm theo loại
-        public ActionResult ByLoai(string alias)
+        public ActionResult ByLoai(string alias, decimal? giaTu, decimal? giaDen)
         {
             if (string.IsNullOrEmpty(alias))
                 return HttpNotFound("Alias không hợp lệ.");
@@ -30,19 +30,64 @@ namespace chuyende.Controllers
             if (loai == null)
                 return HttpNotFound("Không tìm thấy loại sản phẩm.");
 
-            var sanPhams = db.SanPhams
-                             .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.Status == 1 && sp.Hang.Status == 1)
-                             .ToList();
+            var sanPhamsQuery = db.SanPhams
+                                  .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.Status == 1 && sp.Hang.Status == 1);
+
+            System.Diagnostics.Debug.WriteLine($"Total products before any processing: {sanPhamsQuery.Count()}");
+
+            var sanPhams = sanPhamsQuery
+                .ToList()
+                .Select(sp => new
+                {
+                    SanPham = sp,
+                    GiaBan = (sp.GiaDau.HasValue && sp.SoGiam.HasValue && sp.GiaDau > 0)
+                             ? sp.GiaDau.Value - (sp.GiaDau.Value * sp.SoGiam.Value / 100)
+                             : -1
+                })
+                .Where(sp => sp.GiaBan >= 0);
+
+            System.Diagnostics.Debug.WriteLine($"giaTu: {giaTu}, giaDen: {giaDen}");
+            System.Diagnostics.Debug.WriteLine($"Total products after removing invalid prices: {sanPhams.Count()}");
+
+            // Lọc theo giá
+            if (giaTu.HasValue && giaTu.Value >= 0)
+            {
+                sanPhams = sanPhams.Where(sp => sp.GiaBan >= giaTu.Value);
+                System.Diagnostics.Debug.WriteLine($"Total products after filtering giaTu ({giaTu}): {sanPhams.Count()}");
+            }
+            if (giaDen.HasValue && giaDen.Value >= 0)
+            {
+                sanPhams = sanPhams.Where(sp => sp.GiaBan <= giaDen.Value);
+                System.Diagnostics.Debug.WriteLine($"Total products after filtering giaDen ({giaDen}): {sanPhams.Count()}");
+            }
+
+            var finalSanPhams = sanPhams.Select(sp => sp.SanPham).ToList();
+
+            // Debug danh sách sản phẩm cuối cùng
+            foreach (var sp in finalSanPhams)
+            {
+                var giaBan = sp.GiaDau.HasValue && sp.SoGiam.HasValue
+                             ? sp.GiaDau.Value - (sp.GiaDau.Value * sp.SoGiam.Value / 100)
+                             : -1;
+                System.Diagnostics.Debug.WriteLine($"Product: {sp.TenSP}, GiaBan: {giaBan}");
+            }
 
             ViewBag.TenLoaiSP = loai.TenLoaiSP;
             ViewBag.Title = loai.TenLoaiSP;
             ViewBag.LoaiAlias = loai.Link;
-            ViewBag.HangSanPhams = sanPhams.Select(sp => sp.Hang).Distinct().ToList();
+            ViewBag.HangSanPhams = finalSanPhams.Select(sp => sp.Hang).Distinct().ToList();
+            ViewBag.GiaTu = giaTu ?? 300000;
+            ViewBag.GiaDen = giaDen ?? 50000000;
 
-            return View("ByLoai", sanPhams);
+            if (!finalSanPhams.Any())
+            {
+                ViewBag.Message = "Không tìm thấy sản phẩm trong khoảng giá này.";
+            }
+
+            return View("ByLoai", finalSanPhams);
         }
 
-        public ActionResult ByHang(string loaiAlias, string hangAlias)
+        public ActionResult ByHang(string loaiAlias, string hangAlias, decimal? giaTu, decimal? giaDen)
         {
             if (string.IsNullOrEmpty(loaiAlias) || string.IsNullOrEmpty(hangAlias))
                 return HttpNotFound("Alias không hợp lệ.");
@@ -55,19 +100,62 @@ namespace chuyende.Controllers
             if (hang == null)
                 return HttpNotFound("Không tìm thấy hãng sản phẩm.");
 
-            var sanPhams = db.SanPhams
-                             .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.MaHang == hang.MaHang && sp.Status == 1)
-                             .ToList();
+            var sanPhamsQuery = db.SanPhams
+                                  .Where(sp => sp.MaLoaiSP == loai.MaLoaiSP && sp.MaHang == hang.MaHang && sp.Status == 1);
+
+            System.Diagnostics.Debug.WriteLine($"Total products before any processing: {sanPhamsQuery.Count()}");
+
+            var sanPhams = sanPhamsQuery
+                .ToList()
+                .Select(sp => new
+                {
+                    SanPham = sp,
+                    GiaBan = (sp.GiaDau.HasValue && sp.SoGiam.HasValue && sp.GiaDau > 0)
+                             ? sp.GiaDau.Value - (sp.GiaDau.Value * sp.SoGiam.Value / 100)
+                             : -1
+                })
+                .Where(sp => sp.GiaBan >= 0);
+
+            System.Diagnostics.Debug.WriteLine($"giaTu: {giaTu}, giaDen: {giaDen}");
+            System.Diagnostics.Debug.WriteLine($"Total products after removing invalid prices: {sanPhams.Count()}");
+
+            if (giaTu.HasValue && giaTu.Value >= 0)
+            {
+                sanPhams = sanPhams.Where(sp => sp.GiaBan >= giaTu.Value);
+                System.Diagnostics.Debug.WriteLine($"Total products after filtering giaTu ({giaTu}): {sanPhams.Count()}");
+            }
+            if (giaDen.HasValue && giaDen.Value >= 0)
+            {
+                sanPhams = sanPhams.Where(sp => sp.GiaBan <= giaDen.Value);
+                System.Diagnostics.Debug.WriteLine($"Total products after filtering giaDen ({giaDen}): {sanPhams.Count()}");
+            }
+
+            var finalSanPhams = sanPhams.Select(sp => sp.SanPham).ToList();
+
+            foreach (var sp in finalSanPhams)
+            {
+                var giaBan = sp.GiaDau.HasValue && sp.SoGiam.HasValue
+                             ? sp.GiaDau.Value - (sp.GiaDau.Value * sp.SoGiam.Value / 100)
+                             : -1;
+                System.Diagnostics.Debug.WriteLine($"Product: {sp.TenSP}, GiaBan: {giaBan}");
+            }
 
             ViewBag.TenLoaiSP = loai.TenLoaiSP;
-            ViewBag.Title = hang.TenHang; 
+            ViewBag.Title = hang.TenHang;
             ViewBag.LoaiAlias = loai.Link;
             ViewBag.HangAlias = hang.Link;
             ViewBag.HangSanPhams = db.Hangs
                                      .Where(h => h.Status == 1 && h.SanPhams.Any(sp => sp.MaLoaiSP == loai.MaLoaiSP))
                                      .ToList();
+            ViewBag.GiaTu = giaTu ?? 300000;
+            ViewBag.GiaDen = giaDen ?? 50000000;
 
-            return View("ByHang", sanPhams);
+            if (!finalSanPhams.Any())
+            {
+                ViewBag.Message = "Không tìm thấy sản phẩm trong khoảng giá này.";
+            }
+
+            return View("ByHang", finalSanPhams);
         }
 
 

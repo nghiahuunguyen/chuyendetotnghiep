@@ -1,14 +1,14 @@
-﻿@model IEnumerable<chuyende.Models.LienHe>
-
+﻿﻿@model PagedList.IPagedList<chuyende.Models.LienHe>
+@using PagedList.Mvc
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Danh sách liên hệ";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="table-container">
     <h3>Danh sách liên hệ</h3>
 
-    
+
 
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
@@ -18,9 +18,9 @@
                 <th>Số điện thoại</th>
                 <th>Email</th>
                 <th>Tiêu đề</th>
-                <th>Nội dung</th>
                 <th>Ngày gửi</th>
                 <th>Trạng thái</th>
+                <th>Chức năng</th>
             </tr>
             <tbody>
                 @{ int stt = 1; }
@@ -32,7 +32,6 @@
                         <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>@Html.DisplayFor(modelItem => item.TieuDe)</td>
-                        <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                         <td>@item.NgayGui.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>
                             <a href="@Url.Action("ToggleTrangThai", "LienHes", new { id = item.MaLH })">
@@ -45,6 +44,12 @@
                                     <span class="text-danger fw-bold">✘</span>
                                 }
                             </a>
+                           
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details","LienHes", new { id = item.MaLH})" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         </td>
 
                     </tr>
@@ -54,3 +59,23 @@
         </table>
     </div>
 </div>
+
+<div class="pagination-container text-end">
+@Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    page,
+    keyword = Request.QueryString["keyword"],
+    status = Request.QueryString["status"]
+}),
+new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    MaximumPageNumbersToDisplay = 5,
+    Display = PagedListDisplayMode.IfNeeded
+})
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />

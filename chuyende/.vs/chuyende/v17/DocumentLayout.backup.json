@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "D:\\chuyendetotnghiep\\chuyende\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\homeadmin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\homeadmin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\controllers\\modulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\controllers\\modulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\controllers\\homeadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\controllers\\homeadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\models\\thongkeadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\models\\thongkeadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\shared\\_layoutadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HomeAdmin\\Index.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\HomeAdmin\\Index.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HomeAdmin\\Index.cshtml",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\HomeAdmin\\Index.cshtml",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAuwDEAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ByHang.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByHang.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
+              "RelativeToolTip": "chuyende\\Views\\Module\\ByHang.cshtml",
+              "ViewState": "AgIAAEwBAAAAAAAAAAAIwGIBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-12T03:08:53.12Z",
+              "WhenOpened": "2025-04-13T01:47:19.731Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ThongKeAdmin.cs",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Models\\ThongKeAdmin.cs",
-              "RelativeDocumentMoniker": "chuyende\\Models\\ThongKeAdmin.cs",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Models\\ThongKeAdmin.cs*",
-              "RelativeToolTip": "chuyende\\Models\\ThongKeAdmin.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T03:06:56.916Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HomeAdminController.cs",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Controllers\\HomeAdminController.cs",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Controllers\\HomeAdminController.cs",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Controllers\\HomeAdminController.cs*",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Controllers\\HomeAdminController.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T03:06:31.695Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "_LayoutAdmin.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\Shared\\_LayoutAdmin.cshtml",
-              "ViewState": "AgIAAF8AAAAAAAAAAAAuwHYAAABFAAAAAAAAAA==",
+              "Title": "ByLoai.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByLoai.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
+              "RelativeToolTip": "chuyende\\Views\\Module\\ByLoai.cshtml",
+              "ViewState": "AgIAAFABAAAAAAAAAAAIwGABAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-12T03:04:32.791Z",
+              "WhenOpened": "2025-04-13T01:31:39.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ModuleController.cs",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\ModuleController.cs",
+              "RelativeDocumentMoniker": "chuyende\\Controllers\\ModuleController.cs",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\ModuleController.cs*",
+              "RelativeToolTip": "chuyende\\Controllers\\ModuleController.cs*",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAYwJUAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T01:30:52.262Z",
               "EditorCaption": ""
             }
           ]

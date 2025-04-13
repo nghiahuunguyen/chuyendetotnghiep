@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using chuyende.Models;
+using PagedList;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -15,10 +16,20 @@ namespace chuyende.Areas.Admin.Controllers
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
         // GET: Admin/LienHes
-        public ActionResult Index()
+        public ActionResult Index(int? page = 1)
         {
-            return View(db.LienHes.ToList());
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            var lienHes = db.LienHes.OrderByDescending(l => l.NgayGui).ToPagedList(pageNumber, pageSize);
+
+            return View(lienHes);
         }
+
 
         public ActionResult ToggleTrangThai(int id)
         {
@@ -30,6 +41,16 @@ namespace chuyende.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
 
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index");
+            LienHe lienHe = db.LienHes.Find(id);
+            if (lienHe == null)
+                return RedirectToAction("Index");
+            return View(lienHe);
         }
 
     }

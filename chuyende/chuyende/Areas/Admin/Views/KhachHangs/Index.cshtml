@@ -1,4 +1,5 @@
-﻿@model IEnumerable<chuyende.Models.KhachHangViewModel>
+﻿@model PagedList.IPagedList<chuyende.Models.KhachHangViewModel>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Danh sách khách hàng";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -6,7 +7,7 @@
 
 <div class="table-container">
     <h3>Danh sách khách hàng</h3>
-    <table >
+    <table>
         <thead>
             <tr>
                 <th>Tên khách hàng</th>
@@ -30,4 +31,16 @@
         </tbody>
     </table>
 </div>
-    
+
+<div class="pagination-container text-end mt-3">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+        new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+            DisplayLinkToLastPage = PagedListDisplayMode.Always,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5,
+            Display = PagedListDisplayMode.IfNeeded
+        })
+</div>

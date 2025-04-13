@@ -6,6 +6,32 @@
 
 <section class="product-display">
     <div class="container">
+        <!-- Form lọc theo giá -->
+        <div class="price-filter">
+            <form method="get" action="@Url.Action("ByLoai", "Module", new { alias = ViewBag.LoaiAlias })" onsubmit="cleanPriceInputs()">
+                <div class="filter-group">
+                    <label for="giaTu">Giá từ:</label>
+                    <div class="price-box">
+                        <span class="currency-prefix">VNĐ: </span>
+                        <input type="text" id="giaTu" name="giaTu" value="@ViewBag.GiaTu.ToString("#,##0")" class="price-input" oninput="updateSliderFromInput('giaTu')">
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label for="giaDen">Giá đến:</label>
+                    <div class="price-box">
+                        <span class="currency-prefix">VNĐ: </span>
+                        <input type="text" id="giaDen" name="giaDen" value="@ViewBag.GiaDen.ToString("#,##0")" class="price-input" oninput="updateSliderFromInput('giaDen')">
+                    </div>
+                </div>
+                <button type="submit" class="filter-btn">Lọc</button>
+                <!-- Thanh kéo -->
+                <div class="range-slider">
+                    <input type="range" id="giaTuSlider" min="0" max="100000000" value="@ViewBag.GiaTu" step="100000" oninput="updateInputFromSlider('giaTu')">
+                    <input type="range" id="giaDenSlider" min="0" max="100000000" value="@ViewBag.GiaDen" step="100000" oninput="updateInputFromSlider('giaDen')">
+                </div>
+            </form>
+        </div>
+
         <!-- Hiển thị logo của các hãng liên quan đến loại sản phẩm -->
         <div class="brand-logos">
             @foreach (var hang in ViewBag.HangSanPhams)
@@ -20,65 +46,308 @@
                 </div>
             }
         </div>
-        <!-- Products grid -->
+
         <!-- Products grid -->
         <div class="products-grid">
-            <!-- Lặp qua từng sản phẩm -->
-            @foreach (var product in Model)
+            @if (ViewBag.Message != null)
             {
-                <div class="product-card">
-                    <a href="@Url.Action("ChiTiet", "Module", new { loaiAlias = product.LoaiSanPham.Link, alias = product.Link })" class="product-link">
-
-                        <div class="product-img-container">
-                            <img src="@Url.Content("~/img/sanpham/" + product.HinhAnh)" alt="@product.TenSP">
-                        </div>
-                        <h3 class="product-name">@product.TenSP</h3>
-                        <div class="product-price">
-                            <span class="current-price">
-                                @if (product.GiaDau > 0 && product.SoGiam >= 0)
-                                {
-                                    var giaBan = product.GiaDau - (product.GiaDau * product.SoGiam / 100);
-                                    @String.Format("{0:N0} VND", giaBan)
-                                }
-                            </span>
-                            <div class="price-info">
-                                <span class="old-price">@(product.GiaDau?.ToString("#,##0") ?? "0") VNĐ</span>
-                                <span class="discount">-@product.SoGiam%</span>
+                <p class="no-products">@ViewBag.Message</p>
+            }
+            else
+            {
+                foreach (var product in Model)
+                {
+                    <div class="product-card">
+                        <a href="@Url.Action("ChiTiet", "Module", new { loaiAlias = product.LoaiSanPham.Link, alias = product.Link })" class="product-link">
+                            <div class="product-img-container">
+                                <img src="@Url.Content("~/img/sanpham/" + product.HinhAnh)" alt="@product.TenSP">
                             </div>
-                        </div>
-                    </a>
-                </div>
+                            <h3 class="product-name">@product.TenSP</h3>
+                            <div class="product-price">
+                                <span class="current-price">
+                                    @if (product.GiaDau.HasValue && product.SoGiam.HasValue && product.GiaDau > 0 && product.SoGiam >= 0)
+                                    {
+                                        var giaBan = product.GiaDau.Value - (product.GiaDau.Value * product.SoGiam.Value / 100);
+                                        <text>@giaBan.ToString("#,##0") VND</text>
+                                    }
+                                    else
+                                    {
+                                        <text>Liên hệ</text>
+                                    }
+                                </span>
+                                @if (product.GiaDau.HasValue && product.SoGiam.HasValue && product.GiaDau > 0 && product.SoGiam > 0)
+                                {
+                                    <div class="price-info">
+                                        <span class="old-price">@product.GiaDau.Value.ToString("#,##0") VNĐ</span>
+                                        <span class="discount">-@product.SoGiam.Value%</span>
+                                    </div>
+                                }
+                            </div>
+                        </a>
+                    </div>
+                }
             }
         </div>
     </div>
 </section>
 
 <style>
-    /* CSS cho phần logo của các hãng */
+    .price-filter {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .filter-group {
+        display: inline-block;
+    }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+    .price-box {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px 10px;
+    }
+
+    .currency-prefix {
+        font-size: 14px;
+        color: #333;
+        margin-right: 5px;
+    }
+
+    .price-input {
+        border: none;
+        outline: none;
+        width: 120px;
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .filter-btn {
+        padding: 8px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .filter-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .range-slider {
+        position: relative;
+        width: 100%;
+        margin: 15px 0;
+    }
+
+        .range-slider input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 2px;
+            background: #007bff;
+            outline: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+            .range-slider input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                background: #fff;
+                border: 2px solid #007bff;
+                border-radius: 50%;
+                cursor: pointer;
+                pointer-events: auto;
+            }
+
+            .range-slider input[type="range"]::-moz-range-thumb {
+                width: 20px;
+                height: 20px;
+                background: #fff;
+                border: 2px solid #007bff;
+                border-radius: 50%;
+                cursor: pointer;
+                pointer-events: auto;
+            }
+
+    #giaTuSlider {
+        z-index: 1;
+    }
+
+    #giaDenSlider {
+        z-index: 2;
+    }
+
     .brand-logos {
         display: flex;
-        flex-wrap: nowrap; /* Đảm bảo không bị xuống dòng */
-        justify-content: center; /* Canh giữa các logo */
-        gap: 20px; /* Khoảng cách giữa các logo */
-        margin-bottom: 20px; /* Khoảng cách dưới các logo */
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
     }
 
     .brand-logo-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 80px; /* Tăng chiều rộng container logo */
-        height: 80px; /* Tăng chiều cao container logo */
+        width: 80px;
+        height: 80px;
     }
 
     .brand-logo {
-        width: 100%; /* Đảm bảo logo chiếm hết chiều rộng của container */
-        height: 100%; /* Đảm bảo logo chiếm hết chiều cao của container */
-        object-fit: contain; /* Đảm bảo ảnh không bị biến dạng và vẫn giữ được tỷ lệ */
-        transition: transform 0.3s ease; /* Thêm hiệu ứng zoom khi hover */
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
     }
 
         .brand-logo:hover {
-            transform: scale(1.1); /* Zoom khi hover */
+            transform: scale(1.1);
         }
+
+    .no-products {
+        text-align: center;
+        color: #ff0000;
+        font-size: 16px;
+        margin: 20px 0;
+    }
+
+    .products-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .product-card {
+        width: 200px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .product-img-container img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .product-name {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .current-price {
+        font-size: 18px;
+        color: #e74c3c;
+        font-weight: bold;
+    }
+
+    .price-info {
+        margin-top: 5px;
+    }
+
+    .old-price {
+        text-decoration: line-through;
+        color: #888;
+        font-size: 14px;
+    }
+
+    .discount {
+        color: #27ae60;
+        font-size: 14px;
+        margin-left: 5px;
+    }
 </style>
+
+<script>
+    function formatPrice(input) {
+        let value = input.value.replace(/[^0-9]/g, '');
+        if (value) {
+            value = parseInt(value).toLocaleString('vi-VN');
+            input.value = value;
+        } else {
+            input.value = '0';
+        }
+    }
+
+    function updateSliderFromInput(inputId) {
+        const input = document.getElementById(inputId);
+        const slider = document.getElementById(inputId + 'Slider');
+        let value = input.value.replace(/[^0-9]/g, '');
+        value = value ? parseInt(value) : 0;
+
+        const min = parseInt(slider.min);
+        const max = parseInt(slider.max);
+        if (value < min) value = min;
+        if (value > max) value = max;
+
+        const giaTuSlider = document.getElementById('giaTuSlider');
+        const giaDenSlider = document.getElementById('giaDenSlider');
+        if (inputId === 'giaTu' && value > parseInt(giaDenSlider.value)) {
+            value = parseInt(giaDenSlider.value);
+            input.value = value.toLocaleString('vi-VN');
+        }
+        if (inputId === 'giaDen' && value < parseInt(giaTuSlider.value)) {
+            value = parseInt(giaTuSlider.value);
+            input.value = value.toLocaleString('vi-VN');
+        }
+
+        slider.value = value;
+    }
+
+    function updateInputFromSlider(inputId) {
+        const slider = document.getElementById(inputId + 'Slider');
+        const input = document.getElementById(inputId);
+        let value = parseInt(slider.value);
+
+        const giaTuSlider = document.getElementById('giaTuSlider');
+        const giaDenSlider = document.getElementById('giaDenSlider');
+        if (inputId === 'giaTu' && value > parseInt(giaDenSlider.value)) {
+            value = parseInt(giaDenSlider.value);
+            giaTuSlider.value = value;
+        }
+        if (inputId === 'giaDen' && value < parseInt(giaTuSlider.value)) {
+            value = parseInt(giaTuSlider.value);
+            giaDenSlider.value = value;
+        }
+
+        input.value = value.toLocaleString('vi-VN');
+    }
+
+    function cleanPriceInputs() {
+        const giaTuInput = document.getElementById('giaTu');
+        const giaDenInput = document.getElementById('giaDen');
+        giaTuInput.value = giaTuInput.value.replace(/[^0-9]/g, '');
+        giaDenInput.value = giaDenInput.value.replace(/[^0-9]/g, '');
+        console.log('Submitting - giaTu:', giaTuInput.value, 'giaDen:', giaDenInput.value);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const giaTu = document.getElementById('giaTu');
+        const giaDen = document.getElementById('giaDen');
+        formatPrice(giaTu);
+        formatPrice(giaDen);
+    });
+</script>
