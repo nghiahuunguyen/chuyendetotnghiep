@@ -20,7 +20,6 @@ namespace chuyende.Models
         [StringLength(100)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Số điện thoại không được để trống")]
         [StringLength(20)]
         [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
         public string SoDienThoai { get; set; }
