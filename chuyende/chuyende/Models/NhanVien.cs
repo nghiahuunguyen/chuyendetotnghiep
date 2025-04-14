@@ -18,7 +18,9 @@ namespace chuyende.Models
         public string SoDienThoai { get; set; }
         [Required(ErrorMessage = "Email không hợp lệ"), EmailAddress]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Ngày sinh không được để trống")]
         public DateTime NgaySinh { get; set; }
+        [Required(ErrorMessage = "Giới tính không được để trống")]
         public bool GioiTinh { get; set; }
         [Required(ErrorMessage = "CCCD không được để trống"), StringLength(12)]
         public string CCCD { get; set; }
@@ -26,9 +28,9 @@ namespace chuyende.Models
         public string DiaChi { get; set; }
         [Required(ErrorMessage = "Tên đăng nhập không được để trống"), StringLength(255)]
         public string TenDN { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Mật khẩu không được để trống")]
         public string MatKhau { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Tên chức vụ không được để trống")]
         public string MaCV { get; set; }
         public int Status { get; set; }
         public virtual ChucVu ChucVu { get; set; }

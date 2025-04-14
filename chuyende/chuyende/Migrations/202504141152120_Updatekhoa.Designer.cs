@@ -7,13 +7,13 @@ namespace chuyende.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class TenMigrationMoi : IMigrationMetadata
+    public sealed partial class Updatekhoa : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(TenMigrationMoi));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Updatekhoa));
         
         string IMigrationMetadata.Id
         {
-            get { return "202504110908223_TenMigrationMoi"; }
+            get { return "202504141152120_Updatekhoa"; }
         }
         
         string IMigrationMetadata.Source
