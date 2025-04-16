@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using chuyende.Models;
 using System.Diagnostics;
+using System;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -20,7 +21,7 @@ namespace chuyende.Areas.Admin.Controllers
         {
             if (string.IsNullOrEmpty(TenDN) || string.IsNullOrEmpty(MatKhau))
             {
-                ViewBag.Error = "Vui lòng nhập tên đăng nhập và mật khẩu!";
+                TempData["ErrorMessage"] = "Vui lòng nhập tên đăng nhập và mật khẩu!";
                 return View();
             }
 
@@ -29,16 +30,16 @@ namespace chuyende.Areas.Admin.Controllers
 
             if (user == null)
             {
-                ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không đúng!";
+                TempData["ErrorMessage"] = "Tên đăng nhập hoặc mật khẩu không đúng!";
                 return View();
             }
 
-            Session["Admin"] = user.TenNV;
-            Session["MaChucVu"] = user.ChucVu?.MaCV?.Trim();      // Dùng để phân quyền
-            Session["TenChucVu"] = user.ChucVu?.TenCV?.Trim();    // Dùng để hiển thị
+            Session["Admin"] = user.TenNV ?? "Unknown";
+            Session["TenDN"] = user.TenDN ?? throw new Exception("TenDN không được null");
+            Session["MaChucVu"] = user.ChucVu?.MaCV?.Trim() ?? "";
+            Session["TenChucVu"] = user.ChucVu?.TenCV?.Trim() ?? "";
 
-
-
+            System.Diagnostics.Debug.WriteLine($"Đăng nhập: TenDN={user.TenDN}, TenNV={user.TenNV}, MaNV={user.MaNV}");
             return RedirectToAction("Index", "HomeAdmin");
         }
 

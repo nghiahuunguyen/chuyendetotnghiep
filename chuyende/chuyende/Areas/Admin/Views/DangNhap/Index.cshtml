@@ -19,10 +19,12 @@
         <h3 class="logo-text">ELECTRONICS STORE</h3>
         <h2 class="login-title">Đăng nhập quản lý</h2>
 
-        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        @if (TempData["ErrorMessage"] != null)
         {
-            <div class="alert alert-danger mt-2">
-                <i class="fas fa-exclamation-circle"></i> @ViewBag.Error
+            <div class="alert-box error" id="error-alert">
+                <span class="icon">✖</span>
+                <span>@TempData["ErrorMessage"]</span>
+                <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
             </div>
         }
 
@@ -33,14 +35,101 @@
                 <input type="text" name="TenDN" class="form-control" placeholder="Tên đăng nhập">
             </div>
 
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" name="MatKhau" class="form-control" placeholder="Mật khẩu">
+
+
+            <div class="password-wrapper">
+                <input type="password" id="password" name="MatKhau" class="form-control" placeholder="Mật khẩu">
+                <i class="fas fa-eye" id="toggleIcon" onclick="togglePassword()"></i>
             </div>
+
+
 
             <button type="submit" class="login-button">Đăng nhập</button>
         </form>
     </div>
+    <style>
+        .alert-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            min-width: 250px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+            .alert-box.success {
+                background-color: #26ca26; /* Light green tone */
+                color: #fbfefb; /* Đậm hơn cho chữ dễ đọc */
+            }
+
+            .alert-box.error {
+                background-color: #dc3545;
+            }
+
+            .alert-box .icon {
+                font-weight: bold;
+                font-size: 18px;
+            }
+
+            .alert-box .close-btn {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-left: auto;
+            }
+
+                .alert-box .close-btn:hover {
+                    color: #ddd;
+                }
+
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+            .password-wrapper .form-control {
+                width: 100%;
+                padding-right: 40px; /* chừa chỗ cho icon */
+                box-sizing: border-box;
+            }
+
+            .password-wrapper i {
+                position: absolute;
+                top: 50%;
+                right: 12px;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #666;
+                font-size: 16px;
+            }
+
+        .login-button {
+            margin-top: 15px; /* hoặc 20px tùy bạn thích */
+        }
+
+
+    </style>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const icon = document.getElementById("toggleIcon");
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+            icon.classList.toggle("fa-eye");
+            icon.classList.toggle("fa-eye-slash");
+        }
+    </script>
 
 
 </body>

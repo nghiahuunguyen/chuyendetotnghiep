@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using chuyende.Models;
+using OfficeOpenXml;
 using PagedList;
 
 namespace chuyende.Areas.Admin.Controllers
@@ -213,6 +215,73 @@ namespace chuyende.Areas.Admin.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExportNhanVienToExcel()
+        {
+            try
+            {
+                var nhanViens = db.NhanViens
+                                 .Where(nv => nv.Status == 1)
+                                 .OrderBy(nv => nv.MaNV)
+                                 .ToList();
+
+                using (var package = new ExcelPackage())
+                {
+                    var ws = package.Workbook.Worksheets.Add("NhanVien");
+
+                    // Header row
+                    ws.Cells["A1"].Value = "Mã NV";
+                    ws.Cells["B1"].Value = "Tên NV";
+                    ws.Cells["C1"].Value = "SĐT";
+                    ws.Cells["D1"].Value = "Email";
+                    ws.Cells["E1"].Value = "Ngày sinh";
+                    ws.Cells["F1"].Value = "Giới tính";
+                    ws.Cells["G1"].Value = "CCCD";
+                    ws.Cells["H1"].Value = "Địa chỉ";
+                    ws.Cells["I1"].Value = "Chức vụ";
+
+                    // Data rows
+                    int row = 2;
+                    foreach (var nv in nhanViens)
+                    {
+                        ws.Cells[row, 1].Value = nv.MaNV;
+                        ws.Cells[row, 2].Value = nv.TenNV;
+                        ws.Cells[row, 3].Value = nv.SoDienThoai;
+                        ws.Cells[row, 4].Value = nv.Email;
+                        ws.Cells[row, 5].Value = nv.NgaySinh == DateTime.MinValue ? "" : nv.NgaySinh.ToString("dd/MM/yyyy");
+                        ws.Cells[row, 6].Value = nv.GioiTinh ? "Nam" : "Nữ";
+                        ws.Cells[row, 7].Value = nv.CCCD;
+                        ws.Cells[row, 8].Value = nv.DiaChi;
+
+                        var chucVu = db.ChucVus.Find(nv.MaCV);
+                        ws.Cells[row, 9].Value = chucVu != null ? chucVu.TenCV : "";
+
+                        row++;
+                    }
+
+                    // Formatting
+                    ws.Cells["A1:I1"].Style.Font.Bold = true;
+                    ws.Cells[1, 1, row - 1, 9].AutoFitColumns();
+                    ws.Cells["E2:E" + row].Style.Numberformat.Format = "dd/mm/yyyy"; // Format date column
+
+                    // Generate file
+                    var stream = new MemoryStream();
+                    package.SaveAs(stream);
+                    stream.Position = 0;
+
+                    string fileName = $"DanhSachNhanVien_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+                    return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Lỗi khi xuất Excel: {ex.Message}";
+                return RedirectToAction("Index");
+            }
         }
     }
 }

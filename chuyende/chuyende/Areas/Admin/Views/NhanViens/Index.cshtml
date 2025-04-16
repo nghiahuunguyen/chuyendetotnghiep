@@ -38,14 +38,21 @@
             </button>
         }
 
-        <div class="actions">
-            <a href="@Url.Action("Create", "NhanViens")" class="add-btn">
-                <i class="fas fa-plus"></i> Thêm mới
-            </a>
-            <a href="@Url.Action("Trash", "NhanViens")" class="trash-btn">
-                <i class="fas fa-trash"></i> Thùng rác
-            </a>
-        </div>
+    <div class="actions">
+        @using (Html.BeginForm("ExportNhanVienToExcel", "NhanViens", FormMethod.Post, new { @class = "export-form", style = "display:inline;" }))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-file-excel"></i> Xuất Excel
+            </button>
+        }
+        <a href="@Url.Action("Create", "NhanViens")" class="add-btn">
+            <i class="fas fa-plus"></i> Thêm mới
+        </a>
+        <a href="@Url.Action("Trash", "NhanViens")" class="trash-btn">
+            <i class="fas fa-trash"></i> Thùng rác
+        </a>
+    </div>
     </div>
 
     <div class="table-responsive">

@@ -1,0 +1,59 @@
+﻿@model chuyende.Models.NhanVien
+@{
+    ViewBag.Title = "Đổi mật khẩu";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Đổi mật khẩu</h2>
+
+<div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-box success" id="success-alert">
+            <span class="icon">✔</span>
+            <span>@TempData["SuccessMessage"]</span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-box error" id="error-alert">
+            <span class="icon">✖</span>
+            <span>@TempData["ErrorMessage"]</span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+        </div>
+    }
+
+</div>
+@using (Html.BeginForm("DoiMatKhau", "HomeAdmin", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.MaNV)
+    <div class="form-group">
+        @Html.LabelFor(m => m.TenDN, "Tên đăng nhập", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.TenDN, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(m => m.TenDN, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Mật khẩu mới</label>
+        <div class="col-md-10">
+            <input type="password" name="MatKhau" class="form-control" placeholder="Để trống nếu không thay đổi" />
+            @Html.ValidationMessage("MatKhau", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Xác nhận mật khẩu</label>
+        <div class="col-md-10">
+            <input type="password" name="ConfirmMatKhau" class="form-control" placeholder="Nhập lại mật khẩu mới" />
+            @Html.ValidationMessage("ConfirmMatKhau", "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            <a href="@Url.Action("Index", "HomeAdmin")" class="btn btn-secondary">Hủy</a>
+        </div>
+    </div>
+}

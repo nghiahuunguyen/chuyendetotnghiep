@@ -69,7 +69,25 @@
         margin-bottom: 20px;
     }
 </style>
+<div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-box success" id="success-alert">
+            <span class="icon">✔</span>
+            <span>@TempData["SuccessMessage"]</span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-box error" id="error-alert">
+            <span class="icon">✖</span>
+            <span>@TempData["ErrorMessage"]</span>
+            <button class="close-btn" onclick="this.parentElement.style.display='none';">×</button>
+        </div>
+    }
 
+</div>
 <div class="center-container">
     <div class="row">
         <!-- Đơn chờ xử lý -->
