@@ -24,6 +24,15 @@
         <div class="account-personal-info">
             <h2>THÔNG TIN ĐƠN HÀNG</h2>
 
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <p style="color: red;">@TempData["ErrorMessage"]</p>
+            }
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <p style="color: green;">@TempData["SuccessMessage"]</p>
+            }
+
             @if (!Model.Any())
             {
                 <p class="account-no-order">Bạn chưa có đơn hàng nào.</p>
@@ -38,6 +47,7 @@
                             <th>Tổng tiền</th>
                             <th>Trạng thái</th>
                             <th>Chi tiết</th>
+                            <th>Hủy đơn hàng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +57,7 @@
                                 <td>@item.MaHD</td>
                                 <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
                                 <td>
-                                    @String.Format("{0:C0}", item.ChiTietHoaDon.Sum(c => c.SoLuong * (c.SanPham.GiaDau - c.SanPham.SoGiam)))
+                                    @String.Format("{0:C0}", item.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - (c.SanPham.SoGiam ?? 0))))
                                 </td>
                                 <td>
                                     @{
@@ -71,6 +81,10 @@
                                                 trangThai = "Đã giao và thanh toán";
                                                 mau = "green";
                                                 break;
+                                            case 4:
+                                                trangThai = "Đã hủy";
+                                                mau = "red";
+                                                break;
                                             default:
                                                 trangThai = "Không xác định";
                                                 mau = "black";
@@ -82,6 +96,13 @@
                                 <td>
                                     <a href="@Url.Action("OrderDetails", "User", new { id = item.MaHD })" class="account-view-btn">Xem</a>
                                 </td>
+                                <td>
+                                    @if (item.TrangThai == 1 && item.MaHD != null)
+                                    {
+                                        <a href="@Url.Action("CancelOrder", "User", new { id = item.MaHD })"
+                                           class="account-cancel-btn">Hủy</a>
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -92,7 +113,6 @@
 </div>
 
 <style>
-
     /* Nội dung chính (cột bên phải) */
     .account-main-content {
         flex: 1;
@@ -162,5 +182,23 @@
 
         .account-view-btn:hover {
             background-color: #42A5F5;
+        }
+
+    /* Nút "Hủy" đơn hàng */
+    .account-cancel-btn {
+        display: inline-block;
+        background-color: #f44336;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .account-cancel-btn:hover {
+            background-color: #d32f2f;
         }
 </style>

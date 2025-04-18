@@ -1,4 +1,5 @@
-﻿using chuyende.Models;
+﻿using chuyende.Helper;
+using chuyende.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -152,6 +153,92 @@ namespace chuyende.Controllers
             }
 
             return View(hoaDon);
+        }
+
+        public ActionResult CancelOrder(string id)
+        {
+            // Kiểm tra id hợp lệ
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["ErrorMessage"] = "Mã đơn hàng không hợp lệ.";
+                return RedirectToAction("ViewOrder");
+            }
+
+            // Tìm đơn hàng
+            var order = db.HoaDons.Find(id);
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy đơn hàng.";
+                return RedirectToAction("ViewOrder");
+            }
+
+            // Kiểm tra quyền sở hữu đơn hàng
+            var user = Session["User"] as KhachHang;
+            if (user == null || order.Email != user.Email)
+            {
+                TempData["ErrorMessage"] = "Bạn không có quyền hủy đơn hàng này.";
+                return RedirectToAction("ViewOrder");
+            }
+
+            // Kiểm tra trạng thái đơn hàng
+            if (order.TrangThai != 1)
+            {
+                TempData["ErrorMessage"] = "Đơn hàng không thể hủy vì không ở trạng thái Đang xử lý.";
+                return RedirectToAction("ViewOrder");
+            }
+
+            // Cập nhật trạng thái thành "Đã hủy"
+            order.TrangThai = 4;
+            db.SaveChanges();
+
+            // Tạo nội dung email thông báo hủy
+            string emailBody = $"<div style='color: black;'>" +
+                $"<p>Chào {order.TenKH},</p>" +
+                $"<p>Đơn hàng của bạn với mã <strong>{order.MaHD}</strong> đã được hủy thành công vào lúc {DateTime.Now:HH:mm:ss dd/MM/yyyy}.</p>" +
+                "<p>Chi tiết đơn hàng:</p>" +
+                "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th style='text-align:left;'>Tên sản phẩm</th>" +
+                "<th>Số lượng</th>" +
+                "<th>Đơn giá</th>" +
+                "<th>Thành tiền</th>" +
+                "</tr>" +
+                "</thead><tbody>";
+
+            foreach (var item in order.ChiTietHoaDon)
+            {
+                decimal giaDau = item.SanPham.GiaDau ?? 0; // Giá trị mặc định là 0 nếu null
+                decimal soGiam = item.SanPham.SoGiam ?? 0; // Giá trị mặc định là 0 nếu null
+                decimal donGia = giaDau - soGiam;
+                decimal thanhTien = item.SoLuong * donGia;
+                emailBody += "<tr>" +
+                    $"<td>{item.SanPham.TenSP}</td>" +
+                    $"<td style='text-align:center;'>{item.SoLuong}</td>" +
+                    $"<td style='text-align:right;'>{String.Format("{0:C0}", donGia)}</td>" +
+                    $"<td style='text-align:right;'>{String.Format("{0:C0}", thanhTien)}</td>" +
+                    "</tr>";
+            }
+
+            emailBody += "</tbody></table>" +
+                $"<p>Tổng tiền: <strong>{String.Format("{0:C0}", order.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - (c.SanPham.SoGiam ?? 0))))}</strong></p>" +
+                "<p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>" +
+                "</div>";
+
+            // Gửi email thông báo hủy
+            try
+            {
+                SendMail sendMail = new SendMail();
+                sendMail.SendMailFunction(order.Email, $"Thông báo hủy đơn hàng {order.MaHD}", emailBody);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Hủy đơn hàng thành công, nhưng không thể gửi email thông báo.";
+                // Log lỗi: Console.WriteLine(ex.Message);
+            }
+
+            TempData["SuccessMessage"] = "Đơn hàng đã được hủy thành công.";
+            return RedirectToAction("ViewOrder");
         }
     }
 }
