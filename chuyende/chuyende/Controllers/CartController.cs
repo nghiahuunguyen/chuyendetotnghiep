@@ -354,6 +354,28 @@ namespace chuyende.Controllers
             return View(hoaDon);
         }
 
-        
+        public int GetTotalItemsInCart()
+        {
+            if (Session["User"] == null)
+                return 0;
+
+            string maKH = (Session["User"] as KhachHang).MaKH;
+            var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == maKH);
+
+            if (gioHang == null)
+                return 0;
+
+            return db.ChiTietGioHangs
+                     .Where(c => c.MaGioHang == gioHang.MaGioHang)
+                     .Sum(c => (int?)c.SoLuong) ?? 0;
+        }
+
+        public ActionResult GetCartCount()
+        {
+            ViewBag.CartCount = GetTotalItemsInCart();
+            return PartialView("_CartIcon");
+        }
+
+
     }
 }
