@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/Public/css/Admin/phantrang.css">
     <link rel="stylesheet" href="~/Public/css/Admin/hoadonadmin.css">
     <link rel="stylesheet" href="~/Public/css/Admin/thongbao.css">
+    <link rel="stylesheet" href="~/Public/css/Use/load.css">
     <title>@ViewBag.Title</title>
     <link rel="icon" type="image/png" href="~/img/logo/logo.png">
     <!-- Bootstrap 5 -->
@@ -25,30 +26,33 @@
 
 <body>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <div id="loader">
+        <img src="~/img/logo/logo.png" alt="Logo"> <!-- Thay logo.png bằng đường dẫn logo của bạn -->
+    </div>
     <!-- Sidebar -->
     <div class="sidebar">
         <h3>ELECTRONICS STORE</h3>
 
         <div class="profile">
-    @if (ViewBag.MaNV != null)
-    {
-        <a href="@Url.Action("DoiMatKhau", "HomeAdmin", new { id = ViewBag.MaNV })" class="profile-link">
-            <h4>@Session["Admin"]</h4>
-            <p>Chức vụ: @tenChucVu</p>
-        </a>
-    }
-    else
-    {
-        <div class="profile-link">
-            <h4>@Session["Admin"]</h4>
-            <p>Chức vụ: @tenChucVu</p>
-            @if (TempData["ErrorMessage"] != null)
+            @if (ViewBag.MaNV != null)
             {
-                <p class="text-danger">@TempData["ErrorMessage"]</p>
+                <a href="@Url.Action("DoiMatKhau", "HomeAdmin", new { id = ViewBag.MaNV })" class="profile-link">
+                    <h4>@Session["Admin"]</h4>
+                    <p>Chức vụ: @tenChucVu</p>
+                </a>
+            }
+            else
+            {
+                <div class="profile-link">
+                    <h4>@Session["Admin"]</h4>
+                    <p>Chức vụ: @tenChucVu</p>
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <p class="text-danger">@TempData["ErrorMessage"]</p>
+                    }
+                </div>
             }
         </div>
-    }
-</div>
 
         @{
             var currentController = Request.RequestContext.RouteData.Values["controller"].ToString();
@@ -150,6 +154,17 @@
 
     <!-- Render the Scripts section -->
     @RenderSection("Scripts", required: false)
-
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                const loader = document.getElementById("loader");
+                loader.classList.add("fade-out");
+                setTimeout(() => {
+                    loader.style.display = "none";
+                    document.getElementById("main-content").style.display = "block";
+                }, 1000); // chờ hiệu ứng fade-out
+            }, 800); //
+        });
+    </script>
 </body>
 </html>

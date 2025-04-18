@@ -23,14 +23,22 @@
     <div class="account-main-content">
         <div class="account-personal-info">
             <h2>THÔNG TIN ĐƠN HÀNG</h2>
-
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <p style="color: red;">@TempData["ErrorMessage"]</p>
-            }
             @if (TempData["SuccessMessage"] != null)
             {
-                <p style="color: green;">@TempData["SuccessMessage"]</p>
+                <div class="toast-success" id="toast">
+                    <span class="icon">✔</span>
+                    <span>@TempData["SuccessMessage"]</span>
+                    <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+                </div>
+            }
+
+            @if (TempData["Message"] != null)
+            {
+                <div class="toast-error" id="toast-message">
+                    <span class="icon">✖</span>
+                    <span>@TempData["Message"]</span>
+                    <span class="toast-close" onclick="this.parentElement.remove()">×</span>
+                </div>
             }
 
             @if (!Model.Any())
@@ -46,8 +54,7 @@
                             <th>Ngày tạo</th>
                             <th>Tổng tiền</th>
                             <th>Trạng thái</th>
-                            <th>Chi tiết</th>
-                            <th>Hủy đơn hàng</th>
+                            <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,8 +102,6 @@
                                 </td>
                                 <td>
                                     <a href="@Url.Action("OrderDetails", "User", new { id = item.MaHD })" class="account-view-btn">Xem</a>
-                                </td>
-                                <td>
                                     @if (item.TrangThai == 1 && item.MaHD != null)
                                     {
                                         <a href="@Url.Action("CancelOrder", "User", new { id = item.MaHD })"
@@ -111,6 +116,51 @@
         </div>
     </div>
 </div>
+
+<style>
+    .icon {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .toast-error {
+        position: fixed;
+        top: 60px;
+        right: 20px;
+        background-color: #dc3545; /* đỏ Bootstrap */
+        color: white;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .toast-success {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .toast-close {
+        margin-left: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+</style>
 
 <style>
     /* Nội dung chính (cột bên phải) */

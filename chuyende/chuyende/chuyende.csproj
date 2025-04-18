@@ -237,6 +237,7 @@
     <Content Include="Public\css\Admin\thongbao.css" />
     <Content Include="Public\css\Use\chitietsp.css" />
     <Content Include="Public\css\Use\goiy.css" />
+    <Content Include="Public\css\Use\load.css" />
     <Content Include="Public\css\Use\sanpham.css" />
     <Content Include="Public\css\Use\usercss.css" />
     <Content Include="Public\css\Use\quenmk.css" />

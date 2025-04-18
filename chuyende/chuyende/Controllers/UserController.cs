@@ -191,39 +191,46 @@ namespace chuyende.Controllers
             order.TrangThai = 4;
             db.SaveChanges();
 
-            // Tạo nội dung email thông báo hủy
-            string emailBody = $"<div style='color: black;'>" +
-                $"<p>Chào {order.TenKH},</p>" +
-                $"<p>Đơn hàng của bạn với mã <strong>{order.MaHD}</strong> đã được hủy thành công vào lúc {DateTime.Now:HH:mm:ss dd/MM/yyyy}.</p>" +
-                "<p>Chi tiết đơn hàng:</p>" +
-                "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>" +
-                "<thead>" +
-                "<tr>" +
-                "<th style='text-align:left;'>Tên sản phẩm</th>" +
-                "<th>Số lượng</th>" +
-                "<th>Đơn giá</th>" +
-                "<th>Thành tiền</th>" +
-                "</tr>" +
-                "</thead><tbody>";
+            string emailBody = $"<div style='color: black; font-family: Arial, sans-serif;'>"
+    + $"<p>Chào {order.TenKH},</p>"
+    + $"<p>Đơn hàng của bạn với mã <strong>{order.MaHD}</strong> đã được hủy thành công vào lúc {DateTime.Now:HH:mm:ss dd/MM/yyyy}.</p>"
+    + "<p>Chi tiết đơn hàng:</p>"
+    + "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%; color: black;'>"
+    + "<thead>"
+    + "<tr>"
+    + "<th style='text-align:left; color: black;'>Tên sản phẩm</th>"
+    + "<th style='color: black;'>Số lượng</th>"
+    + "<th style='color: black;'>Đơn giá</th>"
+    + "<th style='color: black;'>Thành tiền</th>"
+    + "</tr>"
+    + "</thead><tbody>";
 
             foreach (var item in order.ChiTietHoaDon)
             {
-                decimal giaDau = item.SanPham.GiaDau ?? 0; // Giá trị mặc định là 0 nếu null
-                decimal soGiam = item.SanPham.SoGiam ?? 0; // Giá trị mặc định là 0 nếu null
+                decimal giaDau = item.SanPham.GiaDau ?? 0;
+                decimal soGiam = item.SanPham.SoGiam ?? 0;
                 decimal donGia = giaDau - soGiam;
                 decimal thanhTien = item.SoLuong * donGia;
-                emailBody += "<tr>" +
-                    $"<td>{item.SanPham.TenSP}</td>" +
-                    $"<td style='text-align:center;'>{item.SoLuong}</td>" +
-                    $"<td style='text-align:right;'>{String.Format("{0:C0}", donGia)}</td>" +
-                    $"<td style='text-align:right;'>{String.Format("{0:C0}", thanhTien)}</td>" +
-                    "</tr>";
+
+                emailBody += "<tr>"
+                    + $"<td style='color: black;'>{item.SanPham.TenSP}</td>"
+                    + $"<td style='text-align:center; color: black;'>{item.SoLuong}</td>"
+                    + $"<td style='text-align:right; color: black;'>{String.Format("{0:C0}", donGia)}</td>"
+                    + $"<td style='text-align:right; color: black;'>{String.Format("{0:C0}", thanhTien)}</td>"
+                    + "</tr>";
             }
 
-            emailBody += "</tbody></table>" +
-                $"<p>Tổng tiền: <strong>{String.Format("{0:C0}", order.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - (c.SanPham.SoGiam ?? 0))))}</strong></p>" +
-                "<p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>" +
-                "</div>";
+            decimal tongTien = order.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - (c.SanPham.SoGiam ?? 0)));
+
+            emailBody += "</tbody></table>"
+                + $"<p style='color: black;'>Tổng tiền: <strong>{String.Format("{0:C0}", tongTien)}</strong></p>"
+                + "<p style='color: black;'><strong>Cảm ơn quý khách đã tin tưởng dịch vụ và mua sắm tại cửa hàng!</strong></p>"
+                + "<p style='color: black;'>Gọi mua hàng: <strong>0366 541 719</strong> (7:30 - 22:00)<br/>"
+                + "Bảo hành: <strong>0366 541 718</strong> (8:00 - 21:00)</p>"
+                + "<p style='color: black;'>Chúng tôi sẽ sớm liên hệ với bạn để xác nhận đơn hàng và giao hàng trong thời gian sớm nhất.</p>"
+                + "<p style='color: black;'><em>Trân trọng,</em><br/>ELECTRONICS STORE</p>"
+                + "</div>";
+
 
             // Gửi email thông báo hủy
             try
