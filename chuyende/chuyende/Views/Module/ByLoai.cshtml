@@ -64,23 +64,23 @@
                             </div>
                             <h3 class="product-name">@product.TenSP</h3>
                             <div class="product-price">
-                                <span class="current-price">
-                                    @if (product.GiaDau.HasValue && product.SoGiam.HasValue && product.GiaDau > 0 && product.SoGiam >= 0)
-                                    {
-                                        var giaBan = product.GiaDau.Value - (product.GiaDau.Value * product.SoGiam.Value / 100);
-                                        <text>@giaBan.ToString("#,##0") VND</text>
-                                    }
-                                    else
-                                    {
-                                        <text>Liên hệ</text>
-                                    }
-                                </span>
-                                @if (product.GiaDau.HasValue && product.SoGiam.HasValue && product.GiaDau > 0 && product.SoGiam > 0)
+                                @if (product.SoLuong > 0)
                                 {
+                                    <span class="current-price">
+                                        @if (product.GiaDau > 0 && product.SoGiam >= 0)
+                                        {
+                                            var giaBan = product.GiaDau - (product.GiaDau * product.SoGiam / 100);
+                                            @String.Format("{0:N0} VND", giaBan)
+                                        }
+                                    </span>
                                     <div class="price-info">
-                                        <span class="old-price">@product.GiaDau.Value.ToString("#,##0") VNĐ</span>
-                                        <span class="discount">-@product.SoGiam.Value%</span>
+                                        <span class="old-price">@(product.GiaDau?.ToString("#,##0") ?? "0") VNĐ</span>
+                                        <span class="discount">-@product.SoGiam%</span>
                                     </div>
+                                }
+                                else
+                                {
+                                    <span class="current-price">Hết hàng</span>
                                 }
                             </div>
                         </a>
@@ -95,7 +95,6 @@
     .price-filter {
         margin-bottom: 20px;
         padding: 15px;
-        background-color: #f9f9f9;
         border-radius: 5px;
         display: flex;
         align-items: flex-end;
@@ -227,58 +226,7 @@
             transform: scale(1.1);
         }
 
-    .no-products {
-        text-align: center;
-        color: #ff0000;
-        font-size: 16px;
-        margin: 20px 0;
-    }
-
-    .products-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .product-card {
-        width: 200px;
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 5px;
-        text-align: center;
-    }
-
-    .product-img-container img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    .product-name {
-        font-size: 16px;
-        margin: 10px 0;
-    }
-
-    .current-price {
-        font-size: 18px;
-        color: #e74c3c;
-        font-weight: bold;
-    }
-
-    .price-info {
-        margin-top: 5px;
-    }
-
-    .old-price {
-        text-decoration: line-through;
-        color: #888;
-        font-size: 14px;
-    }
-
-    .discount {
-        color: #27ae60;
-        font-size: 14px;
-        margin-left: 5px;
-    }
+    
 </style>
 
 <script>
