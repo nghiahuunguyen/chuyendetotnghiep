@@ -4,8 +4,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.UI;
 using chuyende.Helper;
 using chuyende.Models;
+using PagedList;
 
 namespace chuyende.Areas.Admin.Controllers
 {
@@ -13,6 +15,48 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
+        public ActionResult Search(string keyword, int? page = 1)
+        {
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            }
+
+            // Lấy danh sách hóa đơn phù hợp với từ khóa
+            var hoaddons = db.HoaDons
+                .Include(hd => hd.ChiTietHoaDon) // Include ChiTietHoaDon to avoid lazy loading issues
+                .Where(h => h.MaHD.Contains(keyword) || h.TenKH.Contains(keyword)
+                            || h.SoDienThoai.Contains(keyword) || h.Email.Contains(keyword))
+                .ToList();
+
+            if (hoaddons == null || !hoaddons.Any())
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy hóa đơn nào phù hợp.";
+                return RedirectToAction("Index");
+            }
+
+            // Tính tổng tiền cho mỗi hóa đơn và lưu vào ViewBag
+            List<decimal> tongTienList = new List<decimal>();
+            foreach (var hoaDon in hoaddons)
+            {
+                decimal tongTien = 0;
+                foreach (var chiTiet in hoaDon.ChiTietHoaDon)
+                {
+                    var sanPham = db.SanPhams.Find(chiTiet.MaSP);
+                    if (sanPham != null)
+                    {
+                        tongTien += (sanPham.GiaDau ?? 0) * chiTiet.SoLuong;
+                    }
+                }
+                tongTienList.Add(tongTien);
+            }
+            ViewBag.TongTienList = tongTienList; // Truyền danh sách tổng tiền vào View
+
+            // Phân trang
+            int pageSize = 5; // Số hóa đơn mỗi trang
+            int pageNumber = (page ?? 1); // Trang hiện tại
+            return View("Index", hoaddons.ToPagedList(pageNumber, pageSize)); // Trả về danh sách hóa đơn phân trang
+        }
         public ActionResult Print(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -74,10 +118,48 @@ namespace chuyende.Areas.Admin.Controllers
                 // Nếu trạng thái là "Đang vận chuyển" thì gửi email cho khách hàng
                 if (trangThai == 2)
                 {
-                    string emailBody = $"<p>Chào {hoaDon.TenKH},</p>" +
-                                       $"<p>Đơn hàng của bạn (Mã đơn: <strong>{hoaDon.MaHD}</strong>) hiện đang được <strong>vận chuyển</strong>.</p>" +
-                                       "<p>Chúng tôi sẽ giao hàng đến bạn trong thời gian sớm nhất và hãy để chú ý điện thoại của bạn.</p>" +
-                                       "<p>Cảm ơn bạn đã mua sắm tại <strong>ELECTRONICS STORE</strong>.</p>";
+                    string emailBody = $"<div style='color: black; font-family: Arial, sans-serif;'>" +
+                                       $"<p>Chào {hoaDon.TenKH},</p>" +
+                                       $"<p>Đơn hàng của bạn (Mã đơn: <strong>{hoaDon.MaHD}</strong>) đã được chuyển đến đơn vị vận chuyển.</p>" +
+                                       "<p>Chi tiết đơn hàng:</p>" +
+                                       "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%; color: black;'>" +
+                                       "<thead>" +
+                                       "<tr>" +
+                                       "<th style='text-align:left; color: black;'>Tên sản phẩm</th>" +
+                                       "<th style='color: black;'>Số lượng</th>" +
+                                       "<th style='color: black;'>Đơn giá</th>" +
+                                       "<th style='color: black;'>Thành tiền</th>" +
+                                       "</tr>" +
+                                       "</thead><tbody>";
+
+                    foreach (var item in hoaDon.ChiTietHoaDon)
+                    {
+                        decimal giaDau = item.SanPham.GiaDau ?? 0;
+                        decimal soGiam = item.SanPham.SoGiam ?? 0;
+                        decimal donGia = giaDau - soGiam;
+                        decimal thanhTien = item.SoLuong * donGia;
+
+                        emailBody += "<tr>" +
+                                     $"<td style='color: black;'>{item.SanPham.TenSP}</td>" +
+                                     $"<td style='text-align:center; color: black;'>{item.SoLuong}</td>" +
+                                     $"<td style='text-align:right; color: black;'>{String.Format("{0:C0}", donGia)}</td>" +
+                                     $"<td style='text-align:right; color: black;'>{String.Format("{0:C0}", thanhTien)}</td>" +
+                                     "</tr>";
+                    }
+
+                    decimal tongTien = hoaDon.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - (c.SanPham.SoGiam ?? 0)));
+
+                    emailBody += "</tbody></table>" +
+                                 $"<p style='color: black;'>Tổng tiền: <strong>{String.Format("{0:C0}", tongTien)}</strong></p>" +
+                                 "<p style='color: black;'>Dự kiến giao hàng trong vòng 2-5 ngày làm việc. Vui lòng giữ điện thoại ở trạng thái liên lạc để nhận hàng.</p>" +
+                                 "<p style='color: black;'>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ:</p>" +
+                                 "<ul>" +
+                                 "<li>Hotline: <strong>0366 541 719</strong> (7:30 - 22:00)</li>" +
+                                 "<li>Hỗ trợ: <strong>0366 541 718</strong> (8:00 - 21:00)</li>" +
+                                 "</ul>" +
+                                 "<p style='color: black;'><strong>Cảm ơn bạn đã mua sắm tại ELECTRONICS STORE!</strong></p>" +
+                                 "<p style='color: black;'><em>Trân trọng,</em><br/>ELECTRONICS STORE</p>" +
+                                 "</div>";
 
                     SendMail sendMail = new SendMail();
                     sendMail.SendMailFunction(hoaDon.Email, "Đơn hàng đang được vận chuyển", emailBody);
@@ -133,12 +215,15 @@ namespace chuyende.Areas.Admin.Controllers
         }
 
 
-        public ActionResult Index()
+        public ActionResult Index(string status = "Active", string keyword = "", int? page = 1)
         {
             if (Session["Admin"] == null)
             {
                 return RedirectToAction("Index", "DangNhap");
             }
+
+            int pageSize = 5; // Số hãng mỗi trang
+            int pageNumber = (page ?? 1); // Nếu không có trang, mặc định trang 1
             var hoaDons = db.HoaDons.Include(hd => hd.ChiTietHoaDon).ToList();
 
             // Tính tổng tiền cho mỗi hóa đơn và lưu vào ViewBag
@@ -162,7 +247,7 @@ namespace chuyende.Areas.Admin.Controllers
 
             ViewBag.TongTienList = tongTienList; // Truyền danh sách tổng tiền vào View
 
-            return View(hoaDons); // Truyền danh sách hóa đơn vào View
+            return View(hoaDons.ToPagedList(pageNumber, pageSize)); // Truyền danh sách hóa đơn vào View
         }
 
         // GET: Admin/HoaDons/Create

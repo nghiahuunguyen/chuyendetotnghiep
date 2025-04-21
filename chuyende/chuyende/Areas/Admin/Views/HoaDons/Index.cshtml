@@ -1,4 +1,5 @@
-﻿@model IEnumerable<chuyende.Models.HoaDon>
+﻿﻿@model PagedList.IPagedList<chuyende.Models.HoaDon>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Hóa Đơn";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -7,12 +8,20 @@
 <div class="table-container">
     <h3>Danh sách hóa đơn</h3>
 
-    <div class="actions">
-        <a href="@Url.Action("Create", "HoaDons")" class="add-btn">
-            <i class="fas fa-plus"></i> Thêm mới
-        </a>
+    <div class="header-actions">
+        @using (Html.BeginForm("Search", "HoaDons", FormMethod.Get, new { @class = "search-form" }))
+        {
+            <input type="text" name="keyword" class="search-input" placeholder="Tìm kiếm đơn hàng...">
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+        }
+        <div class="actions">
+            <a href="@Url.Action("Create", "HoaDons")" class="add-btn">
+                <i class="fas fa-plus"></i> Thêm mới
+            </a>
+        </div>
     </div>
-
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <tr>
@@ -105,6 +114,19 @@
         </table>
     </div>
 </div>
+<div class="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, keyword = Request.QueryString["keyword"] }),
+    new PagedListRenderOptions
+    {
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    MaximumPageNumbersToDisplay = 5,
+    Display = PagedListDisplayMode.IfNeeded
+    })
+</div>
+
 
 <script>
     // Kiểm tra xem jQuery có được tải không
