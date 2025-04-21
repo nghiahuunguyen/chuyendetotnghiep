@@ -50,7 +50,6 @@
                             @String.Format("{0:C0}", ViewBag.TongTienList[stt - 1])
                         </td>
                         <td>
-                            <!-- Hiển thị trạng thái -->
                             @{
                                 string statusText = "";
                                 string statusColor = "";
@@ -82,21 +81,31 @@
                                         break;
                                 }
                             }
-                            <!-- Kiểm tra MaHD và đảm bảo sự kiện onclick hoạt động -->
-                            @if (item.MaHD != null)
-                            {
-                                <span style="color: @statusColor; cursor: pointer;" class="editable-status" onclick="showDropdown('@item.MaHD')">
+
+                            <div style="position: relative;">
+                                <span id="status-@item.MaHD" style="color: @statusColor; cursor: pointer;" onclick="showDropdown('@item.MaHD')">
                                     @statusText
                                 </span>
 
-                                <!-- Dropdown để thay đổi trạng thái -->
-                                <select id="dropdown-@item.MaHD" style="display:none;" onchange="updateStatus('@item.MaHD', this.value)">
-                                    <option value="0" @(item.TrangThai == 0 ? "selected" : "")>Đã thanh toán</option>
-                                    <option value="1" @(item.TrangThai == 1 ? "selected" : "")>Đang xử lý</option>
-                                    <option value="2" @(item.TrangThai == 2 ? "selected" : "")>Đang vận chuyển</option>
-                                    <option value="3" @(item.TrangThai == 3 ? "selected" : "")>Đã giao và thanh toán</option>
+                                @* Dropdown cập nhật trạng thái *@
+                                <select id="dropdown-@item.MaHD" style="display: none; position: absolute; top: 0; left: 0;"
+                                        onchange="updateStatus('@item.MaHD', this.value)">
+                                    @if (item.TrangThai == 1)
+                                    {
+                                        <option value="1" selected>Đang xử lý</option>
+                                        <option value="2">Đang vận chuyển</option>
+                                    }
+                                    else if (item.TrangThai == 2)
+                                    {
+                                        <option value="2" selected>Đang vận chuyển</option>
+                                        <option value="3">Đã giao và thanh toán</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.TrangThai" selected>@statusText</option>
+                                    }
                                 </select>
-                            }
+                            </div>
                         </td>
 
                         <td class="text-start">
@@ -206,6 +215,9 @@
                     }
                     statusSpan.textContent = statusText;
                     statusSpan.style.color = statusColor;
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
                 } else {
                     alert("Cập nhật trạng thái thất bại: " + (response.message || "Lỗi không xác định"));
                 }
