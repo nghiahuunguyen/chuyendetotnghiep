@@ -37,11 +37,10 @@ namespace chuyende.Controllers
         {
             if (Session["User"] == null)
             {
-                TempData["ReturnUrl"] = Url.Action("Index", "Login"); 
+                TempData["ReturnUrl"] = Url.Action("Index", "Login");
                 TempData["Message"] = "Vui lòng đăng nhập để xem giỏ hàng.";
                 return RedirectToAction("Index", "Login");
             }
-
 
             string maKH = (Session["User"] as KhachHang).MaKH;
             var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == maKH);
@@ -56,14 +55,47 @@ namespace chuyende.Controllers
             foreach (var item in chiTiets)
                 item.SanPham = db.SanPhams.Find(item.MaSP);
 
-            ViewBag.TongTien = chiTiets.Sum(c =>
-            {
-                var sp = c.SanPham;
-                decimal gia = (sp.GiaDau ?? 0) * (1 - (decimal)(sp.SoGiam ?? 0) / 100);
-                return gia * c.SoLuong;
-            });
+            // Lấy danh sách sản phẩm được chọn từ Session
+            var selectedItems = Session["SelectedItems"] as List<string> ?? new List<string>();
+
+            // Tính tổng tiền chỉ cho các sản phẩm được chọn
+            ViewBag.TongTien = chiTiets
+                .Where(c => selectedItems.Contains(c.MaSP))
+                .Sum(c =>
+                {
+                    var sp = c.SanPham;
+                    decimal gia = (sp.GiaDau ?? 0) * (1 - (decimal)(sp.SoGiam ?? 0) / 100);
+                    return gia * c.SoLuong;
+                });
+
+            // Đếm số lượng sản phẩm được chọn
+            ViewBag.SelectedCount = chiTiets.Count(c => selectedItems.Contains(c.MaSP));
+
+            // Truyền danh sách sản phẩm được chọn để hiển thị checkbox
+            ViewBag.SelectedItems = selectedItems;
 
             return View(chiTiets);
+        }
+
+        [HttpPost]
+        public ActionResult ToggleSelection(string id, bool isSelected)
+        {
+            // Lấy danh sách sản phẩm được chọn từ Session
+            var selectedItems = Session["SelectedItems"] as List<string> ?? new List<string>();
+
+            if (isSelected && !selectedItems.Contains(id))
+            {
+                selectedItems.Add(id);
+            }
+            else if (!isSelected && selectedItems.Contains(id))
+            {
+                selectedItems.Remove(id);
+            }
+
+            // Lưu lại vào Session
+            Session["SelectedItems"] = selectedItems;
+
+            return Json(new { success = true });
         }
 
         public ActionResult AddToCart(string id)
@@ -171,9 +203,18 @@ namespace chuyende.Controllers
                 return RedirectToAction("Index", "Cart");
             }
 
+            // Lấy danh sách sản phẩm được chọn từ Session
+            var selectedItems = Session["SelectedItems"] as List<string> ?? new List<string>();
+
             var chiTiets = db.ChiTietGioHangs
-                .Where(c => c.MaGioHang == gioHang.MaGioHang)
+                .Where(c => c.MaGioHang == gioHang.MaGioHang && selectedItems.Contains(c.MaSP))
                 .ToList();
+
+            if (!chiTiets.Any())
+            {
+                TempData["Message"] = "Vui lòng chọn ít nhất một sản phẩm để thanh toán.";
+                return RedirectToAction("Index", "Cart");
+            }
 
             foreach (var ct in chiTiets)
             {
@@ -211,43 +252,51 @@ namespace chuyende.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CompletePayment(HoaDon hoaDon)
         {
-                if (Session["User"] == null)
-                {
-                    return RedirectToAction("Index", "Login");
-                }
+            if (Session["User"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
-                var user = (KhachHang)Session["User"];
+            var user = (KhachHang)Session["User"];
 
-                // 👉 Kiểm tra địa chỉ
-                if (string.IsNullOrWhiteSpace(user.DiaChi))
-                {
-                    TempData["ErrorMessage"] = "Vui lòng cập nhật địa chỉ trước khi thanh toán.";
-                    return RedirectToAction("Index", "Cart"); // hoặc view giỏ hàng đang dùng
-                }
+            // Kiểm tra địa chỉ
+            if (string.IsNullOrWhiteSpace(user.DiaChi))
+            {
+                TempData["ErrorMessage"] = "Vui lòng cập nhật địa chỉ trước khi thanh toán.";
+                return RedirectToAction("Index", "Cart");
+            }
 
-                hoaDon.MaHD = Guid.NewGuid().ToString();
-                hoaDon.NguoiTao = user.MaKH;
-                hoaDon.NgayTao = DateTime.Now;
-                hoaDon.TrangThai = 1;
+            hoaDon.MaHD = Guid.NewGuid().ToString();
+            hoaDon.NguoiTao = user.MaKH;
+            hoaDon.NgayTao = DateTime.Now;
+            hoaDon.TrangThai = 1;
 
-                hoaDon.TenKH = user.TenKH;
-                hoaDon.SoDienThoai = user.SoDienThoai;
-                hoaDon.Email = user.Email;
-                hoaDon.DiaChi = user.DiaChi;
+            hoaDon.TenKH = user.TenKH;
+            hoaDon.SoDienThoai = user.SoDienThoai;
+            hoaDon.Email = user.Email;
+            hoaDon.DiaChi = user.DiaChi;
 
-                var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == user.MaKH);
-                var chiTiets = db.ChiTietGioHangs
-                    .Include("SanPham")
-                    .Where(c => c.MaGioHang == gioHang.MaGioHang)
-                    .ToList();
+            var gioHang = db.GioHangs.FirstOrDefault(g => g.MaKH == user.MaKH);
+            var selectedItems = Session["SelectedItems"] as List<string> ?? new List<string>();
 
-                hoaDon.ChiTietHoaDon = chiTiets.Select(ct => new ChiTietHoaDon
-                {
-                    ID = Guid.NewGuid().ToString(),
-                    MaHD = hoaDon.MaHD,
-                    MaSP = ct.MaSP,
-                    SoLuong = ct.SoLuong
-                }).ToList();
+            var chiTiets = db.ChiTietGioHangs
+                .Include("SanPham")
+                .Where(c => c.MaGioHang == gioHang.MaGioHang && selectedItems.Contains(c.MaSP))
+                .ToList();
+
+            if (!chiTiets.Any())
+            {
+                TempData["ErrorMessage"] = "Vui lòng chọn ít nhất một sản phẩm để thanh toán.";
+                return RedirectToAction("Index", "Cart");
+            }
+
+            hoaDon.ChiTietHoaDon = chiTiets.Select(ct => new ChiTietHoaDon
+            {
+                ID = Guid.NewGuid().ToString(),
+                MaHD = hoaDon.MaHD,
+                MaSP = ct.MaSP,
+                SoLuong = ct.SoLuong
+            }).ToList();
 
             foreach (var ct in chiTiets)
             {
@@ -259,29 +308,35 @@ namespace chuyende.Controllers
                 }
             }
 
-
-
             db.HoaDons.Add(hoaDon);
-                db.SaveChanges();
+            db.SaveChanges();
 
-                db.ChiTietGioHangs.RemoveRange(chiTiets);
+            // Xóa các sản phẩm được chọn khỏi giỏ hàng
+            db.ChiTietGioHangs.RemoveRange(chiTiets);
+            if (!db.ChiTietGioHangs.Any(c => c.MaGioHang == gioHang.MaGioHang))
+            {
                 db.GioHangs.Remove(gioHang);
-                db.SaveChanges();
+            }
+            db.SaveChanges();
 
+            // Xóa danh sách sản phẩm được chọn khỏi Session
+            Session["SelectedItems"] = null;
+
+            // Gửi email xác nhận
             string emailBody = $"<div style='color: black;'>" +
-    $"<p>Chào {hoaDon.TenKH},</p>" +
-    $"<p>Bạn đã đặt hàng thành công vào lúc {hoaDon.NgayTao:HH:mm:ss dd/MM/yyyy}.</p>" +
-    $"<p>Mã đơn hàng của bạn là: <strong>{hoaDon.MaHD}</strong></p>" +
-    "<p>Chi tiết đơn hàng:</p>" +
-    "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>" +
-    "<thead>" +
-    "<tr>" +
-    "<th style='text-align:left;'>Tên sản phẩm</th>" +
-    "<th>Số lượng</th>" +
-    "<th>Đơn giá</th>" +
-    "<th>Thành tiền</th>" +
-    "</tr>" +
-    "</thead><tbody>";
+                $"<p>Chào {hoaDon.TenKH},</p>" +
+                $"<p>Bạn đã đặt hàng thành công vào lúc {hoaDon.NgayTao:HH:mm:ss dd/MM/yyyy}.</p>" +
+                $"<p>Mã đơn hàng của bạn là: <strong>{hoaDon.MaHD}</strong></p>" +
+                "<p>Chi tiết đơn hàng:</p>" +
+                "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th style='text-align:left;'>Tên sản phẩm</th>" +
+                "<th>Số lượng</th>" +
+                "<th>Đơn giá</th>" +
+                "<th>Thành tiền</th>" +
+                "</tr>" +
+                "</thead><tbody>";
 
             foreach (var ct in hoaDon.ChiTietHoaDon)
             {
@@ -320,14 +375,11 @@ namespace chuyende.Controllers
                          "<p><em>Trân trọng,</em><br/>ELECTRONICS STORE</p>" +
                          "</div>";
 
-
-
             SendMail sendMail = new SendMail();
-                sendMail.SendMailFunction(hoaDon.Email, "Xác nhận đơn hàng ELECTRONICS STORE", emailBody);
+            sendMail.SendMailFunction(hoaDon.Email, "Xác nhận đơn hàng ELECTRONICS STORE", emailBody);
 
-                TempData["Success"] = "Đặt hàng thành công!";
-                return RedirectToAction("Index", "Home");
-            
+            TempData["Success"] = "Đặt hàng thành công!";
+            return RedirectToAction("Index", "Home");
         }
 
 
