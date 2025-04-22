@@ -242,7 +242,10 @@ namespace chuyende.Controllers
             };
 
             // Tính tổng tiền
-            ViewBag.TotalAmount = hoaDon.ChiTietHoaDon.Sum(ct => (ct.SanPham?.GiaDau ?? 0) * ct.SoLuong);
+            ViewBag.TotalAmount = hoaDon.ChiTietHoaDon.Sum(ct =>
+    ((ct.SanPham?.GiaDau ?? 0) - ((ct.SanPham?.GiaDau ?? 0) * (ct.SanPham?.SoGiam ?? 0) / 100)) * ct.SoLuong
+);
+
 
             // Truyền model sang view Confirmation để xác nhận
             return View("Confirmation", hoaDon);

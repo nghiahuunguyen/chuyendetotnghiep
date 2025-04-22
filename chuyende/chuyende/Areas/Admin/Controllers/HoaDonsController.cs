@@ -145,9 +145,11 @@ namespace chuyende.Areas.Admin.Controllers
                     }
 
                     decimal tongTien = hoaDon.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - ((c.SanPham.GiaDau ?? 0) * (c.SanPham.SoGiam ?? 0) / 100)));
-
-                    emailBody += "</tbody></table>" +
-                                 $"<p style='color: black;'>Tổng tiền: <strong>{String.Format("{0:C0}", tongTien)}</strong></p>" +
+                    emailBody += $"<tr>" +
+                        $"<td colspan='3' style='text-align:right; font-weight:bold;'>Tổng cộng:</td>" +
+                        $"<td style='text-align:right; font-weight:bold;'>{tongTien:N0}₫</td>" +
+                        "</tr>";
+                    emailBody += "</tbody></table>"  +
                                  "<p style='color: black;'>Dự kiến giao hàng trong vòng 2-5 ngày làm việc. Vui lòng giữ điện thoại ở trạng thái liên lạc để nhận hàng.</p>" +
                                  "<p style='color: black;'>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ:</p>" +
                                  "<ul>" +

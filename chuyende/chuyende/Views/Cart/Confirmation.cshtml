@@ -66,8 +66,11 @@
                                 <tr>
                                     <td>@item.SanPham.TenSP</td>
                                     <td>@item.SoLuong</td>
-                                    <td>@String.Format("{0:C0}", item.SanPham.GiaDau)</td>
-                                    <td>@String.Format("{0:C0}", (item.SanPham.GiaDau * item.SoLuong))</td>
+                                    <td>
+                                        @String.Format("{0:C0}", item.SanPham.GiaDau - (item.SanPham.GiaDau * item.SanPham.SoGiam / 100))
+                                    </td>
+
+                                    <td>@String.Format("{0:C0}", ((item.SanPham.GiaDau - (item.SanPham.GiaDau * item.SanPham.SoGiam / 100)) * item.SoLuong))</td>
                                 </tr>
                             }
                         </tbody>
