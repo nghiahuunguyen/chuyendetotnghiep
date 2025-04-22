@@ -368,6 +368,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Payment\" />
     <Folder Include="img\baiviet\" />
     <Folder Include="Views\ThongKeAdmin\" />
   </ItemGroup>

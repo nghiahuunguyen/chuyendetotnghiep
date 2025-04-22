@@ -8,7 +8,6 @@
     var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.SanPhamData);
 }
 
-
 @if (!ViewData.ModelState.IsValid)
 {
     <div style="color:red;">
@@ -115,7 +114,6 @@
                                 <option value="@sp.Value">@sp.Text</option>
                             }
                         </select>
-
                     </div>
                     <div class="form-group">
                         <label>Số lượng</label>
@@ -131,7 +129,6 @@
     </div>
     <div class="form-actions">
         <button type="button" class="cancel-btn btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "HoaDons")'">Hủy</button>
-
     </div>
 }
 
@@ -143,6 +140,7 @@
 
 <!-- Thêm Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <style>
     .form-container {
         display: flex;
@@ -182,6 +180,7 @@
             border-radius: 4px;
         }
 </style>
+
 <script>
     $(document).ready(function () {
         let productData = @Html.Raw(jsonData);
@@ -226,7 +225,7 @@
                 return;
             }
 
-            let price = selectedProduct.Gia;
+            let price = selectedProduct.GiaBan; // Sử dụng giá sau giảm (GiaBan) thay vì giá gốc (Gia)
             let total = price * quantity;
 
             let newRow = `
@@ -255,23 +254,23 @@
             updateTotalPrice();
         });
     });
+
     // Thông tin ngân hàng
-    const bankId = "VCB"; // Mã ngân hàng: VCB = Vietcombank
-    const accountNumber = "1046391454"; // Số tài khoản nhận
-    const accountName = "NGUYEN HUU NGHIA"; // Tên người nhận
+    const bankId = "VCB";
+    const accountNumber = "1046391454";
+    const accountName = "NGUYEN HUU NGHIA";
 
     function parseCurrencyToNumber(currencyStr) {
         return Number(currencyStr.replace(/[^\d]/g, ""));
     }
 
     function generateQR(amount) {
-    let maHD = '@ViewBag.MaHD' || 'Unknown'; // Lấy MaHD từ ViewBag, hoặc giá trị mặc định
-    let addInfo = `Thanh toan hoa don ${maHD}`;
-    // Sử dụng compact.png để chỉ hiển thị mã QR
-    let qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNumber}-compact.png?amount=${amount}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
-    $('#qrImage').attr('src', qrUrl);
-    $('#qr-container').show();
-}
+        let maHD = '@ViewBag.MaHD' || 'Unknown';
+        let addInfo = `Thanh toan hoa don ${maHD}`;
+        let qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNumber}-compact.png?amount=${amount}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+        $('#qrImage').attr('src', qrUrl);
+        $('#qr-container').show();
+    }
 
     $('#PhuongThucThanhToan').change(function () {
         let selectedValue = $(this).val();
@@ -283,6 +282,4 @@
             $('#qr-container').hide();
         }
     });
-
 </script>
-
