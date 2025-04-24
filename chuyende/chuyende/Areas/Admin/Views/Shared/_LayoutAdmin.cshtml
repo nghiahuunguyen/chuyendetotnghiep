@@ -54,88 +54,98 @@
         @{
             var currentController = Request.RequestContext.RouteData.Values["controller"].ToString();
         }
-        <ul>
-            <li class="@(currentController == "HomeAdmin" ? "active" : "")">
-                <a href="@Url.Action("Index", "HomeAdmin", new { area = "Admin" })">
-                    <i class="fas fa-home"></i> Trang chủ
+    <ul>
+        <li class="@(currentController == "HomeAdmin" ? "active" : "")">
+            <a href="@Url.Action("Index", "HomeAdmin", new { area = "Admin" })">
+                <i class="fas fa-home"></i> Trang chủ
+            </a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("Index", "Home", new { area = "" })">
+                <i class="fas fa-chart-line"></i> Trang bán hàng
+            </a>
+        </li>
+
+        @if (maChucVu == "ql")
+        {
+            <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(currentController) ? "active" : "")">
+                <div class="menu-item">
+                    <span><i class="fas fa-users"></i> Nhân sự</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <li class="@(currentController == "NhanViens" ? "active" : "")">
+                        <a href="@Url.Action("Index", "NhanViens")"><i class="fas fa-user"></i> Nhân Viên</a>
+                    </li>
+                    <li class="@(currentController == "ChucVus" ? "active" : "")">
+                        <a href="@Url.Action("Index", "ChucVus")"><i class="fas fa-user-shield"></i> Chức vụ</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="@(currentController == "Hangs" ? "active" : "")">
+                <a href="@Url.Action("Index", "Hangs")">
+                    <i class="fas fa-truck"></i> Hãng
+                </a>
+            </li>
+        }
+
+        @if (maChucVu == "nv")
+        {
+            <li class="@(currentController == "SanPhams" ? "active" : "")">
+                <a href="@Url.Action("Index", "SanPhams")">
+                    <i class="fas fa-box"></i> Sản Phẩm
+                </a>
+            </li>
+        }
+        @if (new[] { "ql", "kt", "tk" }.Contains(maChucVu))
+        {
+            <li class="has-submenu @(new[] { "LoaiSanPhams", "SanPhams" }.Contains(currentController) ? "active" : "")">
+                <div class="menu-item">
+                    <span><i class="fas fa-box"></i> Sản phẩm</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <li class="@(currentController == "LoaiSanPhams" ? "active" : "")">
+                        <a href="@Url.Action("Index", "LoaiSanPhams")"><i class="fas fa-tags"></i> Loại sản phẩm</a>
+                    </li>
+                    <li class="@(currentController == "SanPhams" ? "active" : "")">
+                        <a href="@Url.Action("Index", "SanPhams")"><i class="fas fa-box"></i> Sản phẩm</a>
+                    </li>
+                </ul>
+            </li>
+        }
+        @if (new[] { "nv", "ql", "kt", "tk" }.Contains(maChucVu))
+        {
+            <li class="@(currentController == "KhachHangs" ? "active" : "")">
+                <a href="@Url.Action("Index", "KhachHangs")">
+                    <i class="fas fa-user"></i> Khách hàng
                 </a>
             </li>
 
-            <li>
-                <a href="@Url.Action("Index", "Home", new { area = "" })">
-                    <i class="fas fa-chart-line"></i> Trang bán hàng
+            <li class="@(currentController == "HoaDons" ? "active" : "")">
+                <a href="@Url.Action("Index", "HoaDons")">
+                    <i class="fas fa-file-invoice"></i> Đơn hàng
                 </a>
             </li>
 
-            @if (maChucVu == "ql")
-            {
-                <li class="has-submenu @(new[] { "NhanViens", "ChucVus" }.Contains(currentController) ? "active" : "")">
-                    <div class="menu-item">
-                        <span><i class="fas fa-users"></i> Nhân sự</span>
-                        <i class="fas fa-chevron-right arrow"></i>
-                    </div>
-                    <ul class="submenu">
-                        <li class="@(currentController == "NhanViens" ? "active" : "")">
-                            <a href="@Url.Action("Index", "NhanViens")"><i class="fas fa-user"></i> Nhân Viên</a>
-                        </li>
-                        <li class="@(currentController == "ChucVus" ? "active" : "")">
-                            <a href="@Url.Action("Index", "ChucVus")"><i class="fas fa-user-shield"></i> Chức vụ</a>
-                        </li>
-                    </ul>
-                </li>
+            <li class="@(currentController == "LienHes" ? "active" : "")">
+                <a href="@Url.Action("Index", "LienHes")">
+                    <i class="fas fa-envelope"></i> Liên hệ
+                </a>
+            </li>
+        }
 
-                <li class="@(currentController == "Hangs" ? "active" : "")">
-                    <a href="@Url.Action("Index", "Hangs")">
-                        <i class="fas fa-truck"></i> Hãng
-                    </a>
-                </li>
-            }
-
-            @if (new[] { "ql", "nv", "kt", "tk" }.Contains(maChucVu))
-            {
-                <li class="has-submenu @(new[] { "LoaiSanPhams", "SanPhams" }.Contains(currentController) ? "active" : "")">
-                    <div class="menu-item">
-                        <span><i class="fas fa-box"></i> Sản phẩm</span>
-                        <i class="fas fa-chevron-right arrow"></i>
-                    </div>
-                    <ul class="submenu">
-                        <li class="@(currentController == "LoaiSanPhams" ? "active" : "")">
-                            <a href="@Url.Action("Index", "LoaiSanPhams")"><i class="fas fa-tags"></i> Loại sản phẩm</a>
-                        </li>
-                        <li class="@(currentController == "SanPhams" ? "active" : "")">
-                            <a href="@Url.Action("Index", "SanPhams")"><i class="fas fa-box"></i> Sản phẩm</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="@(currentController == "KhachHangs" ? "active" : "")">
-                    <a href="@Url.Action("Index", "KhachHangs")">
-                        <i class="fas fa-user"></i> Khách hàng
-                    </a>
-                </li>
-
-                <li class="@(currentController == "HoaDons" ? "active" : "")">
-                    <a href="@Url.Action("Index", "HoaDons")">
-                        <i class="fas fa-file-invoice"></i> Đơn hàng
-                    </a>
-                </li>
-
-                <li class="@(currentController == "LienHes" ? "active" : "")">
-                    <a href="@Url.Action("Index", "LienHes")">
-                        <i class="fas fa-envelope"></i> Liên hệ
-                    </a>
-                </li>
-            }
-
-            @if (new[] { "ql", "kt", "tk" }.Contains(maChucVu))
-            {
-                <li class="@(currentController == "ThongKe" ? "active" : "")">
-                    <a href="@Url.Action("Index", "ThongKe")">
-                        <i class="fas fa-chart-bar"></i> Thống kê
-                    </a>
-                </li>
-            }
-        </ul>
+        @if (new[] { "ql", "kt", "tk" }.Contains(maChucVu))
+        {
+            <li class="@(currentController == "ThongKe" ? "active" : "")">
+                <a href="@Url.Action("Index", "ThongKe")">
+                    <i class="fas fa-chart-bar"></i> Thống kê
+                </a>
+            </li>
+        }
+    </ul>
 
 
 

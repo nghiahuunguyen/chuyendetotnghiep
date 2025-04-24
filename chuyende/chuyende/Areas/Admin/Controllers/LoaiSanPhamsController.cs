@@ -100,6 +100,10 @@ namespace chuyende.Areas.Admin.Controllers
         // Hiển thị chi tiết loại sản phẩm
         public ActionResult Details(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null) return RedirectToAction("Index");
             LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
             if (loaiSanPham == null || loaiSanPham.Status == 0) return RedirectToAction("Index");
@@ -109,6 +113,10 @@ namespace chuyende.Areas.Admin.Controllers
         // Hiển thị form tạo loại sản phẩm mới
         public ActionResult Create()
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             return View();
         }
 
@@ -173,6 +181,10 @@ namespace chuyende.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult MoveToTrash(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
             if (loaiSanPham != null)
             {

@@ -17,8 +17,24 @@ namespace chuyende.Areas.Admin.Controllers
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
+        private bool IsNhanVien()
+        {
+            var maNV = Session["Admin"]?.ToString();
+            if (string.IsNullOrEmpty(maNV))
+                return false;
+
+            var nhanVien = db.NhanViens
+                .Include(nv => nv.ChucVu)
+                .FirstOrDefault(nv => nv.MaNV == maNV);
+
+            return nhanVien?.ChucVu?.TenCV == "Nhân Viên";
+        }
         public ActionResult Search(string keyword)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (string.IsNullOrEmpty(keyword))
             {
                 return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
@@ -113,6 +129,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Details(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null)
                 return RedirectToAction("Index");
             Hang hang = db.Hangs.Find(id);
@@ -124,6 +144,10 @@ namespace chuyende.Areas.Admin.Controllers
         // GET: Admin/Hangs/Create
         public ActionResult Create()
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             return View();
         }
 
@@ -132,6 +156,11 @@ namespace chuyende.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MaHang,TenHang,Logo,SoDienThoai,Email,DiaChi,TuKhoa,Status,Link")] Hang hang, HttpPostedFileBase Logo)
         {
+            if (IsNhanVien())
+            {
+                TempData["ErrorMessage"] = "Bạn không có quyền thêm hãng!";
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -172,10 +201,12 @@ namespace chuyende.Areas.Admin.Controllers
             return View(hang);
         }
 
-
-
         public ActionResult Edit(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null)
                 return RedirectToAction("Index");
             Hang hang = db.Hangs.Find(id);
@@ -231,9 +262,11 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Trash()
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var deletedHangs = db.Hangs.Where(h => h.Status == 0);
-
-           
 
             return View(deletedHangs.ToList());
         }

@@ -18,6 +18,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Search(string keyword, int? page = 1)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (string.IsNullOrEmpty(keyword))
             {
                 return RedirectToAction("Index");
@@ -62,6 +66,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Print(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (string.IsNullOrEmpty(id))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

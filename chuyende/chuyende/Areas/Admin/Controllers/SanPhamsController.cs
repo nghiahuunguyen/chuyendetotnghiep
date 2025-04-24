@@ -16,24 +16,28 @@ public class SanPhamsController : Controller
 {
     private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
 
-    public ActionResult Search(string keyword)
-    {
-        if (string.IsNullOrEmpty(keyword))
+        public ActionResult Search(string keyword)
         {
-            return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            }
+
+            // Use Contains() instead of == for partial matching
+            var sanphams = db.SanPhams.Where(h => h.TenSP.Contains(keyword) || h.TuKhoa.Contains(keyword)).ToList();
+
+            if (sanphams == null || !sanphams.Any())
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy sản phẩm nào phù hợp.";
+                return RedirectToAction("Index");
+            }
+
+            return View("Index", sanphams.ToPagedList(1, 5)); // Trả về danh sách các sản phẩm phù hợp
         }
-
-        // Use Contains() instead of == for partial matching
-        var sanphams = db.SanPhams.Where(h => h.TenSP.Contains(keyword) || h.TuKhoa.Contains(keyword)).ToList();
-
-        if (sanphams == null || !sanphams.Any())
-        {
-            TempData["ErrorMessage"] = "Không tìm thấy sản phẩm nào phù hợp.";
-            return RedirectToAction("Index");
-        }
-
-        return View("Index", sanphams.ToPagedList(1, 5)); // Trả về danh sách các sản phẩm phù hợp
-    }
 
     // GET: Admin/SanPhams
         public ActionResult Index(int status = 3, string keyword = "", int? page = 1)
@@ -151,6 +155,10 @@ public class SanPhamsController : Controller
 
     public ActionResult Details(string id)
     {
+        if (Session["Admin"] == null)
+        {
+            return RedirectToAction("Index", "DangNhap");
+        }
         if (id == null) return RedirectToAction("Index");
         SanPham sanPham = db.SanPhams.Find(id);
         if (sanPham == null) return RedirectToAction("Index");
@@ -159,6 +167,10 @@ public class SanPhamsController : Controller
 
     public ActionResult Create()
     {
+        if (Session["Admin"] == null)
+        {
+            return RedirectToAction("Index", "DangNhap");
+        }
         ViewBag.MaHang = new SelectList(db.Hangs, "MaHang", "TenHang");
         ViewBag.MaLoaiSP = new SelectList(db.LoaiSanPhams, "MaLoaiSP", "TenLoaiSP");
         return View();
@@ -207,8 +219,12 @@ public class SanPhamsController : Controller
     // GET: Admin/SanPhams/Edit/5
     public ActionResult Edit(string id)
     {
+        if (Session["Admin"] == null)
+        {
+            return RedirectToAction("Index", "DangNhap");
+        }
         if (id == null)
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
         SanPham sanPham = db.SanPhams.Find(id);
         if (sanPham == null)
@@ -271,6 +287,10 @@ public class SanPhamsController : Controller
     [ValidateAntiForgeryToken]
     public ActionResult MoveToTrash(string id)
     {
+        if (Session["Admin"] == null)
+        {
+            return RedirectToAction("Index", "DangNhap");
+        }
         var sanPham = db.SanPhams.Find(id);
         if (sanPham != null)
         {

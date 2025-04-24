@@ -31,6 +31,11 @@
         </div>
     }
 
+    <!-- Kiểm tra vai trò từ Session -->
+    @{
+        var isNhanVien = Session["TenChucVu"]?.ToString() == "Nhân Viên";
+    }
+
     <div class="header-actions">
         @using (Html.BeginForm("Search", "SanPhams", FormMethod.Get, new { @class = "search-form" }))
         {
@@ -40,12 +45,16 @@
             </button>
         }
         <div class="actions">
-            <a href="@Url.Action("Create", "SanPhams")" class="add-btn">
-                <i class="fas fa-plus"></i> Thêm mới
-            </a>
-            <a href="@Url.Action("Trash", "SanPhams")" class="trash-btn">
-                <i class="fas fa-trash"></i> Thùng rác
-            </a>
+            <!-- Chỉ hiển thị nút Thêm mới và Thùng rác nếu không phải Nhân Viên -->
+            @if (!isNhanVien)
+            {
+                <a href="@Url.Action("Create", "SanPhams")" class="add-btn">
+                    <i class="fas fa-plus"></i> Thêm mới
+                </a>
+                <a href="@Url.Action("Trash", "SanPhams")" class="trash-btn">
+                    <i class="fas fa-trash"></i> Thùng rác
+                </a>
+            }
         </div>
     </div>
 
@@ -59,8 +68,16 @@
                     <th>Hình ảnh</th>
                     <th>Số lượng</th>
                     <th>Giá bán</th>
-                    <th>Bán chạy</th>
-                    <th>Chức năng</th>
+                    <!-- Chỉ hiển thị cột Bán chạy và Chức năng đầy đủ nếu không phải Nhân Viên -->
+                    @if (!isNhanVien)
+                    {
+                        <th>Bán chạy</th>
+                        <th>Chức năng</th>
+                    }
+                    else
+                    {
+                        <th>Chức năng</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -91,29 +108,37 @@
                                 @String.Format("{0:N0} VND", giaBan)
                             }
                         </td>
+                        @if (!isNhanVien)
+                        {
+                            <td>
+                                <a href="" class="toggle-star" data-id="@item.MaSP">
+                                    <i class="fa fa-star @(item.BanChay == 1 ? "fa-solid text-warning" : "fa-regular text-secondary")" style="font-size: 20px;"></i>
+                                </a>
+                            </td>
+                        }
                         <td>
-                            <a href="" class="toggle-star" data-id="@item.MaSP">
-                                <i class="fa fa-star @(item.BanChay == 1 ? "fa-solid text-warning" : "fa-regular text-secondary")" style="font-size: 20px;"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <button class="btn status-toggle @(item.Status == 1 ? "btn-success" : "btn-danger")"
-                                    data-id="@item.MaSP">
-                                <i class="fa @(item.Status == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
-                            </button>
-                            <a href="@Url.Action("Edit", "SanPhams", new { id = item.MaSP })" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </a>
+                            <!-- Chỉ hiển thị các nút Toggle Status, Sửa, Xóa nếu không phải Nhân Viên -->
+                            @if (!isNhanVien)
+                            {
+                                <button class="btn status-toggle @(item.Status == 1 ? "btn-success" : "btn-danger")"
+                                        data-id="@item.MaSP">
+                                    <i class="fa @(item.Status == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                                </button>
+                                <a href="@Url.Action("Edit", "SanPhams", new { id = item.MaSP })" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                using (Html.BeginForm("MoveToTrash", "SanPhams", new { id = item.MaSP }, FormMethod.Post, new { @class = "d-inline" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                }
+                            }
+                            <!-- Luôn hiển thị nút Chi tiết -->
                             <a href="@Url.Action("Details", "SanPhams", new { id = item.MaSP })" class="btn btn-info btn-sm">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            @using (Html.BeginForm("MoveToTrash", "SanPhams", new { id = item.MaSP }, FormMethod.Post, new { @class = "d-inline" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            }
                         </td>
                     </tr>
                     stt++;
@@ -145,57 +170,61 @@
 
 <script>
     $(document).ready(function () {
-        $(".status-toggle").click(function () {
-            var button = $(this);
-            var id = button.data("id");
-            var token = $('input[name="__RequestVerificationToken"]').val();
+        // Chỉ chạy script nếu không phải Nhân Viên
+        var isNhanVien = @Json.Encode(isNhanVien);
+        if (!isNhanVien) {
+            $(".status-toggle").click(function () {
+                var button = $(this);
+                var id = button.data("id");
+                var token = $('input[name="__RequestVerificationToken"]').val();
 
-            $.ajax({
-                url: '@Url.Action("ToggleStatus", "SanPhams")',
-                type: "POST",
-                data: { id: id, __RequestVerificationToken: token },
-                success: function (response) {
-                    if (response.success) {
-                        if (response.status === 1) {
-                            button.removeClass("btn-danger").addClass("btn-success");
-                            button.html('<i class="fa fa-toggle-on"></i>');
+                $.ajax({
+                    url: '@Url.Action("ToggleStatus", "SanPhams")',
+                    type: "POST",
+                    data: { id: id, __RequestVerificationToken: token },
+                    success: function (response) {
+                        if (response.success) {
+                            if (response.status === 1) {
+                                button.removeClass("btn-danger").addClass("btn-success");
+                                button.html('<i class="fa fa-toggle-on"></i>');
+                            } else {
+                                button.removeClass("btn-success").addClass("btn-danger");
+                                button.html('<i class="fa fa-toggle-off"></i>');
+                            }
                         } else {
-                            button.removeClass("btn-success").addClass("btn-danger");
-                            button.html('<i class="fa fa-toggle-off"></i>');
+                            alert("Cập nhật trạng thái thất bại!");
                         }
-                    } else {
-                        alert("Cập nhật trạng thái thất bại!");
                     }
-                }
+                });
             });
-        });
 
-        $(".toggle-star").click(function (e) {
-            e.preventDefault();
-            var link = $(this);
-            var icon = link.find("i");
-            var id = link.data("id");
-            var token = $('input[name="__RequestVerificationToken"]').val();
+            $(".toggle-star").click(function (e) {
+                e.preventDefault();
+                var link = $(this);
+                var icon = link.find("i");
+                var id = link.data("id");
+                var token = $('input[name="__RequestVerificationToken"]').val();
 
-            $.ajax({
-                url: '@Url.Action("ToggleBanChay", "SanPhams")',
-                type: "POST",
-                data: { id: id, __RequestVerificationToken: token },
-                success: function (res) {
-                    if (res.success) {
-                        if (res.status === 1) {
-                            icon.removeClass("fa-regular text-secondary").addClass("fa-solid text-warning");
+                $.ajax({
+                    url: '@Url.Action("ToggleBanChay", "SanPhams")',
+                    type: "POST",
+                    data: { id: id, __RequestVerificationToken: token },
+                    success: function (res) {
+                        if (res.success) {
+                            if (res.status === 1) {
+                                icon.removeClass("fa-regular text-secondary").addClass("fa-solid text-warning");
+                            } else {
+                                icon.removeClass("fa-solid text-warning").addClass("fa-regular text-secondary");
+                            }
                         } else {
-                            icon.removeClass("fa-solid text-warning").addClass("fa-regular text-secondary");
+                            alert("Lỗi cập nhật trạng thái bán chạy");
                         }
-                    } else {
-                        alert("Lỗi cập nhật trạng thái bán chạy");
+                    },
+                    error: function () {
+                        alert("Đã xảy ra lỗi khi gửi yêu cầu.");
                     }
-                },
-                error: function () {
-                    alert("Đã xảy ra lỗi khi gửi yêu cầu.");
-                }
+                });
             });
-        });
+        }
     });
 </script>

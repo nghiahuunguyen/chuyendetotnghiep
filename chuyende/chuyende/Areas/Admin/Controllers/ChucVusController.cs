@@ -34,6 +34,10 @@ namespace chuyende.Areas.Admin.Controllers
         // Xem chi tiết chức vụ
         public ActionResult Details(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null) return RedirectToAction("Index");
             ChucVu chucVu = db.ChucVus.Find(id);
             if (chucVu == null) return RedirectToAction("Index");
@@ -41,7 +45,14 @@ namespace chuyende.Areas.Admin.Controllers
         }
 
         // Hiển thị form thêm mới
-        public ActionResult Create() => View();
+        public ActionResult Create() 
+        {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -63,6 +74,10 @@ namespace chuyende.Areas.Admin.Controllers
         // Hiển thị form chỉnh sửa
         public ActionResult Edit(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null) return RedirectToAction("Index");
             ChucVu chucVu = db.ChucVus.Find(id);
             if (chucVu == null) return RedirectToAction("Index");
@@ -98,6 +113,10 @@ namespace chuyende.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult MoveToTrash(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             ChucVu chucVu = db.ChucVus.Find(id);
             if (chucVu != null)
             {

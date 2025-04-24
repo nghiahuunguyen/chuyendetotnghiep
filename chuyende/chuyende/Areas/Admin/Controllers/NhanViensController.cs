@@ -37,6 +37,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Details(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null) return RedirectToAction("Index");
             NhanVien nhanVien = db.NhanViens.Find(id);
             if (nhanVien == null) return RedirectToAction("Index");
@@ -45,6 +49,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             ViewBag.MaCV = new SelectList(db.ChucVus.Where(cv => cv.Status == 1), "MaCV", "TenCV");
             return View();
         }
@@ -96,6 +104,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Edit(string id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null) return RedirectToAction("Index");
             NhanVien nhanVien = db.NhanViens.Find(id);
             if (nhanVien == null) return RedirectToAction("Index");
@@ -147,6 +159,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Trash()
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var deletedNhanViens = db.NhanViens.Where(nv => nv.Status == 0).ToList();
             return View(deletedNhanViens);
         }
