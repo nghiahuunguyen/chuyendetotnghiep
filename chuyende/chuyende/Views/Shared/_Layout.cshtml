@@ -152,6 +152,25 @@
         </div>
     </footer>
     <script>
+        $(function () {
+            $("#search-input").autocomplete({
+                source: "/Search/Suggest",
+                select: function (event, ui) {
+                    // Khi chọn 1 mục trong autocomplete, tự chuyển hướng
+                    window.location.href = "/Search/Index?query=" + encodeURIComponent(ui.item.value);
+                }
+            });
+
+            // Tùy chọn (Enter vẫn submit form nếu không chọn item gợi ý)
+            $("#search-input").keypress(function (e) {
+                if (e.which === 13) {
+                    $(this).closest("form").submit();
+                }
+            });
+        });
+    </script>
+
+    <script>
         $(document).ready(function () {
             $(".dropdown-toggle").click(function (e) {
                 e.preventDefault(); // Ngăn chặn reload trang

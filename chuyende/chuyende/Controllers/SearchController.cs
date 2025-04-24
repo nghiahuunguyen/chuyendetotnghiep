@@ -14,8 +14,8 @@ namespace chuyende.Controllers
         public ActionResult Index(string query)
         {
             var ketQua = db.SanPhams
-                .Where(sp => (sp.TenSP.Contains(query) || sp.TuKhoa.Contains(query)) && sp.Status == 1)
-                .ToList();
+     .Where(sp => (sp.TenSP.ToLower().Contains(query.ToLower())) && sp.Status == 1)
+     .ToList();
 
             ViewBag.TuKhoa = query;
             return View(ketQua); // Trả List<SanPham>
@@ -32,6 +32,7 @@ namespace chuyende.Controllers
 
             return Json(suggestions, JsonRequestBehavior.AllowGet);
         }
+
 
     }
 

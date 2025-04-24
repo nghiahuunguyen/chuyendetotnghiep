@@ -36,6 +36,15 @@ else
                             </div>
                         </div>
                     </a>
+                    <div class="product-actions">
+                        <form action="@Url.Action("AddToCart", "Cart")" method="get" style="display:inline;">
+                            <input type="hidden" name="id" value="@product.MaSP" />
+                            <button type="submit" class="add-to-cart btn btn-primary">
+                                <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                            </button>
+                        </form>
+
+                    </div>
                 </div>
 
             }
@@ -45,3 +54,16 @@ else
 
 </section>
 }
+<style>
+    .product-actions {
+        display: flex;
+        justify-content: center; /* căn giữa theo chiều ngang */
+        margin-top: 10px;
+    }
+
+        .product-actions .add-to-cart {
+            font-size: 12px;
+            padding: 6px 12px;
+            transform: scale(0.9);
+        }
+</style>
