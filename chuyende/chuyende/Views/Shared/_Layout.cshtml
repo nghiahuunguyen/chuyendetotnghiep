@@ -151,33 +151,6 @@
             </div>
         </div>
     </footer>
-    <script>
-        $(function () {
-            $("#search-input").autocomplete({
-                source: "/Search/Suggest",
-                select: function (event, ui) {
-                    // Khi chọn 1 mục trong autocomplete, tự chuyển hướng
-                    window.location.href = "/Search/Index?query=" + encodeURIComponent(ui.item.value);
-                }
-            });
-
-            // Tùy chọn (Enter vẫn submit form nếu không chọn item gợi ý)
-            $("#search-input").keypress(function (e) {
-                if (e.which === 13) {
-                    $(this).closest("form").submit();
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $(".dropdown-toggle").click(function (e) {
-                e.preventDefault(); // Ngăn chặn reload trang
-                $(this).next(".dropdown-menu").toggle();
-            });
-        });
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -194,13 +167,13 @@
 
                             if (data.length > 0) {
                                 data.forEach(function (item) {
-                                    suggestionBox.append('<div>' + item.label + '</div>');
+                                    suggestionBox.append('<div class="suggestion-item" style="padding: 8px; cursor: pointer;">' + item.label + '</div>');
                                 });
 
-                                // Gắn sự kiện khi click vào gợi ý
-                                suggestionBox.find('div').on('click', function () {
-                                    $('#search-input').val($(this).text());
-                                    suggestionBox.empty();
+                                // Gán sự kiện click cho suggestion-item ngay sau khi render
+                                $('.suggestion-item').click(function () {
+                                    var selectedText = $(this).text();
+                                    window.location.href = '/Search/Index?query=' + encodeURIComponent(selectedText);
                                 });
                             } else {
                                 suggestionBox.empty();
@@ -211,8 +184,28 @@
                     $('#suggestions').empty();
                 }
             });
+
+            // Gộp thêm keypress Enter để Submit form
+            $("#search-input").keypress(function (e) {
+                if (e.which === 13) {
+                    $(this).closest("form").submit();
+                }
+            });
+        });
+
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".dropdown-toggle").click(function (e) {
+                e.preventDefault(); // Ngăn chặn reload trang
+                $(this).next(".dropdown-menu").toggle();
+            });
         });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         window.addEventListener("load", function () {
             setTimeout(function () {
