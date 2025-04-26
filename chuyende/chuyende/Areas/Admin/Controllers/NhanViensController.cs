@@ -34,7 +34,28 @@ namespace chuyende.Areas.Admin.Controllers
             return View(nhanViens.ToPagedList(page, pageSize));
         }
 
+        public ActionResult Search(string keyword)
+        {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return RedirectToAction("Index"); // Nếu không nhập gì, hiển thị tất cả
+            }
 
+            // Use Contains() instead of == for partial matching
+            var nhanvien = db.NhanViens.Where(h => h.MaNV.Contains(keyword) || h.TenNV.Contains(keyword)).ToList();
+
+            if (nhanvien == null || !nhanvien.Any())
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy hãng nào phù hợp.";
+                return RedirectToAction("Index");
+            }
+
+            return View("Index", nhanvien.ToPagedList(1, 5)); // Trả về danh sách các sản phẩm phù hợp
+        }
         public ActionResult Details(string id)
         {
             if (Session["Admin"] == null)
