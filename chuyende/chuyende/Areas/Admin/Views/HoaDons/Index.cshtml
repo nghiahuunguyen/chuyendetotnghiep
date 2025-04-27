@@ -128,7 +128,7 @@
     </div>
 </div>
 <div class="pagination-container">
-    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, keyword = Request.QueryString["keyword"] }),
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, keyword = Request.QueryString["keyword"] }),
     new PagedListRenderOptions
     {
     DisplayLinkToFirstPage = PagedListDisplayMode.Always,
