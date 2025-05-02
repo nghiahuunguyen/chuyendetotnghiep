@@ -1018,5 +1018,11 @@ namespace chuyende.Areas.Admin.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult Payment(string checkoutData)
+        {
+            ViewBag.CheckoutData = checkoutData;
+            return View();
+        }
     }
 }

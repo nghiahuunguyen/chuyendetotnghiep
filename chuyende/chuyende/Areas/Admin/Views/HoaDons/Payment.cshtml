@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="full-screen-qr">
+    <div class="qr-content">
+        <span class="close-btn" onclick="window.location.href='@Url.Action("Create", "HoaDons", new { area = "Admin" })'">×</span>
+        <h2>Quét mã QR để thanh toán</h2>
+        <div id="qr-full-display"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.payos.vn/payos-checkout/v1/payos-initialize.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const checkoutData = JSON.parse(decodeURIComponent(urlParams.get('checkoutData')));
+
+        $.ajax({
+            url: '@Url.Action("InitiatePayment", "HoaDons")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(checkoutData),
+            success: function (response) {
+                console.log("InitiatePayment response:", response);
+                if (response && typeof response === 'object' && 'success' in response) {
+                    if (response.success) {
+                        const checkout_url = response.checkoutUrl;
+                        if (!checkout_url) {
+                            console.error("Checkout URL is missing in response:", response);
+                            alert("Không thể tạo QR code: Checkout URL không tồn tại.");
+                            window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                            return;
+                        }
+                        const payOSConfig = {
+                            RETURN_URL: '@Url.Action("PaymentSuccess", "HoaDons", new { area = "Admin" }, Request.Url.Scheme)',
+                            ELEMENT_ID: "qr-full-display",
+                            CHECKOUT_URL: checkout_url,
+                            embedded: true,
+                            onSuccess: function (event) {
+                                console.log("Payment successful:", event);
+                                confirmPayment();
+                            },
+                            onCancel: function (event) {
+                                console.log("Payment canceled:", event);
+                                window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                                alert("Thanh toán đã bị hủy.");
+                            },
+                            onExit: function (event) {
+                                console.log("Payment exited:", event);
+                                window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                                alert("Bạn đã thoát khỏi thanh toán.");
+                            }
+                        };
+
+                        try {
+                            const { open, exit } = PayOSCheckout.usePayOS(payOSConfig);
+                            console.log("Opening PayOS checkout...");
+                            open();
+                        } catch (error) {
+                            console.error("Error initializing PayOS checkout:", error);
+                            alert("Lỗi khi khởi tạo QR code: " + error.message);
+                            window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                        }
+                    } else {
+                        console.error("InitiatePayment failed:", response.message);
+                        alert("Không thể tạo yêu cầu thanh toán: " + (response.message || "Lỗi không xác định"));
+                        window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                    }
+                } else {
+                    console.error("Invalid response format:", response);
+                    alert("Định dạng phản hồi từ server không đúng: " + JSON.stringify(response));
+                    window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi gọi InitiatePayment:", error, xhr.status, xhr.responseText);
+                alert("Đã xảy ra lỗi khi tạo yêu cầu thanh toán: " + (xhr.responseText || error));
+                window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+            }
+        });
+
+        function confirmPayment() {
+            console.log("confirmPayment called");
+            $.ajax({
+                url: '@Url.Action("ConfirmPayment", "HoaDons")',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({}),
+                success: function (response) {
+                    console.log("ConfirmPayment response:", response);
+                    if (response && typeof response === 'object' && 'success' in response) {
+                        if (response.success) {
+                            alert("Hóa đơn đã được lưu thành công!");
+                            window.location.href = '@Url.Action("Index", "HoaDons", new { area = "Admin" })';
+                        } else {
+                            console.error("ConfirmPayment failed:", response.message);
+                            alert("Lỗi khi lưu hóa đơn: " + (response.message || "Lỗi không xác định"));
+                            window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                        }
+                    } else {
+                        console.error("Invalid response format from ConfirmPayment:", response);
+                        alert("Định dạng phản hồi từ server không đúng: " + JSON.stringify(response));
+                        window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi khi xác nhận thanh toán:", error, xhr.status, xhr.responseText);
+                    alert("Đã xảy ra lỗi khi lưu hóa đơn: " + (xhr.responseText || error));
+                    window.location.href = '@Url.Action("Create", "HoaDons", new { area = "Admin" })';
+                }
+            });
+        }
+    });
+</script>

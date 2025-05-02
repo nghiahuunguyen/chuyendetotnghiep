@@ -6,7 +6,7 @@
 
     var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.SanPhamData ?? new List<object>());
     var paymentMethods = new List<SelectListItem>
-    {
+{
         new SelectListItem { Value = "1", Text = "Tiền mặt" },
         new SelectListItem { Value = "2", Text = "Chuyển khoản" }
     };
@@ -91,7 +91,9 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.PhuongThucThanhToan, "Phương thức thanh toán")
                     @Html.DropDownListFor(m => m.PhuongThucThanhToan, paymentMethods, "-- Chọn phương thức --", new { @class = "form-control" })
-                    <div id="qr-container" style="margin-top: 15px; display: none;"></div>
+                    <div id="qr-container" style="margin-top: 15px; display: none;" class="qr-frame">
+                        <div id="qr-display"></div>
+                    </div>
                 </div>
 
                 <button class="payment-btn" type="submit">Thanh toán</button>
@@ -227,10 +229,68 @@
         z-index: 1050 !important;
     }
 
-    #qr-container {
-        max-height: 200px;
-        overflow-y: auto;
+    /* CSS cho khung QR code nhỏ */
+    .qr-frame {
+        border: 2px solid #007bff;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+        text-align: center;
+        max-width: 300px; /* Kích thước nhỏ */
+        margin: 20px auto; /* Căn giữa */
+        position: relative;
+        transition: all 0.3s ease;
     }
+
+        .qr-frame:hover {
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+    #qr-display img {
+        max-width: 250px; /* Kích thước QR code nhỏ */
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* CSS cho trang toàn màn hình */
+    .full-screen-qr {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1050;
+    }
+
+        .full-screen-qr .qr-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+            .full-screen-qr .qr-content img {
+                max-width: 450px;
+                height: auto;
+                margin: 0 auto;
+            }
+
+        .full-screen-qr .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
 </style>
 
 <script>
@@ -408,78 +468,14 @@
 
         function generateQR(amount, tenKH, soDienThoai, email, diaChi, items) {
             console.log("generateQR called with:", { amount, tenKH, soDienThoai, email, diaChi, items });
-            $.ajax({
-                url: '@Url.Action("InitiatePayment", "HoaDons")',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    amount: amount,
-                    tenKH: tenKH,
-                    soDienThoai: soDienThoai,
-                    email: email,
-                    diaChi: diaChi,
-                    itemsJson: JSON.stringify(items)
-                }),
-                success: function (response) {
-                    console.log("InitiatePayment response:", response);
-                    if (response && typeof response === 'object' && 'success' in response) {
-                        if (response.success) {
-                            const checkout_url = response.checkoutUrl;
-                            if (!checkout_url) {
-                                console.error("Checkout URL is missing in response:", response);
-                                $('#qr-container').hide();
-                                alert("Không thể tạo QR code: Checkout URL không tồn tại.");
-                                return;
-                            }
-                            const payOSConfig = {
-                                RETURN_URL: '@Url.Action("PaymentSuccess", "HoaDons", new { area = "Admin" }, Request.Url.Scheme)',
-                                ELEMENT_ID: "qr-container",
-                                CHECKOUT_URL: checkout_url,
-                                embedded: true,
-                                onSuccess: function (event) {
-                                    console.log("Payment successful:", event);
-                                    $('#qr-container').hide();
-                                    // Tự động gọi confirmPayment sau khi thanh toán thành công
-                                    confirmPayment();
-                                },
-                                onCancel: function (event) {
-                                    console.log("Payment canceled:", event);
-                                    $('#qr-container').hide();
-                                    alert("Thanh toán đã bị hủy.");
-                                },
-                                onExit: function (event) {
-                                    console.log("Payment exited:", event);
-                                    $('#qr-container').hide();
-                                    alert("Bạn đã thoát khỏi thanh toán.");
-                                }
-                            };
-
-                            try {
-                                const { open, exit } = PayOSCheckout.usePayOS(payOSConfig);
-                                console.log("Opening PayOS checkout...");
-                                open();
-                            } catch (error) {
-                                console.error("Error initializing PayOS checkout:", error);
-                                $('#qr-container').hide();
-                                alert("Lỗi khi khởi tạo QR code: " + error.message);
-                            }
-                        } else {
-                            console.error("InitiatePayment failed:", response.message);
-                            $('#qr-container').hide();
-                            alert("Không thể tạo yêu cầu thanh toán: " + (response.message || "Lỗi không xác định"));
-                        }
-                    } else {
-                        console.error("Invalid response format:", response);
-                        $('#qr-container').hide();
-                        alert("Định dạng phản hồi từ server không đúng: " + JSON.stringify(response));
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Lỗi khi gọi InitiatePayment:", error, xhr.status, xhr.responseText);
-                    $('#qr-container').hide();
-                    alert("Đã xảy ra lỗi khi tạo yêu cầu thanh toán: " + (xhr.responseText || error));
-                }
-            });
+            window.location.href = '@Url.Action("Payment", "HoaDons", new { area = "Admin" })?checkoutData=' + encodeURIComponent(JSON.stringify({
+                amount: amount,
+                tenKH: tenKH,
+                soDienThoai: soDienThoai,
+                email: email,
+                diaChi: diaChi,
+                itemsJson: JSON.stringify(items)
+            }));
         }
 
         function confirmPayment() {
@@ -515,7 +511,6 @@
             var paymentMethod = $('#PhuongThucThanhToan').val();
             if (paymentMethod === "2") {
                 e.preventDefault();
-                $('#qr-container').show();
                 let totalStr = $('#TotalPrice').val();
                 let amount = parseCurrencyToNumber(totalStr);
                 let tenKH = $("#TenKH").val();
@@ -531,7 +526,6 @@
 
                 if (!tenKH || !soDienThoai || !email || !diaChi || items.length === 0) {
                     alert("Vui lòng nhập đầy đủ thông tin khách hàng và thêm ít nhất một sản phẩm.");
-                    $('#qr-container').hide();
                     $('#PhuongThucThanhToan').val('');
                     return;
                 }
