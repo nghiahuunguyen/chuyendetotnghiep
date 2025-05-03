@@ -64,7 +64,7 @@
                                 <td>@item.MaHD</td>
                                 <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
                                 <td>
-                                    @String.Format("{0:C0}", item.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - (c.SanPham.SoGiam ?? 0))))
+                                    @String.Format("{0:C0}", item.ChiTietHoaDon.Sum(c => c.SoLuong * (c.SanPham.GiaDau ?? 0-((c.SanPham.GiaDau ?? 0* c.SanPham.SoGiam ?? 0)/100))))
                                 </td>
                                 <td>
                                     @{

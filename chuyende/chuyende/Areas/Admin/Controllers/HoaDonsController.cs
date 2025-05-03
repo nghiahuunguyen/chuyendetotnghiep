@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,6 +21,25 @@ namespace chuyende.Areas.Admin.Controllers
     public class HoaDonsController : Controller
     {
         private QuanLyBanDienTuContext db = new QuanLyBanDienTuContext();
+
+        // Hằng số cho PayOS
+        private const string ClientId = "c94459b0-2ac0-4e3e-9ca1-a7b7f1be4c4e"; // Thay bằng clientId thực tế từ PayOS
+        private const string ApiKey = "b3e95017-fd00-442c-b77b-180bf90503d4"; // Thay bằng apiKey thực tế từ PayOS
+        private const string PayOsUrl = "https://api-merchant.payos.vn/v2/payment-requests"; // URL API của PayOS
+        private const string ChecksumKey = "22d9610dc5591bb9a042a45cde8663685fe878c6c0e562bec44fc30d3244d469"; // Thay bằng checksumKey thực tế từ PayOS
+
+        // Phương thức tạo chữ ký cho PayOS
+        private string GenerateSignature(string rawData)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(ChecksumKey);
+            byte[] dataBytes = Encoding.UTF8.GetBytes(rawData);
+
+            using (var hmac = new HMACSHA256(keyBytes))
+            {
+                var hash = hmac.ComputeHash(dataBytes);
+                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            }
+        }
 
         public ActionResult Search(string keyword, int? page = 1)
         {
@@ -99,7 +119,6 @@ namespace chuyende.Areas.Admin.Controllers
                 expando.SoLuong = ct.SoLuong;
                 expando.DonGia = donGia;
                 expando.ThanhTien = donGia * ct.SoLuong;
-
                 return expando;
             }).ToList();
 
@@ -211,7 +230,6 @@ namespace chuyende.Areas.Admin.Controllers
                 expando.SoLuong = ct.SoLuong;
                 expando.DonGia = donGia;
                 expando.ThanhTien = donGia * ct.SoLuong;
-
                 return expando;
             }).ToList();
 
@@ -550,174 +568,142 @@ namespace chuyende.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> InitiatePayment(decimal amount, string tenKH, string soDienThoai, string email, string diaChi, string itemsJson)
+        public async Task<ActionResult> InitiatePayment(decimal amount, string tenKH, string soDienThoai, string email, string diaChi, string maHD, string itemsJson)
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"InitiatePayment called with: amount={amount}, tenKH={tenKH}, soDienThoai={soDienThoai}, email={email}, diaChi={diaChi}, itemsJson={itemsJson}");
+                Debug.WriteLine($"InitiatePayment - Amount: {amount}, TenKH: {tenKH}, MaHD: {maHD}, Items: {itemsJson}");
 
-                if (amount <= 0)
-                {
-                    return Json(new { success = false, message = "Số tiền không hợp lệ." });
-                }
-
-                List<dynamic> items = JsonConvert.DeserializeObject<List<dynamic>>(itemsJson);
+                var items = JsonConvert.DeserializeObject<List<dynamic>>(itemsJson);
                 if (items == null || !items.Any())
                 {
+                    Debug.WriteLine("InitiatePayment - Error: Danh sách sản phẩm trống.");
                     return Json(new { success = false, message = "Danh sách sản phẩm trống." });
                 }
-
+                if (amount <= 0)
+                {
+                    Debug.WriteLine("InitiatePayment - Error: Số tiền không hợp lệ.");
+                    return Json(new { success = false, message = "Số tiền không hợp lệ." });
+                }
                 if (string.IsNullOrWhiteSpace(tenKH))
                 {
+                    Debug.WriteLine("InitiatePayment - Error: Tên khách hàng không được để trống.");
                     return Json(new { success = false, message = "Tên khách hàng không được để trống." });
                 }
                 if (string.IsNullOrWhiteSpace(soDienThoai))
                 {
+                    Debug.WriteLine("InitiatePayment - Error: Số điện thoại không được để trống.");
                     return Json(new { success = false, message = "Số điện thoại không được để trống." });
                 }
-                if (string.IsNullOrWhiteSpace(email) || !Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                if (string.IsNullOrWhiteSpace(email))
                 {
-                    return Json(new { success = false, message = "Email không hợp lệ." });
+                    Debug.WriteLine("InitiatePayment - Error: Email không được để trống.");
+                    return Json(new { success = false, message = "Email không được để trống." });
                 }
                 if (string.IsNullOrWhiteSpace(diaChi))
                 {
+                    Debug.WriteLine("InitiatePayment - Error: Địa chỉ không được để trống.");
                     return Json(new { success = false, message = "Địa chỉ không được để trống." });
                 }
 
+                // Kiểm tra giới hạn số tiền trước khi nhân
+                decimal amountInSmallestUnit = amount * 100;
+                if (amountInSmallestUnit > long.MaxValue)
+                {
+                    Debug.WriteLine("InitiatePayment - Error: Số tiền vượt quá giới hạn.");
+                    return Json(new { success = false, message = "Số tiền vượt quá giới hạn cho phép." });
+                }
+
+                var orderCode = Math.Abs(maHD.GetHashCode()).ToString();
+                Session["OrderCode"] = orderCode;
+                Session["TempMaHD"] = maHD;
+
+                var itemDetails = new List<object>();
                 foreach (var item in items)
                 {
-                    string maSP = item.MaSP?.ToString();
-                    int soLuong = (int)(item.SoLuong ?? 0);
-                    if (string.IsNullOrEmpty(maSP) || soLuong <= 0)
+                    var sp = db.SanPhams.Find(item.MaSP.ToString());
+                    if (sp != null)
                     {
-                        return Json(new { success = false, message = "Thông tin sản phẩm không hợp lệ." });
+                        decimal donGia = (sp.GiaDau ?? 0) * (1 - (decimal)(sp.SoGiam ?? 0) / 100);
+                        decimal priceInSmallestUnit = donGia * 100;
+                        if (priceInSmallestUnit > long.MaxValue)
+                        {
+                            Debug.WriteLine($"InitiatePayment - Error: Giá sản phẩm {sp.TenSP} vượt quá giới hạn.");
+                            return Json(new { success = false, message = $"Giá sản phẩm {sp.TenSP} vượt quá giới hạn." });
+                        }
+                        itemDetails.Add(new
+                        {
+                            name = sp.TenSP,
+                            quantity = (int)item.SoLuong,
+                            price = (long)priceInSmallestUnit // Sử dụng long thay vì int
+                        });
                     }
                 }
 
-                string lastMaHD = db.HoaDons.OrderByDescending(h => h.MaHD).Select(h => h.MaHD).FirstOrDefault();
-                int nextNumber = 1;
-                if (!string.IsNullOrEmpty(lastMaHD) && lastMaHD.StartsWith("HD"))
+                var paymentData = new
                 {
-                    string numberPart = lastMaHD.Substring(2);
-                    if (int.TryParse(numberPart, out int lastNumber))
-                    {
-                        nextNumber = lastNumber + 1;
-                    }
-                }
-                string tempMaHD = "HD" + nextNumber.ToString("D3");
-
-                Session["OrderItems"] = items;
-                Session["CustomerInfo"] = new { TenKH = tenKH, SoDienThoai = soDienThoai, Email = email, DiaChi = diaChi };
-                Session["TempMaHD"] = tempMaHD;
-                Session["PaymentAmount"] = amount;
-
-                // Tạo orderCode một lần duy nhất
-                var strOrderCode = DateTime.UtcNow.ToString("MMddHHmmss");
-                System.Diagnostics.Debug.WriteLine($"Generated orderCode: {strOrderCode}");
-                Session["OrderCode"] = strOrderCode;
-
-                var result = await GetPaymentRequest(amount, tempMaHD, strOrderCode);
-                if (result == null)
-                {
-                    return Json(new { success = false, message = "Không thể tạo yêu cầu thanh toán: Kết quả từ GetPaymentRequest là null." });
-                }
-
-                System.Diagnostics.Debug.WriteLine($"GetPaymentRequest result: {JsonConvert.SerializeObject(result)}");
-
-                var resultData = result.Data as dynamic;
-                if (resultData == null)
-                {
-                    return Json(new { success = false, message = "Dữ liệu trả về từ GetPaymentRequest không hợp lệ." });
-                }
-
-                if (resultData.success)
-                {
-                    return Json(new { success = true, checkoutUrl = resultData.checkoutUrl });
-                }
-                else
-                {
-                    return Json(new { success = false, message = resultData.message ?? "Lỗi không xác định từ GetPaymentRequest." });
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Lỗi trong InitiatePayment: {ex.Message}, StackTrace: {ex.StackTrace}");
-                if (ex.InnerException != null)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
-                }
-                return Json(new { success = false, message = $"Lỗi khi tạo yêu cầu thanh toán: {ex.Message}" });
-            }
-        }
-
-        public async Task<JsonResult> GetPaymentRequest(decimal amount, string maHD, string strOrderCode)
-        {
-            try
-            {
-                System.Diagnostics.Debug.WriteLine($"GetPaymentRequest called with: amount={amount}, maHD={maHD}, orderCode={strOrderCode}");
-
-                int orderCode = int.Parse(strOrderCode);
-                string clientId = "c94459b0-2ac0-4e3e-9ca1-a7b7f1be4c4e";
-                string clientKey = "b3e95017-fd00-442c-b77b-180bf90503d4";
-                string description = $"Thanh toán hóa đơn {maHD}";
-                string cancelUrl = Url.Action("PaymentCancel", "HoaDons", null, Request.Url.Scheme);
-                string returnUrl = Url.Action("PaymentSuccess", "HoaDons", null, Request.Url.Scheme);
-
-                string rawSignature = $"amount={amount}&cancelUrl={cancelUrl}&description={description}&orderCode={orderCode}&returnUrl={returnUrl}";
-                string signature = GenerateSignature(rawSignature);
-
-                System.Diagnostics.Debug.WriteLine($"Signature generated: {signature}");
-
-                var requestBody = new
-                {
-                    orderCode = orderCode,
-                    amount = amount,
-                    description = description,
-                    cancelUrl = cancelUrl,
-                    returnUrl = returnUrl,
-                    signature = signature
+                    orderCode,
+                    amount = (long)amountInSmallestUnit, // Sử dụng long thay vì int
+                    description = $"Thanh toán hóa đơn {maHD} - Khách hàng: {tenKH}",
+                    items = itemDetails,
+                    buyerName = tenKH,
+                    buyerEmail = email,
+                    buyerPhone = soDienThoai,
+                    buyerAddress = diaChi,
+                    returnUrl = Url.Action("PaymentSuccess", "HoaDons", null, Request.Url.Scheme),
+                    cancelUrl = Url.Action("PaymentCancel", "HoaDons", null, Request.Url.Scheme)
                 };
 
-                System.Diagnostics.Debug.WriteLine($"Request body: {JsonConvert.SerializeObject(requestBody)}");
+                // Tạo chữ ký
+                string rawData = $"amount={paymentData.amount}&cancelUrl={Uri.EscapeDataString(paymentData.cancelUrl)}&description={Uri.EscapeDataString(paymentData.description)}&orderCode={paymentData.orderCode}&returnUrl={Uri.EscapeDataString(paymentData.returnUrl)}";
+                string signature = GenerateSignature(rawData);
 
-                string json = JsonConvert.SerializeObject(requestBody);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var finalPaymentData = new
+                {
+                    paymentData.orderCode,
+                    paymentData.amount,
+                    paymentData.description,
+                    paymentData.items,
+                    paymentData.buyerName,
+                    paymentData.buyerEmail,
+                    paymentData.buyerPhone,
+                    paymentData.buyerAddress,
+                    paymentData.returnUrl,
+                    paymentData.cancelUrl,
+                    signature
+                };
 
                 using (var client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("x-client-id", clientId);
-                    client.DefaultRequestHeaders.Add("x-api-key", clientKey);
-
-                    var response = await client.PostAsync("https://api-merchant.payos.vn/v2/payment-requests", content);
+                    client.DefaultRequestHeaders.Add("x-client-id", ClientId);
+                    client.DefaultRequestHeaders.Add("x-api-key", ApiKey);
+                    var content = new StringContent(JsonConvert.SerializeObject(finalPaymentData), Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(PayOsUrl, content);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var responseString = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine($"PayOS API response: {responseString}");
-                        var responseData = JsonConvert.DeserializeObject<dynamic>(responseString);
-                        string checkoutUrl = responseData["data"]["checkoutUrl"]?.ToString();
-                        if (string.IsNullOrEmpty(checkoutUrl))
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        Debug.WriteLine($"InitiatePayment - PayOS Response: {responseBody}");
+                        dynamic result = JsonConvert.DeserializeObject(responseBody);
+                        if (result?.data?.checkoutUrl != null)
                         {
-                            return Json(new { success = false, message = "Checkout URL không tồn tại trong phản hồi từ PayOS." });
+                            string checkoutUrl = result.data.checkoutUrl;
+                            return Json(new { success = true, checkoutUrl });
                         }
-                        return Json(new { success = true, checkoutUrl = checkoutUrl });
+                        return Json(new { success = false, message = "Không thể lấy checkout URL từ PayOS." });
                     }
                     else
                     {
-                        var error = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine($"PayOS API error: {error}");
-                        return Json(new { success = false, message = $"API Error: {error}" });
+                        var errorBody = await response.Content.ReadAsStringAsync();
+                        Debug.WriteLine($"InitiatePayment - PayOS Error: {errorBody}");
+                        return Json(new { success = false, message = $"Lỗi từ PayOS: {errorBody}" });
                     }
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi trong GetPaymentRequest: {ex.Message}, StackTrace: {ex.StackTrace}");
-                if (ex.InnerException != null)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
-                }
-                return Json(new { success = false, message = $"Lỗi khi gọi PayOS API: {ex.Message}" });
+                Debug.WriteLine($"InitiatePayment - Exception: {ex.Message}");
+                return Json(new { success = false, message = $"Lỗi khi tạo yêu cầu thanh toán: {ex.Message}" });
             }
         }
 
@@ -725,91 +711,69 @@ namespace chuyende.Areas.Admin.Controllers
         {
             try
             {
-                // Log thông tin đầu vào
-                System.Diagnostics.Debug.WriteLine($"GetPaymentRequest called with: amount={amount}, maHD={maHD}");
+                Debug.WriteLine($"GetPaymentRequest called with: amount={amount}, maHD={maHD}");
 
-                // Các thông tin cần thiết
                 var strOrderCode = DateTime.UtcNow.ToString("MMddHHmmss");
                 int orderCode = int.Parse(strOrderCode);
-                string clientId = "c94459b0-2ac0-4e3e-9ca1-a7b7f1be4c4e";
-                string clientKey = "b3e95017-fd00-442c-b77b-180bf90503d4";
                 string description = $"Thanh toán hóa đơn {maHD}";
                 string cancelUrl = Url.Action("PaymentCancel", "HoaDons", null, Request.Url.Scheme);
                 string returnUrl = Url.Action("PaymentSuccess", "HoaDons", null, Request.Url.Scheme);
 
-                // Tạo chữ ký
                 string rawSignature = $"amount={amount}&cancelUrl={cancelUrl}&description={description}&orderCode={orderCode}&returnUrl={returnUrl}";
                 string signature = GenerateSignature(rawSignature);
 
-                // Log chữ ký
-                System.Diagnostics.Debug.WriteLine($"Signature generated: {signature}");
+                Debug.WriteLine($"Signature generated: {signature}");
 
-                // Tạo request body
                 var requestBody = new
                 {
-                    orderCode = orderCode,
-                    amount = amount,
-                    description = description,
-                    cancelUrl = cancelUrl,
-                    returnUrl = returnUrl,
-                    signature = signature
+                    orderCode,
+                    amount,
+                    description,
+                    cancelUrl,
+                    returnUrl,
+                    signature
                 };
 
-                // Log request body
-                System.Diagnostics.Debug.WriteLine($"Request body: {JsonConvert.SerializeObject(requestBody)}");
+                Debug.WriteLine($"Request body: {JsonConvert.SerializeObject(requestBody)}");
 
-                // Gửi request đến PayOS
                 string json = JsonConvert.SerializeObject(requestBody);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 using (var client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("x-client-id", clientId);
-                    client.DefaultRequestHeaders.Add("x-api-key", clientKey);
+                    client.DefaultRequestHeaders.Add("x-client-id", ClientId);
+                    client.DefaultRequestHeaders.Add("x-api-key", ApiKey);
 
-                    var response = await client.PostAsync("https://api-merchant.payos.vn/v2/payment-requests", content);
+                    var response = await client.PostAsync(PayOsUrl, content);
 
                     if (response.IsSuccessStatusCode)
                     {
                         var responseString = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine($"PayOS API response: {responseString}");
+                        Debug.WriteLine($"PayOS API response: {responseString}");
                         var responseData = JsonConvert.DeserializeObject<dynamic>(responseString);
                         string checkoutUrl = responseData["data"]["checkoutUrl"]?.ToString();
                         if (string.IsNullOrEmpty(checkoutUrl))
                         {
                             return Json(new { success = false, message = "Checkout URL không tồn tại trong phản hồi từ PayOS." });
                         }
-                        return Json(new { success = true, checkoutUrl = checkoutUrl });
+                        return Json(new { success = true, checkoutUrl });
                     }
                     else
                     {
                         var error = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine($"PayOS API error: {error}");
+                        Debug.WriteLine($"PayOS API error: {error}");
                         return Json(new { success = false, message = $"API Error: {error}" });
                     }
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi trong GetPaymentRequest: {ex.Message}, StackTrace: {ex.StackTrace}");
+                Debug.WriteLine($"Lỗi trong GetPaymentRequest: {ex.Message}, StackTrace: {ex.StackTrace}");
                 if (ex.InnerException != null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                    Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
                 return Json(new { success = false, message = $"Lỗi khi gọi PayOS API: {ex.Message}" });
-            }
-        }
-
-        private string GenerateSignature(string rawData)
-        {
-            string checksumKey = "22d9610dc5591bb9a042a45cde8663685fe878c6c0e562bec44fc30d3244d469";
-            byte[] keyBytes = Encoding.UTF8.GetBytes(checksumKey);
-            byte[] dataBytes = Encoding.UTF8.GetBytes(rawData);
-
-            using (var hmac = new HMACSHA256(keyBytes))
-            {
-                var hash = hmac.ComputeHash(dataBytes);
-                return BitConverter.ToString(hash).Replace("-", "").ToLower();
             }
         }
 
@@ -818,36 +782,31 @@ namespace chuyende.Areas.Admin.Controllers
         {
             try
             {
-                // Lấy orderCode từ Session
                 string orderCode = Session["OrderCode"] as string;
                 if (string.IsNullOrEmpty(orderCode))
                 {
-                    System.Diagnostics.Debug.WriteLine("Error: OrderCode not found in Session.");
+                    Debug.WriteLine("Error: OrderCode not found in Session.");
                     return Json(new { success = false, message = "Không tìm thấy thông tin thanh toán trong Session." });
                 }
 
-                // Kiểm tra trạng thái thanh toán qua API PayOS
                 bool isPaymentSuccessful = await VerifyPaymentStatus(orderCode);
                 if (!isPaymentSuccessful)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Payment verification failed for orderCode: {orderCode}");
+                    Debug.WriteLine($"Payment verification failed for orderCode: {orderCode}");
                     return Json(new { success = false, message = "Thanh toán không thành công hoặc không tìm thấy giao dịch." });
                 }
 
-                // Lấy thông tin từ Session
                 var items = Session["OrderItems"] as List<dynamic>;
                 var customerInfo = Session["CustomerInfo"] as dynamic;
                 var tempMaHD = Session["TempMaHD"] as string;
                 var paymentAmount = Session["PaymentAmount"] as decimal?;
 
-                // Log thông tin để debug
-                System.Diagnostics.Debug.WriteLine($"OrderCode: {orderCode}");
-                System.Diagnostics.Debug.WriteLine($"OrderItems: {JsonConvert.SerializeObject(items)}");
-                System.Diagnostics.Debug.WriteLine($"CustomerInfo: {JsonConvert.SerializeObject(customerInfo)}");
-                System.Diagnostics.Debug.WriteLine($"TempMaHD: {tempMaHD}");
-                System.Diagnostics.Debug.WriteLine($"PaymentAmount: {paymentAmount}");
+                Debug.WriteLine($"OrderCode: {orderCode}");
+                Debug.WriteLine($"OrderItems: {JsonConvert.SerializeObject(items)}");
+                Debug.WriteLine($"CustomerInfo: {JsonConvert.SerializeObject(customerInfo)}");
+                Debug.WriteLine($"TempMaHD: {tempMaHD}");
+                Debug.WriteLine($"PaymentAmount: {paymentAmount}");
 
-                // Kiểm tra dữ liệu Session
                 if (items == null || !items.Any())
                 {
                     return Json(new { success = false, message = "Danh sách sản phẩm trống." });
@@ -865,14 +824,12 @@ namespace chuyende.Areas.Admin.Controllers
                     return Json(new { success = false, message = "Số tiền thanh toán không hợp lệ." });
                 }
 
-                // Kiểm tra hóa đơn trùng
                 var existingHoaDon = db.HoaDons.FirstOrDefault(h => h.MaHD == tempMaHD);
                 if (existingHoaDon != null)
                 {
                     return Json(new { success = false, message = "Hóa đơn đã được xử lý trước đó." });
                 }
 
-                // Tạo hóa đơn
                 var hoaDon = new HoaDon
                 {
                     MaHD = tempMaHD,
@@ -881,19 +838,17 @@ namespace chuyende.Areas.Admin.Controllers
                     Email = customerInfo.Email,
                     DiaChi = customerInfo.DiaChi,
                     NgayTao = DateTime.Now,
-                    TrangThai = 0, // Đã thanh toán
-                    PhuongThucThanhToan = 2, // Chuyển khoản
+                    TrangThai = 0,
+                    PhuongThucThanhToan = 2,
                     NguoiTao = Session["Admin"] as string ?? "System"
                 };
 
-                // Bắt đầu transaction
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
                         db.HoaDons.Add(hoaDon);
 
-                        // Tạo chi tiết hóa đơn
                         int index = 1;
                         foreach (var item in items)
                         {
@@ -929,9 +884,8 @@ namespace chuyende.Areas.Admin.Controllers
                         }
 
                         db.SaveChanges();
-                        transaction.Commit(); // Xác nhận transaction
+                        transaction.Commit();
 
-                        // Xóa Session
                         Session["OrderItems"] = null;
                         Session["CustomerInfo"] = null;
                         Session["TempMaHD"] = null;
@@ -943,10 +897,10 @@ namespace chuyende.Areas.Admin.Controllers
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        System.Diagnostics.Debug.WriteLine($"Lỗi khi lưu hóa đơn: {ex.Message}, StackTrace: {ex.StackTrace}");
+                        Debug.WriteLine($"Lỗi khi lưu hóa đơn: {ex.Message}, StackTrace: {ex.StackTrace}");
                         if (ex.InnerException != null)
                         {
-                            System.Diagnostics.Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                            Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                         }
                         return Json(new { success = false, message = $"Lỗi khi lưu hóa đơn: {ex.Message}" });
                     }
@@ -954,10 +908,10 @@ namespace chuyende.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi chung trong ConfirmPayment: {ex.Message}, StackTrace: {ex.StackTrace}");
+                Debug.WriteLine($"Lỗi chung trong ConfirmPayment: {ex.Message}, StackTrace: {ex.StackTrace}");
                 if (ex.InnerException != null)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                    Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
                 return Json(new { success = false, message = $"Lỗi khi xử lý thanh toán: {ex.Message}" });
             }
@@ -967,43 +921,41 @@ namespace chuyende.Areas.Admin.Controllers
         public ActionResult PaymentSuccess(string orderCode)
         {
             TempData["SuccessMessage"] = "Thanh toán thành công! Vui lòng xác nhận để lưu hóa đơn.";
-            return RedirectToAction("Create");
+            return RedirectToAction("Confirmation");
         }
 
         private async Task<bool> VerifyPaymentStatus(string orderCode)
         {
             try
             {
-                string clientId = "c94459b0-2ac0-4e3e-9ca1-a7b7f1be4c4e";
-                string clientKey = "b3e95017-fd00-442c-b77b-180bf90503d4";
-
                 using (var client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("x-client-id", clientId);
-                    client.DefaultRequestHeaders.Add("x-api-key", clientKey);
+                    client.DefaultRequestHeaders.Add("x-client-id", ClientId);
+                    client.DefaultRequestHeaders.Add("x-api-key", ApiKey);
 
                     var response = await client.GetAsync($"https://api-merchant.payos.vn/v2/payment-requests/{orderCode}");
                     if (response.IsSuccessStatusCode)
                     {
                         var responseString = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine($"PayOS Verify response: {responseString}");
+                        Debug.WriteLine($"PayOS Verify response: {responseString}");
                         var responseData = JsonConvert.DeserializeObject<dynamic>(responseString);
                         string status = responseData["data"]["status"]?.ToString();
-                        return status == "PAID"; // Trạng thái thanh toán thành công
+                        return status == "PAID";
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine($"Lỗi khi kiểm tra trạng thái PayOS: {await response.Content.ReadAsStringAsync()}");
+                        Debug.WriteLine($"Lỗi khi kiểm tra trạng thái PayOS: {await response.Content.ReadAsStringAsync()}");
                         return false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi khi xác nhận trạng thái PayOS: {ex.Message}, StackTrace: {ex.StackTrace}");
+                Debug.WriteLine($"Lỗi khi xác nhận trạng thái PayOS: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return false;
             }
         }
+
         public ActionResult PaymentCancel(string orderCode, string status)
         {
             TempData["ErrorMessage"] = "Thanh toán bị hủy.";

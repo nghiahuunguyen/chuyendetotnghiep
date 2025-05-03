@@ -72,10 +72,10 @@
                             <td>
                                 <img src="@Url.Content("~/img/sanpham/" + ct.SanPham.HinhAnh)" alt="@ct.SanPham.TenSP" class="account-product-image" />
                             </td>
-                            <td>@String.Format("{0:C0}", ct.SanPham.GiaDau)</td>
+                            <td>@String.Format("{0:C0}", ct.SanPham.GiaDau-((ct.SanPham.GiaDau * ct.SanPham.SoGiam)/100))</td>
                             <td>@ct.SoLuong</td>
                             <td>
-                                @String.Format("{0:C0}", ct.SoLuong * (ct.SanPham.GiaDau - ct.SanPham.SoGiam))
+                                @String.Format("{0:C0}", ct.SoLuong * (ct.SanPham.GiaDau - ((ct.SanPham.GiaDau * ct.SanPham.SoGiam) / 100)))
                             </td>
                         </tr>
                     }
@@ -84,7 +84,7 @@
                     <tr>
                         <th colspan="4" class="account-table-total-label">Tổng cộng:</th>
                         <th>
-                            @String.Format("{0:C0}", Model.ChiTietHoaDon.Sum(c => c.SoLuong * (c.SanPham.GiaDau - c.SanPham.SoGiam)))
+                            @String.Format("{0:C0}", Model.ChiTietHoaDon.Sum(c => c.SoLuong * (c.SanPham.GiaDau - ((c.SanPham.GiaDau*c.SanPham.SoGiam)/100))))
                         </th>
                     </tr>
                 </tfoot>
