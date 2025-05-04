@@ -1,0 +1,10 @@
+Enable-Migrations
+Add-Migration InitialCreate
+Update-Database
+
+
+gửi mail  Install-Package MailKit
+
+lưu file  excel Install-Package EPPlus
+Install-Package EPPlus -Version 5.8.0
+Install-Package EPPlus -Version 4.5.3.3

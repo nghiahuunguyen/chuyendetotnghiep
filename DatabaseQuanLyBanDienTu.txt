@@ -1,0 +1,3 @@
+BACKUP DATABASE QuanLyBanDienTu
+TO DISK = 'D:\QuanLyBanDienTu.bak'
+WITH FORMAT, INIT, NAME = 'QuanLyBanDienTu Backup';
