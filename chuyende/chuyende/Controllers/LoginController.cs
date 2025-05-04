@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
 using chuyende.Helper;
 using chuyende.Models;
+using Newtonsoft.Json;
 
 namespace chuyende.Controllers
 {
@@ -34,7 +37,7 @@ namespace chuyende.Controllers
                 return View();
             }
 
-            string hashedPassword = HashPassword(password); // Băm mật khẩu trước khi kiểm tra
+            string hashedPassword = HashPassword(password);
 
             var user = db.KhachHangs.FirstOrDefault(k =>
                 (k.Email == email || k.SoDienThoai == email) && k.MatKhau == hashedPassword);
@@ -45,13 +48,12 @@ namespace chuyende.Controllers
                 return View();
             }
 
-            if (!user.IsActive) // Kiểm tra tài khoản đã kích hoạt chưa
+            if (!user.IsActive)
             {
-                ViewBag.ErrorMessage = "Tài khoản không tồn tại.";
+                ViewBag.ErrorMessage = "Tài khoản chưa được kích hoạt.";
                 return View();
             }
 
-            // Nếu hợp lệ, lưu vào session và chuyển hướng
             Session["User"] = user;
             return RedirectToAction("Index", "Home");
         }
@@ -59,119 +61,239 @@ namespace chuyende.Controllers
         // Hàm băm mật khẩu SHA-256
         private string HashPassword(string password)
         {
-            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            using (var sha256 = SHA256.Create())
             {
-                byte[] bytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
                 return BitConverter.ToString(bytes).Replace("-", "").ToLower();
             }
         }
 
+        // Logout
         public ActionResult Logout()
         {
-            // Giữ lại giỏ hàng
             var cart = Session["Cart"];
-
-            // Chỉ xóa thông tin đăng nhập
             Session.Remove("User");
-
-            // Khôi phục giỏ hàng
             Session["Cart"] = cart;
-
             return RedirectToAction("Index", "Home");
         }
 
+        // Tạo mã OTP 6 chữ số
         private string GenerateOTP()
         {
             Random random = new Random();
-            return random.Next(100000, 999999).ToString(); // Mã OTP 6 chữ số
+            return random.Next(100000, 999999).ToString();
         }
 
+        // GET: Forgot Password
         public ActionResult ForgotPassword()
         {
             return View();
         }
+
+        // POST: Forgot Password
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string email)
         {
-            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email);
-
-            if (user == null || !user.IsActive)
+            if (string.IsNullOrEmpty(email))
             {
-                ViewBag.ErrorMessage = "Tài khoản không tồn tại.";
+                ViewBag.ErrorMessage = "Vui lòng nhập email.";
                 return View();
             }
 
-            // Tạo mã OTP 6 số
-            user.ActivationToken = GenerateOTP();
+            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email);
+            if (user == null || !user.IsActive)
+            {
+                ViewBag.ErrorMessage = "Tài khoản không tồn tại hoặc chưa được kích hoạt.";
+                return View();
+            }
+
+            // Tạo OTP và lưu kèm thời gian tạo dưới dạng JSON
+            string otp = GenerateOTP();
+            var otpData = new
+            {
+                otp = otp,
+                generatedAt = DateTime.UtcNow.ToString("o") // Định dạng ISO 8601
+            };
+            user.ActivationToken = JsonConvert.SerializeObject(otpData);
             db.SaveChanges();
 
             // Gửi email chứa mã OTP
-            string emailBody = $"<p>Chào {user.TenKH},</p><p>Mã xác nhận đặt lại mật khẩu của bạn là: <strong>{user.ActivationToken}</strong>. Vui lòng không chia sẻ mã này bất kỳ ai.</p>";
+            string emailBody = $"<p>Chào {user.TenKH},</p><p>Mã xác nhận đặt lại mật khẩu của bạn là: <strong>{otp}</strong>. Mã này có hiệu lực trong 2 phút. Vui lòng không chia sẻ mã này.</p>";
             SendMail sendMail = new SendMail();
             sendMail.SendMailFunction(user.Email, "Mã xác nhận đặt lại mật khẩu", emailBody);
 
             return RedirectToAction("ResetPassword", new { email = user.Email });
         }
+
+        // GET: Reset Password
         public ActionResult ResetPassword(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("ForgotPassword");
+            }
             ViewBag.Email = email;
             return View();
         }
+
+        // POST: Reset Password
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(string email, string otp)
         {
-            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email && kh.ActivationToken == otp);
-
-            if (user == null)
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(otp))
             {
                 ViewBag.Email = email;
-                ViewBag.ErrorMessage = "Mã xác nhận không hợp lệ!";
+                ViewBag.ErrorMessage = "Vui lòng nhập đầy đủ thông tin.";
                 return View();
             }
 
-            return RedirectToAction("NewPassword", new { email = user.Email });
+            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email);
+            if (user == null || string.IsNullOrEmpty(user.ActivationToken))
+            {
+                ViewBag.Email = email;
+                ViewBag.ErrorMessage = "Email không hợp lệ hoặc mã OTP không tồn tại.";
+                return View();
+            }
+
+            try
+            {
+                // Phân tích JSON từ ActivationToken
+                var otpData = JsonConvert.DeserializeObject<dynamic>(user.ActivationToken);
+                string storedOtp = otpData.otp;
+                DateTime generatedAt = DateTime.Parse(otpData.generatedAt.ToString());
+
+                // Kiểm tra OTP
+                if (storedOtp != otp)
+                {
+                    ViewBag.Email = email;
+                    ViewBag.ErrorMessage = "Mã OTP không đúng.";
+                    return View();
+                }
+
+                // Kiểm tra OTP hết hạn (2 phút = 120 giây)
+                if ((DateTime.UtcNow - generatedAt).TotalSeconds > 120)
+                {
+                    ViewBag.Email = email;
+                    ViewBag.ErrorMessage = "Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới.";
+                    return View();
+                }
+
+                return RedirectToAction("NewPassword", new { email = user.Email });
+            }
+            catch
+            {
+                ViewBag.Email = email;
+                ViewBag.ErrorMessage = "Lỗi xử lý mã OTP. Vui lòng thử lại.";
+                return View();
+            }
         }
+
+        // POST: Resend OTP
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResendOTP(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                ViewBag.ErrorMessage = "Email không hợp lệ.";
+                return View("ResetPassword");
+            }
+
+            var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email && kh.IsActive);
+            if (user == null || string.IsNullOrEmpty(user.ActivationToken))
+            {
+                ViewBag.Email = email;
+                ViewBag.ErrorMessage = "Tài khoản không tồn tại hoặc không có mã OTP.";
+                return View("ResetPassword");
+            }
+
+            try
+            {
+                // Phân tích JSON từ ActivationToken
+                var otpData = JsonConvert.DeserializeObject<dynamic>(user.ActivationToken);
+                DateTime generatedAt = DateTime.Parse(otpData.generatedAt.ToString());
+
+                // Kiểm tra thời gian chờ 30 giây
+                if ((DateTime.UtcNow - generatedAt).TotalSeconds < 30)
+                {
+                    int remainingSeconds = (int)(30 - (DateTime.UtcNow - generatedAt).TotalSeconds);
+                    ViewBag.Email = email;
+                    ViewBag.ErrorMessage = $"Vui lòng đợi {remainingSeconds} giây trước khi yêu cầu mã mới.";
+                    return View("ResetPassword");
+                }
+
+                // Tạo OTP mới
+                string newOtp = GenerateOTP();
+                var newOtpData = new
+                {
+                    otp = newOtp,
+                    generatedAt = DateTime.UtcNow.ToString("o")
+                };
+                user.ActivationToken = JsonConvert.SerializeObject(newOtpData);
+                db.SaveChanges();
+
+                // Gửi email chứa OTP mới
+                string emailBody = $"<p>Chào {user.TenKH},</p><p>Mã xác nhận đặt lại mật khẩu mới của bạn là: <strong>{newOtp}</strong>. Mã này có hiệu lực trong 2 phút. Vui lòng không chia sẻ mã này.</p>";
+                SendMail sendMail = new SendMail();
+                sendMail.SendMailFunction(user.Email, "Mã xác nhận đặt lại mật khẩu mới", emailBody);
+
+                ViewBag.Email = email;
+                ViewBag.ErrorMessage = "Mã OTP mới đã được gửi đến email của bạn!";
+                return View("ResetPassword");
+            }
+            catch
+            {
+                ViewBag.Email = email;
+                ViewBag.ErrorMessage = "Lỗi gửi mã OTP. Vui lòng thử lại.";
+                return View("ResetPassword");
+            }
+        }
+
+        // GET: New Password
         public ActionResult NewPassword(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("ForgotPassword");
+            }
             ViewBag.Email = email;
             return View();
         }
+
+        // POST: New Password
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult NewPassword(string email, string newPassword, string confirmPassword)
         {
-            ViewBag.Email = email; // giữ lại email cho form
+            ViewBag.Email = email;
 
-            // Kiểm tra rỗng
             if (string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmPassword))
             {
-                ViewBag.ErrorMessage = "Vui lòng nhập đầy đủ mật khẩu!";
+                ViewBag.ErrorMessage = "Vui lòng nhập đầy đủ mật khẩu.";
                 return View();
             }
 
-            // Kiểm tra xác nhận không trùng khớp
             if (newPassword != confirmPassword)
             {
-                ViewBag.ConfirmPasswordError = "Mật khẩu xác nhận không khớp!";
+                ViewBag.ErrorMessage = "Mật khẩu xác nhận không khớp.";
                 return View();
             }
 
-            // Kiểm tra tồn tại người dùng
             var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email);
             if (user == null)
             {
-                ViewBag.ErrorMessage = "Email không hợp lệ!";
+                ViewBag.ErrorMessage = "Email không hợp lệ.";
                 return View();
             }
 
-            // Cập nhật mật khẩu
             user.MatKhau = HashPassword(newPassword);
             user.ActivationToken = null;
             db.SaveChanges();
 
             TempData["SuccessMessage"] = "Cập nhật mật khẩu thành công!";
-            return RedirectToAction("Index", "Login");
-
+            return RedirectToAction("Index");
         }
-
     }
 }

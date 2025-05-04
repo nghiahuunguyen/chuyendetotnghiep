@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Toast ở góc phải -->
+<!-- Hiển thị thông báo lỗi hoặc thành công -->
 @if (ViewBag.Message != null)
 {
     <div id="toastContainer">
@@ -17,8 +17,12 @@
 <div class="otp-container">
     <h2>Nhập mã OTP</h2>
     <p>Mã OTP đã được gửi đến email <b>@ViewBag.Email</b></p>
+    <!-- Hiển thị bộ đếm thời gian OTP -->
+    <p id="otpTimer" style="color: #dc3545;">Thời gian OTP còn lại: <span id="otpCountdown">02:00</span></p>
 
-    <form method="post">
+    <!-- Form nhập OTP -->
+    <form method="post" action="@Url.Action("ConfirmOTP")">
+        @Html.AntiForgeryToken()
         <input type="hidden" name="email" value="@ViewBag.Email" />
         <input type="text" name="otp" placeholder="Nhập mã OTP" class="otp-input" required />
 
@@ -26,11 +30,94 @@
             Xác nhận
         </button>
     </form>
+
+    <!-- Liên kết gửi lại OTP (văn bản, không khung) -->
+    <form method="post" action="@Url.Action("ResendOTP")" id="resendForm">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="email" value="@ViewBag.Email" />
+        <a href="javascript:void(0);" id="resendLink" class="resend-link" onclick="document.getElementById('resendForm').submit();" style="display: none;">Gửi lại mã OTP</a>
+    </form>
+    <!-- Hiển thị bộ đếm thời gian chờ gửi lại OTP -->
+    <p id="cooldownTimer" style="color: #dc3545;"></p>
 </div>
 
-<!-- CSS -->
+<!-- JavaScript xử lý bộ đếm giờ -->
+<script>
+    // --- Bộ đếm thời gian hết hạn OTP (2 phút = 120 giây) ---
+    let otpSeconds = 120; // OTP hết hạn sau 120 giây
+    const otpCountdown = document.getElementById('otpCountdown');
+    let otpInterval; // Lưu interval để reset khi gửi lại OTP
+
+    function updateOtpTimer() {
+        const minutes = Math.floor(otpSeconds / 60);
+        const seconds = otpSeconds % 60;
+        otpCountdown.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (otpSeconds <= 0) {
+            otpCountdown.textContent = 'Hết hạn';
+            otpCountdown.style.color = '#dc3545';
+            clearInterval(otpInterval);
+        }
+        otpSeconds--;
+    }
+
+    // Khởi chạy bộ đếm OTP
+    function startOtpTimer() {
+        otpSeconds = 120; // Reset về 2 phút
+        clearInterval(otpInterval); // Xóa interval cũ (nếu có)
+        updateOtpTimer(); // Cập nhật ngay lập tức
+        otpInterval = setInterval(updateOtpTimer, 1000); // Cập nhật mỗi giây
+    }
+
+    // Bắt đầu bộ đếm OTP khi tải trang
+    startOtpTimer();
+
+    // --- Bộ đếm thời gian chờ gửi lại OTP (30 giây) ---
+    let cooldownSeconds = 30; // Mặc định 30 giây khi tải trang
+    const resendLink = document.getElementById('resendLink');
+    const cooldownTimer = document.getElementById('cooldownTimer');
+
+    // Kiểm tra thông báo từ server để cập nhật thời gian chờ
+    const message = '@ViewBag.Message';
+    if (message.includes('Vui lòng đợi')) {
+        const match = message.match(/(\d+)/);
+        if (match) {
+            cooldownSeconds = parseInt(match[0]);
+        }
+    }
+
+    function updateCooldownTimer() {
+        cooldownTimer.textContent = `Vui lòng đợi ${cooldownSeconds} giây để gửi lại mã`;
+        resendLink.style.display = 'none'; // Ẩn liên kết khi đang chờ
+        if (cooldownSeconds <= 0) {
+            cooldownTimer.textContent = '';
+            resendLink.style.display = 'inline'; // Hiển thị liên kết khi hết chờ
+            clearInterval(cooldownInterval);
+        }
+        cooldownSeconds--;
+    }
+
+    // Khởi chạy bộ đếm thời gian chờ
+    let cooldownInterval;
+    function startCooldownTimer(seconds) {
+        cooldownSeconds = seconds;
+        clearInterval(cooldownInterval); // Xóa interval cũ
+        updateCooldownTimer(); // Cập nhật ngay lập tức
+        cooldownInterval = setInterval(updateCooldownTimer, 1000); // Cập nhật mỗi giây
+    }
+
+    // Bắt đầu bộ đếm thời gian chờ khi tải trang
+    startCooldownTimer(cooldownSeconds);
+
+    // Reset bộ đếm OTP khi gửi lại OTP thành công
+    if (message.includes('Mã OTP mới đã được gửi')) {
+        startOtpTimer(); // Reset bộ đếm OTP về 2 phút
+        startCooldownTimer(30); // Reset thời gian chờ về 30 giây
+    }
+</script>
+
+<!-- CSS cho giao diện -->
 <style>
-    /* Toast ở góc phải */
+    /* Toast thông báo góc phải */
     #toastContainer {
         position: fixed;
         top: 20px;
@@ -85,9 +172,32 @@
         border: none;
         border-radius: 6px;
         cursor: pointer;
+        margin: 10px 0;
     }
 
         .confirm-btn:hover {
-            background-color: #42A5F5;
+            background-color: #2196F3;
         }
+
+    /* Định dạng liên kết gửi lại OTP */
+    .resend-link {
+        color: #42A5F5;
+        font-size: 14px;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+        .resend-link:hover {
+            color: #2196F3;
+        }
+
+    /* Định dạng cho bộ đếm thời gian */
+    #otpTimer, #cooldownTimer {
+        font-size: 14px;
+        margin: 10px 0;
+    }
+
+    #otpCountdown {
+        font-weight: bold;
+    }
 </style>
