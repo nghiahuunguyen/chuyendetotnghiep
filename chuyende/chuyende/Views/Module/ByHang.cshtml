@@ -85,15 +85,19 @@
                 </div>
 
             </a>
-            <div class="product-actions">
-                <form action="@Url.Action("AddToCart", "Cart")" method="get" style="display:inline;">
-                    <input type="hidden" name="id" value="@product.MaSP" />
-                    <button type="submit" class="add-to-cart btn btn-primary">
-                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                    </button>
-                </form>
+            @if (product.SoLuong > 0)
+            {
+                <div class="product-actions">
+                    <form action="@Url.Action("AddToCart", "Cart")" method="get" style="display:inline;">
+                        <input type="hidden" name="id" value="@product.MaSP" />
+                        <button type="submit" class="add-to-cart btn btn-primary">
+                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                        </button>
+                    </form>
 
-            </div>
+                </div>
+
+            }
         </div>
 
                 }

@@ -12,21 +12,29 @@
         <h1 class="product-title">@Html.DisplayFor(model => model.TenSP)</h1>
 
         <div class="product-price">
-            
-            @if (Model.GiaDau > 0 && Model.SoGiam >= 0)
-
+            @if (Model.SoLuong > 0)
             {
-                var giaBan = Model.GiaDau - (Model.GiaDau * Model.SoGiam / 100);
-                @String.Format("{0:N0} VND", giaBan)
+                if (Model.GiaDau > 0 && Model.SoGiam >= 0)
+
+                {
+                    var giaBan = Model.GiaDau - (Model.GiaDau * Model.SoGiam / 100);
+                    @String.Format("{0:N0} VND", giaBan)
+                }
+                <span style="text-decoration: line-through; color: #888; margin-left: 10px;">
+                    @(Model.GiaDau?.ToString("#,##0") ?? "0") VNĐ
+
+                </span>
+
+                <span style="color: #d32f2f; margin-left: 10px;">-@Html.DisplayFor(model => model.SoGiam)%</span>
+
             }
-            <span style="text-decoration: line-through; color: #888; margin-left: 10px;">
-                @(Model.GiaDau?.ToString("#,##0") ?? "0") VNĐ
+            else
+            {
+                <span class="current-price">Hết hàng</span>
+            }
 
-            </span>
-
-            <span style="color: #d32f2f; margin-left: 10px;">-@Html.DisplayFor(model => model.SoGiam)%</span>
         </div>
-        
+
 
         <div class="product-promo">
             <h3>Khuyến mãi</h3>
@@ -45,15 +53,19 @@
             </p>
         </div>
 
-        <div class="product-actions">
-            <form action="@Url.Action("AddToCart", "Cart")" method="get" style="display:inline;">
-                <input type="hidden" name="id" value="@Model.MaSP" />
-                <button type="submit" class="add-to-cart btn btn-primary">
-                    <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                </button>
-            </form>
+        @if (Model.SoLuong > 0)
+        {
+            <div class="product-actions">
+                <form action="@Url.Action("AddToCart", "Cart")" method="get" style="display:inline;">
+                    <input type="hidden" name="id" value="@Model.MaSP" />
+                    <button type="submit" class="add-to-cart btn btn-primary">
+                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                    </button>
+                </form>
 
-        </div>
+            </div>
+
+        }
 
     </div>
 </div>
