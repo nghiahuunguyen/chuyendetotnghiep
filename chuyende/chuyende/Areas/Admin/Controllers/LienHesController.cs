@@ -34,14 +34,14 @@ namespace chuyende.Areas.Admin.Controllers
         public ActionResult ToggleTrangThai(int id)
         {
             var lienHe = db.LienHes.Find(id);
-            if (lienHe != null)
+            if (lienHe != null && lienHe.TrangThai == 0)
             {
-                lienHe.TrangThai = lienHe.TrangThai == 1 ? 0 : 1;
+                lienHe.TrangThai = 1;
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
-
         }
+
 
         public ActionResult Details(int? id)
         {
@@ -51,6 +51,35 @@ namespace chuyende.Areas.Admin.Controllers
             if (lienHe == null)
                 return RedirectToAction("Index");
             return View(lienHe);
+        }
+
+        public ActionResult Compose(int id)
+        {
+            var lienHe = db.LienHes.Find(id);
+            if (lienHe == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.MaLH = lienHe.MaLH;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendEmail(int maLH, string subject, string body)
+        {
+            var lienHe = db.LienHes.Find(maLH);
+            if (lienHe == null)
+            {
+                return HttpNotFound();
+            }
+
+            var emailHelper = new chuyende.Helper.SendMail();
+            bool result = emailHelper.SendMailFunction(lienHe.Email, subject, body);
+
+            TempData["Message"] = result ? "✅ Email đã gửi thành công!" : "❌ Gửi email thất bại.";
+            return RedirectToAction("Index");
         }
 
     }
