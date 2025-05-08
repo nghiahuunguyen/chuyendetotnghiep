@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "D:\\chuyendetotnghiep\\chuyende\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\login\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\login\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\hoadons\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\hoadons\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\login\\newpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\login\\newpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\controllers\\hoadonscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\controllers\\hoadonscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\chitiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\chitiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\login\\forgotpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\login\\forgotpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|D:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,63 +35,65 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ResetPassword.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\ResetPassword.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Login\\ResetPassword.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\ResetPassword.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Login\\ResetPassword.cshtml",
-              "ViewState": "AgIAAKwAAAAAAAAAAADwv94AAAAIAAAAAAAAAA==",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml*",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\HoaDons\\Create.cshtml*",
+              "ViewState": "AgIAABgCAAAAAAAAAAAAAC0CAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T02:44:52.827Z",
+              "WhenOpened": "2025-05-08T08:27:32.109Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "NewPassword.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\NewPassword.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Login\\NewPassword.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\NewPassword.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Login\\NewPassword.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T02:43:15.736Z"
+              "Title": "HoaDonsController.cs",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Controllers\\HoaDonsController.cs",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Controllers\\HoaDonsController.cs",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Controllers\\HoaDonsController.cs*",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Controllers\\HoaDonsController.cs*",
+              "ViewState": "AgIAAMkDAAAAAAAAAAAQwAMEAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-08T08:26:21.366Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "LoginController.cs",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\LoginController.cs",
-              "RelativeDocumentMoniker": "chuyende\\Controllers\\LoginController.cs",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Controllers\\LoginController.cs",
-              "RelativeToolTip": "chuyende\\Controllers\\LoginController.cs",
-              "ViewState": "AgIAAAsBAAAAAAAAAAAzwCoBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T02:42:48.26Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\Index.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Login\\Index.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\Index.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Login\\Index.cshtml",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAAABgAAAAIAAAAAAAAAA==",
+              "Title": "ChiTiet.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ChiTiet.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ChiTiet.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ChiTiet.cshtml",
+              "RelativeToolTip": "chuyende\\Views\\Module\\ChiTiet.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAswBYAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T02:17:59.774Z"
+              "WhenOpened": "2025-05-07T08:08:21.709Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ForgotPassword.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\ForgotPassword.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Login\\ForgotPassword.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Login\\ForgotPassword.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Login\\ForgotPassword.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA4AAAAOAAAAAAAAAA==",
+              "Title": "ByLoai.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByLoai.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
+              "RelativeToolTip": "chuyende\\Views\\Module\\ByLoai.cshtml",
+              "ViewState": "AgIAADQAAAAAAAAAAADwv1MAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T02:17:39.044Z"
+              "WhenOpened": "2025-05-07T08:05:44.437Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ByHang.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByHang.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
+              "RelativeToolTip": "chuyende\\Views\\Module\\ByHang.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADUAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-07T08:05:43.074Z"
             }
           ]
         }

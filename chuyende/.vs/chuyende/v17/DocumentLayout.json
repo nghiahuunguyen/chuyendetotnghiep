@@ -1,71 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\chuyendetotnghiep\\chuyende\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\chitiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\chitiet.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byloai.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\views\\module\\byhang.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ChiTiet.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ChiTiet.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ChiTiet.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ChiTiet.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Module\\ChiTiet.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACEAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T08:08:21.709Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ByLoai.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByLoai.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByLoai.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Module\\ByLoai.cshtml",
-              "ViewState": "AgIAADQAAAAAAAAAAADwv1MAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T08:05:44.437Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ByHang.cshtml",
-              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
-              "RelativeDocumentMoniker": "chuyende\\Views\\Module\\ByHang.cshtml",
-              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Views\\Module\\ByHang.cshtml",
-              "RelativeToolTip": "chuyende\\Views\\Module\\ByHang.cshtml",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAADUAAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T08:05:43.074Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
