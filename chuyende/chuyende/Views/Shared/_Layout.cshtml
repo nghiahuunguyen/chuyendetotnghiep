@@ -56,12 +56,15 @@
 
             <!-- Search bar -->
             <form class="search-container" method="get" action="/Search/Index">
-                <input type="text" id="search-input" name="query" class="search-input" placeholder="Bạn tìm gì..." autocomplete="off" />
+                <input type="text" id="search-input" name="query" class="search-input"
+                       placeholder="Bạn tìm gì..." autocomplete="off"
+                       value="@ViewBag.TuKhoa" />
                 <div id="suggestions" class="suggestion-box"></div>
                 <button type="submit" class="search-button">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
+
 
 
             <!-- User tools -->

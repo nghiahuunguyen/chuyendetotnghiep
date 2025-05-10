@@ -26,7 +26,7 @@ namespace chuyende.Areas.Admin.Controllers
             }
 
             var user = db.NhanViens.Include(nv => nv.ChucVu)
-                                  .FirstOrDefault(nv => nv.TenDN == TenDN && nv.MatKhau == MatKhau);
+                                  .FirstOrDefault(nv => nv.TenDN == TenDN && nv.MatKhau == MatKhau && nv.Status == 1);
 
             if (user == null)
             {
