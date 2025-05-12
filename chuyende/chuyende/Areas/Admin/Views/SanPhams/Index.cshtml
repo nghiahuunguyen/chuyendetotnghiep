@@ -89,7 +89,10 @@
                     <tr>
                         <td>@stt</td>
                         <td>@item.MaSP</td>
-                        <td>@item.TenSP</td>
+                        <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            @item.TenSP
+                        </td>
+
                         <td>
                             @if (!string.IsNullOrEmpty(item.HinhAnh))
                             {
@@ -100,7 +103,15 @@
                                 <span>Không có hình ảnh</span>
                             }
                         </td>
-                        <td>@item.SoLuong</td>
+                        <td>
+                            <span class="soLuongText" data-id="@item.MaSP">@item.SoLuong</span>
+                            <input type="number"
+                                   class="soLuongInput d-none"
+                                   value="@item.SoLuong"
+                                   data-id="@item.MaSP"
+                                   style="width: 60px;" />
+                        </td>
+
                         <td>
                             @if (item.GiaDau > 0 && item.SoGiam >= 0)
                             {
@@ -135,10 +146,7 @@
                                     </button>
                                 }
                             }
-                            <!-- Luôn hiển thị nút Chi tiết -->
-                            <a href="@Url.Action("Details", "SanPhams", new { id = item.MaSP })" class="btn btn-info btn-sm">
-                                <i class="fas fa-eye"></i>
-                            </a>
+                           
                         </td>
                     </tr>
                     stt++;
@@ -146,6 +154,8 @@
             </tbody>
         </table>
     </div>
+
+
 
     <div class="pagination-container text-end">
         @Html.PagedListPager(Model, page => Url.Action("Index", new
@@ -167,6 +177,60 @@
 </div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<script>
+    $(document).ready(function () {
+        // Hiển thị input khi double-click
+        $('.soLuongText').on('dblclick', function () {
+            var span = $(this);
+            var input = span.siblings('.soLuongInput');
+            span.addClass('d-none');
+            input.removeClass('d-none').focus();
+        });
+
+        // Cập nhật khi thay đổi
+        $('.soLuongInput').on('change', function () {
+            var input = $(this);
+            var newSoLuong = input.val();
+            var maSP = input.data("id");
+            var span = input.siblings('.soLuongText');
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            $.ajax({
+                url: '@Url.Action("CapNhatSoLuong", "SanPhams")',
+                type: 'POST',
+                data: {
+                    __RequestVerificationToken: token,
+                    maSP: maSP,
+                    soLuong: newSoLuong
+                },
+                success: function (res) {
+                    if (res.success) {
+                        span.text(newSoLuong);
+                    } else {
+                        alert(res.message || "Cập nhật thất bại");
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi cập nhật");
+                },
+                complete: function () {
+                    input.addClass('d-none');
+                    span.removeClass('d-none');
+                }
+            });
+        });
+
+        // Ẩn input nếu blur
+        $('.soLuongInput').on('blur', function () {
+            var input = $(this);
+            var span = input.siblings('.soLuongText');
+            input.addClass('d-none');
+            span.removeClass('d-none');
+        });
+    });
+</script>
+
 
 <script>
     $(document).ready(function () {

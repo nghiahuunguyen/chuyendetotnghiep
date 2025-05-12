@@ -6,7 +6,7 @@
 
 <h2>Soạn Email</h2>
 
-@using (Html.BeginForm("SendEmail", "LienHes", FormMethod.Post))
+@using (Html.BeginForm("SendEmail", "LienHes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <input type="hidden" name="maLH" value="@maLH" />
@@ -18,8 +18,48 @@
 
     <div class="form-group">
         <label>Nội dung</label>
-        <textarea name="body" class="form-control" rows="5" required></textarea>
+        <textarea name="body" class="form-control" id="summernote" rows="5" required></textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary">Gửi Email</button>
+    <!-- Đính kèm file với biểu tượng -->
+    <div class="form-group mt-3">
+        <label class="btn btn-light border" for="fileAttachment" style="cursor:pointer;">
+            <i class="fas fa-paperclip"></i> Đính kèm tệp
+        </label>
+        <input type="file" id="fileAttachment" name="file" style="display:none;" />
+        <span id="fileName" class="text-muted ml-2">Không có tệp nào được chọn</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-paper-plane"></i> Gửi Email
+    </button>
 }
+
+<script>
+    $("#fileAttachment").change(function () {
+        var fileName = $(this).val().split("\\").pop();
+        $("#fileName").text(fileName || "Không có tệp nào được chọn");
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 200,
+            placeholder: 'Nhập nội dung email...',
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['view', ['fullscreen', 'codeview']]
+            ]
+        });
+    });
+</script>
+<!-- jQuery + Bootstrap (nếu chưa có) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- Summernote JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.js"></script>

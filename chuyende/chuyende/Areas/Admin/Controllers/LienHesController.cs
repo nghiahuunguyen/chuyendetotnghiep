@@ -45,6 +45,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Details(int? id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             if (id == null)
                 return RedirectToAction("Index");
             LienHe lienHe = db.LienHes.Find(id);
@@ -55,6 +59,10 @@ namespace chuyende.Areas.Admin.Controllers
 
         public ActionResult Compose(int id)
         {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("Index", "DangNhap");
+            }
             var lienHe = db.LienHes.Find(id);
             if (lienHe == null)
             {
@@ -67,7 +75,8 @@ namespace chuyende.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SendEmail(int maLH, string subject, string body)
+        [ValidateInput(false)]
+        public ActionResult SendEmail(int maLH, string subject, string body, HttpPostedFileBase file)
         {
             var lienHe = db.LienHes.Find(maLH);
             if (lienHe == null)
@@ -75,12 +84,29 @@ namespace chuyende.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
+            string imageUrl = null;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                // Lưu file vào thư mục /Uploads
+                string fileName = System.IO.Path.GetFileName(file.FileName);
+                string path = Server.MapPath("~/img/mail/" + fileName);
+                file.SaveAs(path);
+
+                // Tạo đường dẫn URL để nhúng vào email
+                imageUrl = Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content("~/img/mail/" + fileName);
+
+                // Nhúng ảnh vào nội dung HTML
+                body += $"<br><img src=\"{imageUrl}\" style=\"max-width:100%;\" />";
+            }
+
             var emailHelper = new chuyende.Helper.SendMail();
-            bool result = emailHelper.SendMailFunction(lienHe.Email, subject, body);
+            bool result = emailHelper.SendMailFunction(lienHe.Email, subject, body,file); // Không truyền file nữa
 
             TempData["Message"] = result ? "✅ Email đã gửi thành công!" : "❌ Gửi email thất bại.";
             return RedirectToAction("Index");
         }
+
 
     }
 }

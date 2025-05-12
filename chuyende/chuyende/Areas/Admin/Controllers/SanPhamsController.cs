@@ -83,7 +83,22 @@ public class SanPhamsController : Controller
             return View(sanPhams.ToPagedList(pageNumber, pageSize));
         }
 
-    [HttpPost]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CapNhatSoLuong(string maSP, int soLuong)
+        {
+            var sp = db.SanPhams.Find(maSP);
+            if (sp != null)
+            {
+                sp.SoLuong = soLuong;
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+            return Json(new { success = false, message = "Không tìm thấy sản phẩm" });
+        }
+
+
+        [HttpPost]
     public JsonResult ToggleBanChay(string id)
     {
         if (string.IsNullOrEmpty(id))
@@ -153,17 +168,7 @@ public class SanPhamsController : Controller
             return Json(new { success = false });
         }
 
-    public ActionResult Details(string id)
-    {
-        if (Session["Admin"] == null)
-        {
-            return RedirectToAction("Index", "DangNhap");
-        }
-        if (id == null) return RedirectToAction("Index");
-        SanPham sanPham = db.SanPhams.Find(id);
-        if (sanPham == null) return RedirectToAction("Index");
-        return View(sanPham);
-    }
+    
 
     public ActionResult Create()
     {
