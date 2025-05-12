@@ -6,7 +6,7 @@
 }
 
 <div class="table-container">
-    <h3>Thùng rác chức vụ</h3>
+    <h3>Thùng rác loại sản phẩm</h3>
 
     <div class="form-actions d-flex justify-content-end gap-2 mb-3">
         @using (Html.BeginForm("RestoreAll", "LoaiSanPhams", FormMethod.Post))
@@ -54,7 +54,7 @@
                             {
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i> Xóa vĩnh viễn
+                                    <i class="fas fa-trash-alt"></i> Xóa 
                                 </button>
                             }
                         </div>

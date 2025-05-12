@@ -1,12 +1,105 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\chuyendetotnghiep\\chuyende\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\sanphams\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\sanphams\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\nhanviens\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\nhanviens\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\loaisanphams\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\loaisanphams\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\hangs\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\hangs\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|d:\\chuyendetotnghiep\\chuyende\\chuyende\\areas\\admin\\views\\chucvus\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DB58A330-012D-4161-B77B-7B0B89293FFF}|chuyende\\chuyende.csproj|solutionrelative:chuyende\\areas\\admin\\views\\chucvus\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Trash.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Trash.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Trash.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\SanPhams\\Trash.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\SanPhams\\Trash.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEcAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-12T08:20:41.331Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Trash.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\NhanViens\\Trash.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\NhanViens\\Trash.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\NhanViens\\Trash.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\NhanViens\\Trash.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADgAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-12T08:20:20.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Trash.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Trash.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Trash.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Trash.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\LoaiSanPhams\\Trash.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADgAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-12T08:20:08.843Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Trash.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\Hangs\\Trash.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\Hangs\\Trash.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\Hangs\\Trash.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\Hangs\\Trash.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAEIAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-12T08:19:39.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Trash.cshtml",
+              "DocumentMoniker": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\ChucVus\\Trash.cshtml",
+              "RelativeDocumentMoniker": "chuyende\\Areas\\Admin\\Views\\ChucVus\\Trash.cshtml",
+              "ToolTip": "D:\\chuyendetotnghiep\\chuyende\\chuyende\\Areas\\Admin\\Views\\ChucVus\\Trash.cshtml",
+              "RelativeToolTip": "chuyende\\Areas\\Admin\\Views\\ChucVus\\Trash.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADYAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-12T08:19:21.563Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
