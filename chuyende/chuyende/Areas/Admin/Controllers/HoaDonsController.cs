@@ -111,6 +111,7 @@ namespace chuyende.Areas.Admin.Controllers
             return View("Print", hoaDon);
         }
 
+        
         [HttpPost]
         public ActionResult UpdateStatus(string id, int trangThai)
         {
@@ -176,6 +177,56 @@ namespace chuyende.Areas.Admin.Controllers
                     sendMail.SendMailFunction(hoaDon.Email, "Đơn hàng đang được vận chuyển", emailBody);
                 }
 
+                if (trangThai == 3)
+                {
+                    string emailBody = $"<div style='color: black; font-family: Arial, sans-serif;'>" +
+                                       $"<p>Chào {hoaDon.TenKH},</p>" +
+                                       $"<p>Đơn hàng của bạn (Mã đơn: <strong>{hoaDon.MaHD}</strong>) đã hoàn thành.</p>" +
+                                       "<p>Chi tiết đơn hàng:</p>" +
+                                       "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%; color: black;'>" +
+                                       "<thead>" +
+                                       "<tr>" +
+                                       "<th style='text-align:left; color: black;'>Tên sản phẩm</th>" +
+                                       "<th style='color: black;'>Số lượng</th>" +
+                                       "<th style='color: black;'>Đơn giá</th>" +
+                                       "<th style='color: black;'>Thành tiền</th>" +
+                                       "</tr>" +
+                                       "</thead><tbody>";
+
+                    foreach (var item in hoaDon.ChiTietHoaDon)
+                    {
+                        decimal giaDau = item.SanPham.GiaDau ?? 0;
+                        decimal soGiam = item.SanPham.SoGiam ?? 0;
+                        decimal donGia = giaDau - (giaDau * soGiam / 100);
+                        decimal thanhTien = item.SoLuong * donGia;
+
+                        emailBody += "<tr>" +
+                                     $"<td style='color: black;'>{item.SanPham.TenSP}</td>" +
+                                     $"<td style='text-align:center; color: black;'>{item.SoLuong}</td>" +
+                                     $"<td style='text-align:right; color: black;'>{String.Format("{0:C0}", donGia)}</td>" +
+                                     $"<td style='text-align:right; color: black;'>{String.Format("{0:C0}", thanhTien)}</td>" +
+                                     "</tr>";
+                    }
+
+                    decimal tongTien = hoaDon.ChiTietHoaDon.Sum(c => c.SoLuong * ((c.SanPham.GiaDau ?? 0) - ((c.SanPham.GiaDau ?? 0) * (c.SanPham.SoGiam ?? 0) / 100)));
+                    emailBody += $"<tr>" +
+                        $"<td colspan='3' style='text-align:right; font-weight:bold;'>Tổng cộng:</td>" +
+                        $"<td style='text-align:right; font-weight:bold;'>{tongTien:N0}₫</td>" +
+                        "</tr>";
+                    emailBody += "</tbody></table>" +
+                                 "<p style='color: black;'>Nếu có bất kỳ câu hỏi nào, vui lòng liên hệ:</p>" +
+                                 "<ul>" +
+                                 "<li>Hotline: <strong>0366 541 719</strong> (7:30 - 22:00)</li>" +
+                                 "<li>Hỗ trợ: <strong>0366 541 718</strong> (8:00 - 21:00)</li>" +
+                                 "</ul>" +
+                                 "<p style='color: black;'><strong>Cảm ơn bạn đã mua sắm tại ELECTRONICS STORE!</strong></p>" +
+                                 "<p style='color: black;'><em>Trân trọng,</em><br/>ELECTRONICS STORE</p>" +
+                                 "</div>";
+
+                    SendMail sendMail = new SendMail();
+                    sendMail.SendMailFunction(hoaDon.Email, "Đơn hàng đã hoàn thành", emailBody);
+                }
+
                 return Json(new { success = true });
             }
             catch (Exception ex)
@@ -232,7 +283,11 @@ namespace chuyende.Areas.Admin.Controllers
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            var hoaDons = db.HoaDons.Include(hd => hd.ChiTietHoaDon).ToList();
+            var allHoaDons = db.HoaDons.Include(hd => hd.ChiTietHoaDon).ToList();
+            var pagedHoaDons = allHoaDons.ToPagedList(pageNumber, pageSize);
+
+            // Lọc hóa đơn trên trang hiện tại
+            var currentPageHoaDons = pagedHoaDons.ToList();
 
             var sanPhamData = db.SanPhams
                 .Select(sp => new
@@ -242,7 +297,7 @@ namespace chuyende.Areas.Admin.Controllers
                 }).ToList();
 
             List<decimal> tongTienList = new List<decimal>();
-            foreach (var hoaDon in hoaDons)
+            foreach (var hoaDon in currentPageHoaDons)
             {
                 decimal tongTien = 0;
                 foreach (var chiTiet in hoaDon.ChiTietHoaDon)
@@ -253,19 +308,14 @@ namespace chuyende.Areas.Admin.Controllers
                         decimal donGia = sanPham.GiaBan;
                         decimal thanhTien = donGia * chiTiet.SoLuong;
                         tongTien += thanhTien;
-                        System.Diagnostics.Debug.WriteLine($"HoaDon: {hoaDon.MaHD}, MaSP: {chiTiet.MaSP}, SoLuong: {chiTiet.SoLuong}, DonGia: {donGia}, ThanhTien: {thanhTien}");
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Không tìm thấy sản phẩm MaSP: {chiTiet.MaSP} cho hóa đơn {hoaDon.MaHD}");
                     }
                 }
                 tongTienList.Add(tongTien);
-                System.Diagnostics.Debug.WriteLine($"HoaDon: {hoaDon.MaHD}, TongTien: {tongTien}");
             }
 
             ViewBag.TongTienList = tongTienList;
-            return View(hoaDons.ToPagedList(pageNumber, pageSize));
+            return View(pagedHoaDons);
+
         }
 
         public ActionResult Create()

@@ -57,7 +57,9 @@
                 {
                     <tr>
                         <td>@stt</td>
-                        <td>@item.MaHD</td>
+                        <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            @item.MaHD
+                        </td>
                         <td>@Html.DisplayFor(modelItem => item.TenKH)</td>
                         <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
                         <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
@@ -125,11 +127,13 @@
                         </td>
 
                         <td class="text-start">
+
                             @if (item.TrangThai == 0 || item.TrangThai == 3)
                             {
                                 <a href="@Url.Action("Print", "HoaDons", new { id = item.MaHD })" class="btn btn-warning btn-sm" title="In hóa đơn" target="_blank">
                                     <i class="fas fa-print"></i>
                                 </a>
+                               
 
                             }
                             <a href="@Url.Action("Details", "HoaDons", new { id = item.MaHD })" class="btn btn-info btn-sm">
