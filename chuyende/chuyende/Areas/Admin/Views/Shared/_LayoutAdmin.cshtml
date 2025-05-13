@@ -39,7 +39,7 @@
         <div class="profile">
             @if (ViewBag.MaNV != null)
             {
-                <a href="@Url.Action("DoiMatKhau", "HomeAdmin", new { id = ViewBag.MaNV })" class="profile-link">
+                <a href="@Url.Action("Quanlytaikhoan", "HomeAdmin", new { id = ViewBag.MaNV })" class="profile-link">
                     <h4>@Session["Admin"]</h4>
                     <p>Chức vụ: @tenChucVu</p>
                 </a>

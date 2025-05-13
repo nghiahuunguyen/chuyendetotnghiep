@@ -57,30 +57,34 @@
 </table>
 
 <!-- Biểu đồ cột -->
-<canvas id="doanhThuChart" width="100%" height="50"></canvas>
+<div style="overflow-x:auto;">
+    <canvas id="doanhThuChart" style="min-width: 1000px; height: 400px;"></canvas>
+</div>
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Dữ liệu cho biểu đồ -->
+<!-- Dữ liệu biểu đồ -->
 <script>
-    var labels = [];
-    var data = [];
+    const labels = [];
+    const data = [];
 
     @foreach (var item in Model)
     {
         if (loai == "ngay")
         {
-            @:labels.push("@(item.Ngay + "/" + item.Thang + "/" + item.Nam)");
+            <text>labels.push("@($"{item.Ngay}/{item.Thang}/{item.Nam}")");</text>
         }
         else if (loai == "thang")
         {
-            @:labels.push("Tháng @(item.Thang)/@(item.Nam)");
+            <text>labels.push("Tháng @item.Thang/@item.Nam");</text>
         }
         else
         {
-            @:labels.push("Năm @(item.Nam)");
+            <text>labels.push("Năm @item.Nam");</text>
         }
-        @:data.push(@item.TongTien);
+
+        // Đảm bảo data là số, không chứa dấu chấm/phẩy
+        <text>data.push(@Convert.ToInt64(item.TongTien));</text>
     }
 
     const ctx = document.getElementById('doanhThuChart').getContext('2d');
@@ -98,7 +102,15 @@
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
+                x: {
+                    ticks: {
+                        autoSkip: false, // ❗️Không tự động ẩn nhãn
+                        maxRotation: 60,
+                        minRotation: 30
+                    }
+                },
                 y: {
                     beginAtZero: true,
                     ticks: {
@@ -120,3 +132,4 @@
         }
     });
 </script>
+

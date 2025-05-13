@@ -41,7 +41,7 @@ namespace chuyende.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult DoiMatKhau(string id)
+        public ActionResult Quanlytaikhoan(string id)
         {
             if (Session["Admin"] == null || Session["TenDN"] == null)
             {
@@ -77,58 +77,54 @@ namespace chuyende.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DoiMatKhau(NhanVien model, string MatKhau, string ConfirmMatKhau)
+        public ActionResult Quanlytaikhoan(NhanVien model, string MatKhau, string ConfirmMatKhau)
         {
             if (Session["Admin"] == null || Session["TenDN"] == null)
             {
                 return RedirectToAction("Index", "DangNhap");
             }
 
-            // Kiểm tra và lấy MaNV nếu model.MaNV rỗng
+            // Lấy mã nhân viên từ session nếu model.MaNV rỗng
             if (string.IsNullOrEmpty(model.MaNV))
             {
                 var adminUsername = Session["TenDN"].ToString();
                 var nhanVienBySession = db.NhanViens.FirstOrDefault(nv => nv.TenDN == adminUsername);
                 if (nhanVienBySession == null)
                 {
-                    TempData["ErrorMessage"] = $"Không tìm thấy nhân viên với TenDN = {adminUsername}";
+                    TempData["ErrorMessage"] = "Không tìm thấy tài khoản.";
                     return RedirectToAction("Index");
                 }
                 model.MaNV = nhanVienBySession.MaNV;
             }
 
-            ViewBag.MaNV = model.MaNV; // Gán ViewBag.MaNV cho layout
-
-            if (!string.IsNullOrEmpty(MatKhau) && MatKhau != ConfirmMatKhau)
-            {
-                ModelState.AddModelError("ConfirmMatKhau", "Mật khẩu xác nhận không khớp.");
-                return View(model);
-            }
-
-            if (!string.IsNullOrEmpty(MatKhau) && string.IsNullOrEmpty(ConfirmMatKhau))
-            {
-                ModelState.AddModelError("ConfirmMatKhau", "Vui lòng xác nhận mật khẩu.");
-                return View(model);
-            }
-
             var nhanVien = db.NhanViens.Find(model.MaNV);
             if (nhanVien == null)
             {
-                TempData["ErrorMessage"] = $"Không tìm thấy nhân viên với MaNV = {model.MaNV}";
+                TempData["ErrorMessage"] = "Không tìm thấy nhân viên.";
                 return RedirectToAction("Index");
             }
 
+            // Kiểm tra xác nhận mật khẩu
             if (!string.IsNullOrEmpty(MatKhau))
             {
-                nhanVien.MatKhau = MatKhau; // Cân nhắc mã hóa mật khẩu
-                db.SaveChanges();
-                TempData["SuccessMessage"] = "Đổi mật khẩu thành công.";
-                return RedirectToAction("Index");
+                if (MatKhau != ConfirmMatKhau)
+                {
+                    ModelState.AddModelError("ConfirmMatKhau", "Mật khẩu xác nhận không khớp.");
+                    return View(model);
+                }
+
+                nhanVien.MatKhau = MatKhau; // Bạn nên mã hóa mật khẩu ở đây
             }
-           
-            return RedirectToAction("Index");
+
+            // Cập nhật SĐT và Email
+            nhanVien.SoDienThoai = model.SoDienThoai;
+            nhanVien.Email = model.Email;
+
+            db.SaveChanges();
+            TempData["SuccessMessage"] = "Cập nhật tài khoản thành công.";
+
+            return RedirectToAction("Quanlytaikhoan"); // Trở lại trang quản lý tài khoản
         }
 
-        
     }
 }
