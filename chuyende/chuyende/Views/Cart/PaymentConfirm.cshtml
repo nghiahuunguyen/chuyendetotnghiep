@@ -23,12 +23,18 @@
             {
                 <div class="alert alert-success">
                     <p><strong>Thông báo:</strong> Thanh toán hóa đơn thành công!</p>
+                    <p>Bạn sẽ được chuyển hướng về trang chủ trong 3 giây...</p>
                 </div>
 
                 <div class="text-center">
-                    <a href="@Url.Action("Index", "DICHVU_63130803")" class="btn btn-primary">Quay lại trang chủ</a>
-                    <a href="@Url.Action("DownloadTicket", "Cart_63130803")" class="btn btn-success">Tải vé</a>
+                    <a href="@Url.Action("Index", "Cart")" class="btn btn-primary">Quay lại trang chủ</a>
                 </div>
+
+                <script>
+                    setTimeout(function () {
+                        window.location.href = '@Url.Action("Index", "Cart")';
+                    }, 3000); // 3000 milliseconds = 3 seconds
+                </script>
             }
         </div>
     </div>
