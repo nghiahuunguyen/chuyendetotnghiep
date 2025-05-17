@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Payment Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Payment Confirmation</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <p class="lead">@ViewBag.Message</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Message) && ViewBag.Message.Contains("Có lỗi"))
+            {
+                <div class="alert alert-danger">
+                    <p><strong>Thông báo:</strong> Đã có lỗi xảy ra trong quá trình xử lý.</p>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success">
+                    <p><strong>Thông báo:</strong> Thanh toán hóa đơn thành công!</p>
+                </div>
+
+                <div class="text-center">
+                    <a href="@Url.Action("Index", "DICHVU_63130803")" class="btn btn-primary">Quay lại trang chủ</a>
+                    <a href="@Url.Action("DownloadTicket", "Cart_63130803")" class="btn btn-success">Tải vé</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

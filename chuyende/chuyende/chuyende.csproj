@@ -225,6 +225,9 @@
     <Compile Include="Models\SanPham.cs" />
     <Compile Include="Models\ThongKeAdmin.cs" />
     <Compile Include="Models\ThongKeDoanhThu.cs" />
+    <Compile Include="Other\PayCompare.cs" />
+    <Compile Include="Other\PayLib.cs" />
+    <Compile Include="Other\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\PagedList.css" />
     <Content Include="img\banner\1.jpg" />
@@ -365,6 +368,7 @@
     <Content Include="Views\Home\Info.cshtml" />
     <Content Include="Views\Home\Recruitment.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Cart\PaymentConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
