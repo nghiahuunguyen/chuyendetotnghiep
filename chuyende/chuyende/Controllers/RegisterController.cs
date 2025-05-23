@@ -24,8 +24,33 @@ namespace chuyende.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(KhachHang khachHang)
         {
-            // Lấy mật khẩu xác nhận từ form
             string confirmPassword = Request.Form["ConfirmPassword"];
+
+            // Regex kiểm tra
+            string phonePattern = @"^\d{10}$";
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            string passwordPattern = @"^(?=.*[A-Z])(?=.*[\W_]).{6,}$";
+
+            // Kiểm tra định dạng số điện thoại
+            if (!System.Text.RegularExpressions.Regex.IsMatch(khachHang.SoDienThoai, phonePattern))
+            {
+                ViewBag.ToastError = "Số điện thoại phải gồm đúng 10 chữ số!";
+                return View(khachHang);
+            }
+
+            // Kiểm tra định dạng email
+            if (!System.Text.RegularExpressions.Regex.IsMatch(khachHang.Email, emailPattern))
+            {
+                ViewBag.ToastError = "Email không đúng định dạng!";
+                return View(khachHang);
+            }
+
+            // Kiểm tra độ mạnh mật khẩu
+            if (!System.Text.RegularExpressions.Regex.IsMatch(khachHang.MatKhau, passwordPattern))
+            {
+                ViewBag.ToastError = "Mật khẩu phải có ít nhất 6 ký tự, bao gồm 1 chữ hoa và 1 ký tự đặc biệt!";
+                return View(khachHang);
+            }
 
             // Kiểm tra Email đã tồn tại
             if (db.KhachHangs.Any(k => k.Email == khachHang.Email && k.IsActive))
@@ -48,42 +73,38 @@ namespace chuyende.Controllers
                 return View(khachHang);
             }
 
-            // Kiểm tra tính hợp lệ của Model
             if (!ModelState.IsValid)
             {
                 ViewBag.ToastError = "Vui lòng nhập đầy đủ thông tin!";
                 return View(khachHang);
             }
 
-            // Tạo khách hàng mới
-            khachHang.MaKH = GenerateCustomerCode(); // Tạo mã khách hàng
-            khachHang.MatKhau = HashPassword(khachHang.MatKhau); // Mã hóa mật khẩu
-            khachHang.IsActive = false; // Chưa kích hoạt tài khoản
+            khachHang.MaKH = GenerateCustomerCode();
+            khachHang.MatKhau = HashPassword(khachHang.MatKhau);
+            khachHang.IsActive = false;
 
-            // Tạo OTP và lưu kèm thời gian tạo dưới dạng JSON
             string otp = GenerateOTP();
             var otpData = new
             {
                 otp = otp,
-                generatedAt = DateTime.UtcNow.ToString("o") // Định dạng ISO 8601
+                generatedAt = DateTime.UtcNow.ToString("o")
             };
-            khachHang.ActivationToken = JsonConvert.SerializeObject(otpData); // Sử dụng Newtonsoft.Json
+            khachHang.ActivationToken = JsonConvert.SerializeObject(otpData);
 
             db.KhachHangs.Add(khachHang);
-            db.SaveChanges(); // Lưu vào cơ sở dữ liệu
+            db.SaveChanges();
 
-            // Gửi email chứa OTP
             string emailBody = $@"
-                                <p>Chào {khachHang.TenKH},</p>
-                                <p>Mã xác nhận của bạn là: <strong>{otp}</strong>.</p>
-                                <p>Mã này có hiệu lực trong 2 phút. Vui lòng không chia sẻ mã này với bất kỳ ai.</p>";
+        <p>Chào {khachHang.TenKH},</p>
+        <p>Mã xác nhận của bạn là: <strong>{otp}</strong>.</p>
+        <p>Mã này có hiệu lực trong 2 phút. Vui lòng không chia sẻ mã này với bất kỳ ai.</p>";
 
             SendMail sender = new SendMail();
             sender.SendMailFunction(khachHang.Email, "Mã xác nhận đăng ký", emailBody);
 
-            // Chuyển hướng đến trang nhập OTP
             return RedirectToAction("ConfirmOTP", new { email = khachHang.Email });
         }
+
 
         // Hiển thị trang nhập mã OTP
         public ActionResult ConfirmOTP(string email)

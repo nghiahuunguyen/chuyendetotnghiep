@@ -281,6 +281,14 @@ namespace chuyende.Controllers
                 return View();
             }
 
+            // Kiểm tra độ mạnh của mật khẩu
+            var passwordPattern = @"^(?=.*[A-Z])(?=.*[\W_]).{6,}$";
+            if (!System.Text.RegularExpressions.Regex.IsMatch(newPassword, passwordPattern))
+            {
+                ViewBag.ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự, bao gồm 1 chữ hoa và 1 ký tự đặc biệt.";
+                return View();
+            }
+
             var user = db.KhachHangs.FirstOrDefault(kh => kh.Email == email);
             if (user == null)
             {
@@ -295,5 +303,6 @@ namespace chuyende.Controllers
             TempData["SuccessMessage"] = "Cập nhật mật khẩu thành công!";
             return RedirectToAction("Index");
         }
+
     }
 }
