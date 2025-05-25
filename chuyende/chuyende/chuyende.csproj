@@ -234,6 +234,8 @@
     <Content Include="img\banner\2.jpg" />
     <Content Include="img\banner\4.jpg" />
     <Content Include="img\banner\Banner 1.png" />
+    <Content Include="img\hang\6a6f7e4792cdbc7946e58e539d1f05f1.png" />
+    <Content Include="img\hang\9f72697b78e17090628020cca9cce5e6.png" />
     <Content Include="img\logo\qr.jpg" />
     <Content Include="Public\css\Admin\hoadonadmin.css" />
     <Content Include="Public\css\Admin\phantrang.css" />
@@ -374,7 +376,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\Payment\" />
-    <Folder Include="Views\ThongKeAdmin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

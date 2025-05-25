@@ -19,8 +19,6 @@
                 <th>Số điện thoại</th>
                 <th>Ngày sinh</th>
                 <th>Email</th>
-                <th>Tên đăng nhập</th>
-                <th>Mật khẩu</th>
             </tr>
         </thead>
         <tbody>
@@ -37,8 +35,6 @@
                 <td>@Html.DisplayFor(model => model.SoDienThoai)</td>
                 <td>@String.Format("{0:dd/MM/yyyy}", Model.NgaySinh)</td>
                 <td>@Html.DisplayFor(model => model.Email)</td>
-                <td>@Html.DisplayFor(model => model.TenDN)</td>
-                <td>@Html.DisplayFor(model => model.MatKhau)</td>
             </tr>
         </tbody>
     </table>
