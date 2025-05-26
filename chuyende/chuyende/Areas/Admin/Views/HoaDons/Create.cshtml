@@ -489,7 +489,7 @@
                     console.log("ConfirmPayment response:", response);
                     if (response && typeof response === 'object' && 'success' in response) {
                         if (response.success) {
-                            alert("Hóa đơn đã được lưu thành công!");
+                            alert("Chuyển khoản thành công!");
                             window.location.href = '@Url.Action("Index", "HoaDons", new { area = "Admin" })';
                         } else {
                             console.error("ConfirmPayment failed:", response.message);

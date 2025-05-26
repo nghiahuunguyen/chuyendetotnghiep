@@ -234,9 +234,11 @@
     <Content Include="img\banner\2.jpg" />
     <Content Include="img\banner\4.jpg" />
     <Content Include="img\banner\Banner 1.png" />
+    <Content Include="img\hang\205b61fbfc839e53ca74a133ecc3a46a.png" />
     <Content Include="img\hang\6a6f7e4792cdbc7946e58e539d1f05f1.png" />
     <Content Include="img\hang\9f72697b78e17090628020cca9cce5e6.png" />
     <Content Include="img\logo\qr.jpg" />
+    <Content Include="img\sanpham\tai-nghe-tws-jbl-tour-pro-3-071224-084607-307-600x600.jpg" />
     <Content Include="Public\css\Admin\hoadonadmin.css" />
     <Content Include="Public\css\Admin\phantrang.css" />
     <Content Include="Public\css\Admin\thongbao.css" />
