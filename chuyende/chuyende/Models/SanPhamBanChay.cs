@@ -5,14 +5,14 @@ using System.Web;
 
 namespace chuyende.Models
 {
-	public class ThongKeDoanhThu
+	public class SanPhamBanChay
 	{
+        public string MaSP { get; set; }
+        public string TenSP { get; set; }
+        public string HinhAnh { get; set; }
         public int? Ngay { get; set; }
         public int? Thang { get; set; }
         public int Nam { get; set; }
-        public int SoLuong { get; set; }
-        public decimal TongTien { get; set; }
+        public int TongSoLuong { get; set; }
     }
-    
-
 }

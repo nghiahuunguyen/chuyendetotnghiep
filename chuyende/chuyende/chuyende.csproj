@@ -223,8 +223,10 @@
     <Compile Include="Models\LoaiSanPham.cs" />
     <Compile Include="Models\NhanVien.cs" />
     <Compile Include="Models\SanPham.cs" />
+    <Compile Include="Models\SanPhamBanChay.cs" />
     <Compile Include="Models\ThongKeAdmin.cs" />
     <Compile Include="Models\ThongKeDoanhThu.cs" />
+    <Compile Include="Models\ThongKeTongHopViewModel.cs" />
     <Compile Include="Other\PayCompare.cs" />
     <Compile Include="Other\PayLib.cs" />
     <Compile Include="Other\Util.cs" />

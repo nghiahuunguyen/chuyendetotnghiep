@@ -18,18 +18,98 @@ namespace chuyende.Areas.Admin.Controllers
         {
             if (Session["Admin"] == null)
                 return RedirectToAction("Index", "DangNhap");
+
             var loaiThongKe = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "Theo ngày", Value = "ngay" },
-                new SelectListItem { Text = "Theo tháng", Value = "thang" },
-                new SelectListItem { Text = "Theo năm", Value = "nam" }
-            };
+    {
+        new SelectListItem { Text = "Theo ngày", Value = "ngay" },
+        new SelectListItem { Text = "Theo tháng", Value = "thang" },
+        new SelectListItem { Text = "Theo năm", Value = "nam" }
+    };
 
             ViewBag.LoaiThongKe = new SelectList(loaiThongKe, "Value", "Text", loai);
 
-            var data = LayThongKe(loai);
-            return View(data);
+            var viewModel = new ThongKeTongHopViewModel
+            {
+                DoanhThu = LayThongKe(loai),
+                SanPhamBanChay = LaySanPhamBanChay(loai)
+            };
+
+            return View(viewModel);
         }
+
+        private List<SanPhamBanChay> LaySanPhamBanChay(string loai)
+        {
+            var query = db.ChiTietHoaDons
+                .Where(ct => ct.HoaDon.TrangThai == 0 || ct.HoaDon.TrangThai == 3);
+
+            switch (loai)
+            {
+                case "thang":
+                    return query
+                        .GroupBy(ct => new
+                        {
+                            ct.SanPham.MaSP,
+                            ct.SanPham.TenSP,
+                            ct.SanPham.HinhAnh,
+                            ct.HoaDon.NgayTao.Year,
+                            ct.HoaDon.NgayTao.Month
+                        })
+                        .Select(g => new SanPhamBanChay
+                        {
+                            MaSP = g.Key.MaSP,
+                            TenSP = g.Key.TenSP,
+                            HinhAnh = g.Key.HinhAnh,
+                            Nam = g.Key.Year,
+                            Thang = g.Key.Month,
+                            TongSoLuong = g.Sum(x => x.SoLuong)
+                        })
+                        .OrderByDescending(x => x.TongSoLuong)
+                        .ToList();
+
+                case "nam":
+                    return query
+                        .GroupBy(ct => new
+                        {
+                            ct.SanPham.MaSP,
+                            ct.SanPham.TenSP,
+                            ct.SanPham.HinhAnh,
+                            ct.HoaDon.NgayTao.Year
+                        })
+                        .Select(g => new SanPhamBanChay
+                        {
+                            MaSP = g.Key.MaSP,
+                            TenSP = g.Key.TenSP,
+                            HinhAnh = g.Key.HinhAnh,
+                            Nam = g.Key.Year,
+                            TongSoLuong = g.Sum(x => x.SoLuong)
+                        })
+                        .OrderByDescending(x => x.TongSoLuong)
+                        .ToList();
+
+                default: // ngay
+                    return query
+                        .GroupBy(ct => new
+                        {
+                            ct.SanPham.MaSP,
+                            ct.SanPham.TenSP,
+                            ct.SanPham.HinhAnh,
+                            Ngay = DbFunctions.TruncateTime(ct.HoaDon.NgayTao)
+                        })
+                        .Select(g => new SanPhamBanChay
+                        {
+                            MaSP = g.Key.MaSP,
+                            TenSP = g.Key.TenSP,
+                            HinhAnh = g.Key.HinhAnh,
+                            Ngay = g.Key.Ngay.Value.Day,
+                            Thang = g.Key.Ngay.Value.Month,
+                            Nam = g.Key.Ngay.Value.Year,
+                            TongSoLuong = g.Sum(x => x.SoLuong)
+                        })
+                        .OrderByDescending(x => x.TongSoLuong)
+                        .ToList();
+            }
+        }
+
 
         private List<ThongKeDoanhThu> LayThongKe(string loai)
         {
