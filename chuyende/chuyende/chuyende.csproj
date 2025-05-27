@@ -275,7 +275,6 @@
     <Content Include="img\hang\iphone.png" />
     <Content Include="img\hang\samsung.png" />
     <Content Include="img\logo\logo.png" />
-    <Content Include="img\sanpham\iphone.png" />
     <Content Include="img\sanpham\SamsungGalaxyS25Ultra.jpg" />
     <Content Include="Public\css\Admin\admin.css" />
     <Content Include="Public\css\Admin\Detailssp.css" />
